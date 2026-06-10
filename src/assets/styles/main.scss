@@ -1,18 +1,17 @@
-// Entry point: solo @import en orden base > components > layouts > views
+// Entry point: solo @use en orden base > components > layouts > views
 
-@import 'base/variables';
-@import 'base/reset';
-@import 'base/typography';
-@import 'base/animations';
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/animations';
 
-@import 'components/button';
-@import 'components/card';
-@import 'components/bento';
-@import 'components/section-label';
-@import 'components/pagination';
+@use 'components/button';
+@use 'components/card';
+@use 'components/bento';
+@use 'components/section-label';
+@use 'components/pagination';
 
-@import 'layouts/header';
-@import 'layouts/footer';
+@use 'layouts/header';
+@use 'layouts/footer';
 
-@import 'views/home';
-@import 'views/dashboard';
+@use 'views/home';
+@use 'views/dashboard';
