@@ -1,0 +1,1 @@
+<!-- Navegacion publica: logo FPS + links + botones login/register -->

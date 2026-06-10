@@ -1,0 +1,1 @@
+<!-- Vista registro: formulario de registro con validacion -->

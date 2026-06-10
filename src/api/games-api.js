@@ -1,0 +1,1 @@
+// Servicio API: llamadas a MMOBomb (https://www.mmobomb.com/api1/games)

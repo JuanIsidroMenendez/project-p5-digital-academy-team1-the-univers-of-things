@@ -1,0 +1,1 @@
+// Tests unitarios de rating-utils.js - ciclo Red-Green-Refactor

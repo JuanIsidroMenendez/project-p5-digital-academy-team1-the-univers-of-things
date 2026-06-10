@@ -1,0 +1,1 @@
+<!-- Vista catalogo completo: busqueda, filtros y paginacion -->

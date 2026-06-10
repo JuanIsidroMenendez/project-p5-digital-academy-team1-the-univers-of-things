@@ -1,0 +1,1 @@
+<!-- Fondo aurora animado: 3 blobs decorativos con fps-aurora -->

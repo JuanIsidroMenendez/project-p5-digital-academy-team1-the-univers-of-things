@@ -1,0 +1,1 @@
+<!-- Vista detalle de juego: banner, stats, capturas y juegos similares -->

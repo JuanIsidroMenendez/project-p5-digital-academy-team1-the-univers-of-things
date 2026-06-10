@@ -1,0 +1,1 @@
+<!-- Paginacion reutilizable: recibe currentPage y totalPages, emite page-change -->

@@ -1,0 +1,1 @@
+<!-- Layout privado: sidebar + header dashboard + slot + footer privado -->

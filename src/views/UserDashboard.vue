@@ -1,0 +1,1 @@
+<!-- Vista dashboard usuario: perfil + favoritos -->

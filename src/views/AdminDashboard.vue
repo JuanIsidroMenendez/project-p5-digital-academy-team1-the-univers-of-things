@@ -1,0 +1,1 @@
+<!-- Vista dashboard admin: gestion usuarios + destacados -->

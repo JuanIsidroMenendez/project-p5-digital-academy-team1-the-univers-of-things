@@ -1,0 +1,1 @@
+<!-- Footer publico: copyright + redes sociales -->

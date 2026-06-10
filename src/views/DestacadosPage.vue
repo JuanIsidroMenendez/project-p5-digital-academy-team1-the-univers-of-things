@@ -1,0 +1,1 @@
+<!-- Vista destacados: hero card + grid de juegos destacados -->

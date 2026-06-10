@@ -1,0 +1,1 @@
+// Composable: logica reutilizable de juegos (fetch, filtros, paginacion)

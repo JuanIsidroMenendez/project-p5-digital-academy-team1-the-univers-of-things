@@ -1,0 +1,1 @@
+<!-- Vista principal: hero, bento destacados, catálogo con paginacion -->

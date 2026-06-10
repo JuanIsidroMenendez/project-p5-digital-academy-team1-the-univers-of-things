@@ -1,0 +1,1 @@
+<!-- Tarjeta de favorito: titulo, notas editables, rating y boton eliminar -->

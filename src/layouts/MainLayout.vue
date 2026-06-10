@@ -1,0 +1,1 @@
+<!-- Layout publico: AppAurora + TheHeader + slot + TheFooter -->

@@ -1,0 +1,1 @@
+<!-- Tarjeta de juego: imagen, titulo, genero, descripcion y badge plataforma -->

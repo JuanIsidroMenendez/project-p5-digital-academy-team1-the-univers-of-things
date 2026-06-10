@@ -1,0 +1,1 @@
+<!-- Sistema de valoracion por estrellas (1-5): usa rating-utils.js -->
