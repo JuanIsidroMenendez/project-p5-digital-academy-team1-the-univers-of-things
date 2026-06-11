@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../api/firebase.js'
+import { createUserProfile } from '../api/user.service.js'
 export const useAuthStore = defineStore('auth', () => {
     const user = ref(null)
     const loading = ref(true)
@@ -11,6 +12,12 @@ export const useAuthStore = defineStore('auth', () => {
         user.value = firebaseUser
         loading.value = false
     })
-    return { user, loading )  
+
+    async function register(email, password, username) {
+
+        const result = await createUserWithEmailAndPassword(auth, email, password)
+        await createUserProfile(result.user.uid, email, username)
+    }
+    return { user, loading }
 })
 
