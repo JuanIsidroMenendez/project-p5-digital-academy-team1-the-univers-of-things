@@ -11,7 +11,17 @@
 
     <section class="catalog-view__content">
       <!-- Aquí irá la barra de búsqueda (ST10) -->
-      <!-- Aquí irá la grid de tarjetas (ST04) -->
+
+      <div class="catalog-view__grid">  
+        <ItemCard
+            v-for="(game, index) in games"
+            :key="game.id ?? index"
+            :game="game"
+            />
+      </div>
+
+
+
       <!-- Aquí irá la paginación -->
     </section>
 
@@ -19,6 +29,11 @@
 </template>
 
 <script setup>
+
+import ItemCard from '@/components/items/ItemCard.vue';
+
+const games= []
+
 </script>
 
 <style scoped>
