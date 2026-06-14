@@ -9,10 +9,14 @@
 @use 'components/bento';
 @use 'components/section-label';
 @use 'components/pagination';
+@use 'components/game-screenshots';
+@use 'components/similar-games';
+@use 'components/add-to-favorites-btn';
 
 @use 'layouts/header';
 @use 'layouts/footer';
 
 @use 'views/home';
 @use 'views/dashboard';
-@use 'views/catalog'
+@use 'views/catalog';
+@use 'views/game-detail-view';
