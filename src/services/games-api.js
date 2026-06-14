@@ -1,4 +1,5 @@
 const API_URL = 'https://www.mmobomb.com/api1/games'
+//const API_URL = 'https://www.mmobomb.com/api1/games/test-error'  //API errónea para probar pantalla de error.
 
 export async function getGames() {
         try {
