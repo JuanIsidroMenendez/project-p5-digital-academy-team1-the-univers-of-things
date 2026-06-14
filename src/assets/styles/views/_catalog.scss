@@ -1,12 +1,8 @@
 @use '../base/variables' as *;
 
-// Estilos de la vista catálogo
-
 .catalog-view {
     position: relative;
     z-index: 1;
-
-    // ↓↓↓ NUEVO ↓↓↓
     &__hero {
         padding: 2.5rem 1rem 2rem;
 
@@ -34,8 +30,7 @@
             margin: 0 auto;
         }
     }
-    // ↑↑↑ NUEVO ↑↑↑
-
+   
     &__title {
         font-family: $font-display;
         font-weight: 800;
