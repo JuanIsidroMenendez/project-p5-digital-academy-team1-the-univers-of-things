@@ -10,7 +10,7 @@
     </section>
 
     <section class="catalog-view__content">
-      <!-- Aquí irá la barra de búsqueda (ST10) -->
+      <!-- BARRA DE BÚSQUEDA DESPUÉS DE LOGIN -->
 
       <div class="catalog-view__grid">  
         <ItemCard
@@ -20,22 +20,24 @@
             />
       </div>
 
-
-
-      <!-- Aquí irá la paginación -->
+      <!-- PAGINACIÓN PENDIENTE -->
     </section>
 
   </main>
-   <AppFooter />
+  <AppFooter />
 </template>
 
 <script setup>
-
+import { ref, onMounted } from 'vue';
 import ItemCard from '@/components/items/ItemCard.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
+import { getGames } from '@/services/games-api.js';
 
-const games= []
+const games = ref([])
 
+onMounted(async () => {
+  games.value = await getGames()
+})
 </script>
 
 <style scoped>
