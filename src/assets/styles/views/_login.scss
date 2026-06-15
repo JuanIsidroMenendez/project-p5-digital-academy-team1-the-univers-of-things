@@ -1,0 +1,117 @@
+//Estilo del login
+
+@use '../base/variables' as *;
+
+.login-view {
+    min-height: calc(100vh - 128px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+
+    &__card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--color-surface-high);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--color-border-purple);
+        border-radius: var(--radius-xl);
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+    }
+
+    &__logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    &__logo-icon {
+        width: 52px;
+        height: 52px;
+        background: linear-gradient(135deg, #7c3aed, #06b6d4);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: $font-display;
+        font-weight: 800;
+        font-size: 18px;
+        color: white;
+        letter-spacing: -1px;
+    }
+
+    &__logo-text {
+        font-family: $font-display;
+        font-weight: 800;
+        font-size: 22px;
+        color: var(--color-text);
+    }
+
+    &__subtitle {
+        font-family: $font-mono;
+        font-size: 10px;
+        color: var(--color-text-dim);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    &__register {
+        text-align: center;
+        font-size: 13px;
+        color: var(--color-text-muted);
+
+        a {
+            color: var(--color-secondary);
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__demo {
+        border-top: 1px solid var(--color-border);
+        padding-top: var(--space-4);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    &__demo-title {
+        font-family: $font-mono;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-text-dim);
+        text-align: center;
+    }
+
+    &__btn-admin {
+        width: 100%;
+        padding: 10px;
+        border-radius: var(--radius-sm);
+        font-family: $font-mono;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: var(--color-primary-dim);
+        border: 1px solid var(--color-border-purple);
+        cursor: pointer;
+        transition: background var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+
+        &:hover {
+            background: rgba(168, 85, 247, 0.25);
+        }
+    }
+}
