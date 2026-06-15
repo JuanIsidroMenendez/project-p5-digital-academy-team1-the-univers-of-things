@@ -12,3 +12,8 @@ export function filterByGenre(games, genre) {
     const search = genre.toLowerCase()
     return games.filter(game => game.genre.toLowerCase() === search)
 }
+
+export function paginateGames(games, page, perPage) {
+    const start = (page - 1) * perPage
+    return games.slice(start, start + perPage)
+}
