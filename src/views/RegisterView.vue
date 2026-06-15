@@ -1,29 +1,32 @@
 <script setup>
+import MainLayout from '@/layouts/MainLayout.vue'
 import RegisterForm from '@/components/auth/RegisterForm.vue'
 </script>
 
 <template>
-  <main class="register-view">
-    <div class="register-view__card">
-      <header class="register-view__header">
-        <h1 class="register-view__title">Crear cuenta</h1>
-        <p class="register-view__subtitle">
-          Únete a FPS y guarda tus juegos favoritos
-        </p>
-      </header>
+  <MainLayout>
+    <div class="register-view">
+      <div class="register-view__card">
+        <header class="register-view__header">
+          <h1 class="register-view__title">Crear cuenta</h1>
+          <p class="register-view__subtitle">
+            Únete a FPS y guarda tus juegos favoritos
+          </p>
+        </header>
 
-      <RegisterForm />
+        <RegisterForm />
 
-      <footer class="register-view__footer">
-        <p>
-          ¿Ya tienes cuenta?
-          <RouterLink to="/login" class="register-view__link">
-            Inicia sesión
-          </RouterLink>
-        </p>
-      </footer>
+        <footer class="register-view__footer">
+          <p>
+            ¿Ya tienes cuenta?
+            <RouterLink to="/login" class="register-view__link">
+              Inicia sesión
+            </RouterLink>
+          </p>
+        </footer>
+      </div>
     </div>
-  </main>
+  </MainLayout>
 </template>
 
 <style lang="scss" scoped>
@@ -31,10 +34,9 @@ import RegisterForm from '@/components/auth/RegisterForm.vue'
 @use '@/assets/styles/base/mixins' as *;
 
 .register-view {
-  min-height: 100vh;
+  min-height: 80vh;
   @include flex-center;
   padding: var(--space-6);
-  background: var(--color-bg);
 
   &__card {
     width: min(100%, 480px);
