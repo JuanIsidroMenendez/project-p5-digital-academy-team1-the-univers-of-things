@@ -12,6 +12,7 @@
         :alt="game.title"
         class="card__thumb-bg"
       />
+      <span v-if="featured" class="card__badge">• DESTACADO</span>
     </div>
 
     <div class="card__body">
@@ -41,6 +42,10 @@ defineProps({
   game: {
     type: Object,
     required: true
+  },
+  featured: {
+    type: Boolean,
+    default: false
   }
 })
 
