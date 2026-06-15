@@ -4,11 +4,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-// COORDINACIÓN CON JUAN: descomentar cuando use-games.js esté listo
-// import { useGames } from '@/composables/use-games'
-
-// Mock temporal: sustituir por el composable cuando Juan lo entregue
-import { mockGame } from '@/services/__mocks__/game-mock'
+import { getGameById } from '@/services/games-api'
 
 import GameScreenshots from '@/components/game-detail/GameScreenshots.vue'
 import SimilarGames from '@/components/game-detail/SimilarGames.vue'
@@ -27,13 +23,7 @@ async function fetchGame(id) {
   game.value = null
 
   try {
-    // CUANDO use-games.js esté listo, sustituir por:
-    // const { getGameById } = useGames()
-    // game.value = await getGameById(id)
-
-    // Mock temporal con retardo simulado
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    game.value = mockGame
+    game.value = await getGameById(id)
   } catch {
     hasError.value = true
   } finally {
