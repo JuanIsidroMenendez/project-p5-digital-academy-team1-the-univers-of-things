@@ -1,6 +1,6 @@
 <!-- Vista favoritos de usuarios -->
 <script setup>
-import DashboardLayout from '@/layouts/DashboardLayout.vue'
+import DashboardLayout from '@/layouts/AdminLayout.vue'
 
 const favorites = [
   { id: 1, user: 'NeonExplorer_01', game: 'Quantum Strike', genre: 'SHOOTER', description: 'Mi shooter favorito. Los gráficos son brutales.', rating: 4, date: '2026-06-01' },
