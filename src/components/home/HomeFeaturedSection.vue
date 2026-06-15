@@ -64,4 +64,18 @@
 
 <style lang="scss" scoped>
 @use '@/assets/styles/base/variables' as *;
+
+.destacados-home {
+    padding: 0 1rem 2.5rem;
+
+    @media (min-width: $bp-tablet) {
+        padding: 0 2rem 3rem;
+    }
+
+    @media (min-width: $bp-desktop) {
+        padding: 0 4rem 3.5rem;
+        max-width: $bp-wide;
+        margin: 0 auto;
+    }
+}
 </style>
