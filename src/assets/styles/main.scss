@@ -15,3 +15,6 @@
 
 @use 'views/home';
 @use 'views/dashboard';
+
+@use 'views/featured-view';
+@use 'components/featured/featured-hero';
