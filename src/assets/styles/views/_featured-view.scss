@@ -1,10 +1,12 @@
 @use '@/assets/styles/base/variables' as *;
 
+
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 1.5rem;
   padding: 2rem;
+  animation: fps-slide-up 0.6s ease-out;
 }
 
 @media (min-width: #{$bp-desktop}) {

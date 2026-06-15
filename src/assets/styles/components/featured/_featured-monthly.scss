@@ -8,6 +8,7 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
+  animation: fps-slide-up 0.6s ease-out;
 }
 .featured-monthly__tag {
   display: inline-block;
