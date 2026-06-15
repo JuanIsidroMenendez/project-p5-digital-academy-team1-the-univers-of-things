@@ -1,5 +1,6 @@
 <!-- Seccion hero de la homepage -->
 <script setup>
+import FeaturedGameWidget from '@/components/home/FeaturedGameWidget.vue'
 </script>
 
 <template>
@@ -55,6 +56,7 @@
             </div>
 
             <div class="hero__right">
+                <FeaturedGameWidget />
             </div>
 
         </div>
