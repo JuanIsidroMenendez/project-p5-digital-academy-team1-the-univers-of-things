@@ -299,10 +299,15 @@
     font-size: 2rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
+    animation: fps-slide-up 0.3s ease-out both;
   }
 
   &__section {
     margin-bottom: 2rem;
+    animation: fps-slide-up 0.35s ease-out both;
+
+    &:nth-child(2) { animation-delay: 0.08s; }
+    &:nth-child(3) { animation-delay: 0.16s; }
   }
 
   &__hint {
@@ -323,7 +328,18 @@
     border: 1px solid var(--color-border);
     overflow: hidden;
     cursor: pointer;
-    transition: border-color var(--transition);
+    transition: border-color var(--transition), transform var(--transition);
+    animation: fps-slide-up 0.3s ease-out both;
+
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{0.1 + ($i - 1) * 0.06}s;
+      }
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+    }
 
     &--active {
       border-color: var(--color-primary);
