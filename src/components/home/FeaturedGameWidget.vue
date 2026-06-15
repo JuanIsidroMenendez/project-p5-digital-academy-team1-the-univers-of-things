@@ -64,4 +64,97 @@ defineProps({
 
 <style lang="scss" scoped>
 @use '@/assets/styles/base/variables' as *;
+
+.juego-mes {
+    background: var(--color-surface-high);
+    border: 1px solid var(--color-border-purple);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition:
+        transform var(--transition-slow),
+        box-shadow var(--transition-slow);
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 60px rgba(168, 85, 247, 0.2);
+
+        .juego-mes__thumb-bg {
+            transform: scale(1.06);
+        }
+    }
+
+    &__thumb {
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    &__thumb-bg {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(145deg, #0c0020, #1e0060, #000c30);
+        transition: transform 0.45s ease;
+    }
+
+    &__badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: $font-mono;
+        font-size: 9px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: white;
+        background: linear-gradient(135deg, #7c3aed, #2563eb);
+        padding: 4px 12px;
+        border-radius: var(--radius-full);
+        font-weight: 700;
+    }
+
+    &__body {
+        padding: 1.2rem 1.4rem 1.4rem;
+    }
+
+    &__title {
+        font-family: $font-display;
+        font-weight: 800;
+        font-size: 20px;
+        color: var(--color-text);
+        margin-bottom: 6px;
+        line-height: 1.2;
+    }
+
+    &__desc {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        line-height: 1.55;
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    &__meta {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    &__hint {
+        font-family: $font-mono;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-text-dim);
+        text-align: center;
+        padding-top: 10px;
+        border-top: 1px solid var(--color-border);
+    }
+}
 </style>
