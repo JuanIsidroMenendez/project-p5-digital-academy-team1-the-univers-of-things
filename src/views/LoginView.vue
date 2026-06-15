@@ -13,10 +13,8 @@
           <span class="login-view__subtitle">Accede a tu cuenta</span>
         </div>
 
-        <!-- ↓↓↓ NUEVO ↓↓↓ -->
-        <!-- Formulario -->
         <LoginForm />
-        <!-- ↑↑↑ NUEVO ↑↑↑ -->
+       
 
         <!-- Enlace a registro -->
         <div class="login-view__register">
@@ -40,9 +38,7 @@
 
 <script setup>
 import MainLayout from '@/layouts/MainLayout.vue'
-// ↓↓↓ NUEVO ↓↓↓
 import LoginForm from '@/components/auth/LoginForm.vue'
-// ↑↑↑ NUEVO ↑↑↑
 </script>
 
 <style scoped>
