@@ -12,3 +12,15 @@ export async function getGames() {
                 throw error
         }
 }
+
+export async function getGameById(id) {
+  try {
+    const games = await getGames()
+    const game = games.find((g) => g.id === Number(id))
+    if (!game) throw new Error('Juego no encontrado')
+    return game
+  } catch (error) {
+    console.error('Error fetching game by id:', error)
+    throw error
+  }
+}
