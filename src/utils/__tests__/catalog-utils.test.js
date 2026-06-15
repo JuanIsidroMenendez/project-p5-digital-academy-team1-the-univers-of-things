@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { filterByText, filterByGenre } from '../catalog-utils'
-
+import { filterByText, filterByGenre, paginateGames } from '../catalog-utils'
 const mockGames = [
     { id: 1, title: 'Lost Ark', genre: 'MMORPG', platform: 'PC (Windows)' },
     { id: 2, title: 'Fortnite', genre: 'Shooter', platform: 'PC (Windows)' },
@@ -36,5 +35,21 @@ describe('filterByGenre', () => {
     it('devuelve todos los juegos si el genero esta vacio', () => {
         const result = filterByGenre(mockGames, '')
         expect(result).toHaveLength(3)
+    })
+})
+
+describe('paginateGames', () => {
+    it('devuelve el subconjunto correcto segun la pagina activa', () => {
+        const games = Array.from({ length: 25 }, (_, i) => ({ id: i + 1, title: `Game ${i + 1}` }))
+        const result = paginateGames(games, 2, 10)
+        expect(result).toHaveLength(10)
+        expect(result[0].title).toBe('Game 11')
+    })
+
+    it('devuelve los juegos restantes en la ultima pagina', () => {
+        const games = Array.from({ length: 25 }, (_, i) => ({ id: i + 1, title: `Game ${i + 1}` }))
+        const result = paginateGames(games, 3, 10)
+        expect(result).toHaveLength(5)
+        expect(result[0].title).toBe('Game 21')
     })
 })
