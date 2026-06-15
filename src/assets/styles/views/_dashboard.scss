@@ -1,1 +1,415 @@
 // Estilos especificos de los dashboards de usuario y admin
+@use '../base/variables' as *;
+
+// ── Layout ───
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dashboard-sidebar {
+  width: 190px;
+  min-height: 100vh;
+  background: var(--color-surface-high);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  gap: 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  &__logo-img {
+    height: 32px;
+  }
+
+  &__profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #22d3ee);
+  }
+
+  &__name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  &__badge {
+    font-size: 0.65rem;
+    font-family: $font-mono;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: white;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition);
+
+    &:hover {
+      background: var(--color-primary-dim);
+      color: var(--color-text);
+    }
+
+    &.router-link-active {
+      background: var(--color-primary-dim);
+      color: var(--color-primary);
+    }
+
+    &--logout {
+      margin-top: auto;
+      color: var(--color-danger);
+    }
+  }
+}
+
+.dashboard-main {
+  margin-left: 190px;
+  flex: 1;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+// ── Tabla compartida ──
+.admin-users,
+.admin-favorites {
+  &__title {
+    font-family: $font-display;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+  }
+
+  &__table-wrapper {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+
+  &__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__search {
+    background: var(--color-surface-high);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 0.4rem 1rem;
+    color: var(--color-text);
+    font-size: 0.8rem;
+    width: 220px;
+
+    &::placeholder { color: var(--color-text-dim); }
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+
+    th {
+      text-align: left;
+      color: var(--color-text-dim);
+      font-family: $font-mono;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    td {
+      padding: 0.9rem 0.75rem;
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text);
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+  }
+
+  &__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #22d3ee);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+  }
+
+  &__status {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+
+    &--permitido {
+      color: var(--color-success);
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    &--restringido {
+      color: var(--color-danger);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+  }
+
+  &__action,
+  &__remove {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: border-color var(--transition), color var(--transition);
+
+    &:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+  }
+}
+
+// ── Destacados ───
+.admin-featured {
+  &__title {
+    font-family: $font-display;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+  }
+
+  &__section {
+    margin-bottom: 2rem;
+  }
+
+  &__hint {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0.5rem 0 1rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  &__card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color var(--transition);
+
+    &--active {
+      border-color: var(--color-primary);
+    }
+
+    &:hover { border-color: var(--color-border-purple); }
+  }
+
+  &__active-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-family: $font-mono;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    background: var(--color-primary);
+    border-radius: var(--radius-sm);
+    color: white;
+  }
+
+  &__thumb {
+    height: 100px;
+    background: linear-gradient(135deg, #1a0533, #0d1117);
+  }
+
+  &__card-title {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  &__active-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  &__active-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  &__active-thumb {
+    width: 100px;
+    height: 70px;
+    background: linear-gradient(135deg, #1a0533, #0d1117);
+    flex-shrink: 0;
+  }
+
+  &__active-title {
+    flex: 1;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  &__remove {
+    font-family: $font-mono;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    margin-right: 0.75rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-danger);
+    background: transparent;
+    color: var(--color-danger);
+    cursor: pointer;
+  }
+}
+
+// ── Perfil ───────────────────────────────────────────────
+.admin-profile {
+  &__title {
+    font-family: $font-display;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+  }
+
+  &__left {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  &__avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #22d3ee);
+  }
+
+  &__name {
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  &__email {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  &__avatars {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  &__avatar-option {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #22d3ee);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color var(--transition);
+
+    &:hover { border-color: var(--color-primary); }
+  }
+
+  &__right {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__label {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+  }
+
+  &__input {
+    background: var(--color-surface-high);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1rem;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+  }
+}
