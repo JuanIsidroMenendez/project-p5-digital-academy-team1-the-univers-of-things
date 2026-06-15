@@ -2,7 +2,6 @@
   <article
     class="card"
     :aria-label="game.title"
-    style="cursor:pointer"
     @click="goToDetail(game.id)"
   >
     <!-- ↓↓↓ NIEVES: añadido @click para navegar al detalle del juego ↓↓↓ -->
@@ -54,4 +53,7 @@ function goToDetail(id) {
 </script>
 
 <style scoped>
+.card {
+  cursor: pointer;
+}
 </style>
