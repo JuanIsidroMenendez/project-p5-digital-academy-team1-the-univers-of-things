@@ -1,4 +1,4 @@
-<!-- Layout privado: sidebar + header dashboard + slot -->
+<!-- Layout privado admin: sidebar + header + slot -->
 <script setup>
 import { RouterLink } from 'vue-router'
 import AppAurora from '@/components/layout/AppAurora.vue'

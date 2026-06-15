@@ -10,6 +10,8 @@ import GameScreenshots from '@/components/game-detail/GameScreenshots.vue'
 import SimilarGames from '@/components/game-detail/SimilarGames.vue'
 import AddToFavoritesButton from '@/components/game-detail/AddToFavoritesButton.vue'
 
+import MainLayout from '@/layouts/MainLayout.vue'
+
 const route = useRoute()
 const router = useRouter()
 
@@ -40,6 +42,7 @@ watch(() => route.params.id, (newId) => {
 </script>
 
 <template>
+  <MainLayout>
   <main class="game-detail">
 
     <!-- Estado de carga -->
@@ -150,6 +153,7 @@ watch(() => route.params.id, (newId) => {
       </article>
     </template>
   </main>
+  </MainLayout>
 </template>
 
 <style lang="scss" scoped>
