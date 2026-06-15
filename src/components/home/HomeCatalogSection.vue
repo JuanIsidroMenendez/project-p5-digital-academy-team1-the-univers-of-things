@@ -108,6 +108,7 @@ function handlePageChange(page) {
                                 <p class="card__description">{{ game.short_description }}</p>
                                 <div class="card__meta">
                                     <span class="badge badge--platform">{{ game.platform }}</span>
+                                    <span class="badge badge--action">{{ game.genre }}</span>
                                 </div>
                             </div>
                         </article>
