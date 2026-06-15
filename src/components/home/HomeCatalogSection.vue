@@ -3,6 +3,7 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import AppPagination from '@/components/layout/AppPagination.vue'
 import { getGames } from '@/services/games-api.js'
+import { filterByText, filterByGenre, paginateGames } from '@/utils/catalog-utils.js'
 
 const games = ref([])
 const isLoading = ref(false)
@@ -25,20 +26,13 @@ onMounted(async () => {
 })
 
 const filteredGames = computed(() => {
-    return games.value.filter(game => {
-        const matchSearch = game.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-        const matchGenre = selectedGenre.value === '' || game.genre.toLowerCase() === selectedGenre.value
-        const matchPlatform = selectedPlatform.value === '' || game.platform.toLowerCase().includes(selectedPlatform.value)
-        return matchSearch && matchGenre && matchPlatform
-    })
+    const byText = filterByText(games.value, searchQuery.value)
+    return filterByGenre(byText, selectedGenre.value)
 })
 
 const totalPages = computed(() => Math.ceil(filteredGames.value.length / gamesPerPage))
 
-const paginatedGames = computed(() => {
-    const start = (currentPage.value - 1) * gamesPerPage
-    return filteredGames.value.slice(start, start + gamesPerPage)
-})
+const paginatedGames = computed(() => paginateGames(filteredGames.value, currentPage.value, gamesPerPage))
 
 watch([searchQuery, selectedGenre, selectedPlatform], () => {
     currentPage.value = 1
