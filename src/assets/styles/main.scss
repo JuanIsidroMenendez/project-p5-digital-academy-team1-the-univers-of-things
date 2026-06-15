@@ -12,7 +12,8 @@
 @use 'components/game-screenshots';
 @use 'components/similar-games';
 @use 'components/add-to-favorites-btn';
-@use 'components/featured/featured-hero';
+@use 'components/featured/_featured-hero';
+@use 'components/featured/_featured-monthly';
 
 @use 'layouts/header';
 @use 'layouts/footer';
