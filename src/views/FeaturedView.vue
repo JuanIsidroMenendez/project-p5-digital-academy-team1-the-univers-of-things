@@ -8,6 +8,7 @@ import FeaturedMonthly from '@/components/featured/FeaturedMonthly.vue'
     <MainLayout>
         <FeaturedHero></FeaturedHero>
         <FeaturedMonthly></FeaturedMonthly>
+        <h3 class="section-label">Todos los destacados</h3>
         <FeaturedGrid></FeaturedGrid>
 
     </MainLayout>
