@@ -2,6 +2,8 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { isValidEmail, isNotEmpty } from '@/utils/form-validators'
+import { loginUser } from '@/services/auth-service'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 
