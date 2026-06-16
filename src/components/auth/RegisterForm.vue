@@ -11,11 +11,10 @@ import {
   isNotEmpty
 } from '@/utils/form-validators'
 
-// COORDINACIÓN CON JUAN: descomentar cuando auth-service.js esté listo
-// import { registerUser } from '@/services/auth-service'
-// import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
 const form = reactive({
   username: '',
@@ -94,11 +93,8 @@ async function handleSubmit() {
 
   isLoading.value = true
 
-  try {
-    // CUANDO auth-service.js esté listo, sustituir por:
-    // await registerUser(form.username, form.email, form.password)
-    // await router.push('/dashboard')
-    console.log('Registro pendiente de auth-service:', form.username, form.email)
+ try {
+    await authStore.register(form.email, form.password, form.username)
     await router.push('/dashboard')
   } catch (error) {
     if (error.code === 'auth/email-already-in-use') {
