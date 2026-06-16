@@ -18,6 +18,7 @@
 @use 'layouts/header';
 @use 'layouts/footer';
 
+@use 'views/login';
 @use 'views/dashboard';
 @use 'views/featured-view';
 @use 'views/catalog';
