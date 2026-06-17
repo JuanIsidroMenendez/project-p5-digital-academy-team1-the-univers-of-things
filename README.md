@@ -109,13 +109,17 @@ Proyecto gestionado con **Jira** bajo metodología **Scrum** — **2 Sprints de 
 
 📸 Capturas de Jira:
 
-| 📋 Backlog | 🗂️ Tablero |
-| :--------: | :--------: |
-| _en proceso_ | _en proceso_ |
+| Backlog Sprint 1 | Backlog Sprint 2 |
+| :------------------: | :------------------: |
+| ![Backlog Sprint 1](src/assets/imgs/screenshots/jira/backlog1.png) | ![Backlog Sprint 2](src/assets/imgs/screenshots/jira/backlog2.png) |
 
-| 📅 Cronograma Sprint 1 | 📅 Cronograma Sprint 2 |
+| Tablero (1/3) | Tablero (2/3) | Tablero (3/3) |
+| :---------------: | :---------------: | :---------------: |
+| ![Tablero 1](src/assets/imgs/screenshots/jira/board1.png) | ![Tablero 2](src/assets/imgs/screenshots/jira/board2.png) | ![Tablero 3](src/assets/imgs/screenshots/jira/board3.png) |
+
+| Cronograma Sprint 1 | Cronograma Sprint 2 |
 | :---------------------: | :---------------------: |
-| _en proceso_ | _en proceso_ |
+| ![Cronograma Sprint 1](src/assets/imgs/screenshots/jira/jira-sprint1.png) | ![Cronograma Sprint 2](src/assets/imgs/screenshots/jira/jira-sprint2.png) |
 
 ---
 
@@ -138,7 +142,8 @@ Home → Catálogo (filtro/búsqueda/paginación) → Detalle de juego → (bot�
 Home → Login → Catálogo → Detalle → Añadir a favoritos → Dashboard de usuario → Gestionar favoritos (CRUD + rating) → Perfil (cambiar avatar/contraseña) → Logout
 
 **Ruta principal (admin):**
-Home → Login (admin) → Admin Dashboard → Gestionar usuarios (permitir/restringir) → Gestionar destacados → Logout
+Home → Login (admin) → Admin Dashboard → Gestionar usuarios (permitir/restringir) → Gestionar
+destacados → Logout
 
 ---
 
