@@ -127,13 +127,13 @@ Proyecto gestionado con **Jira** bajo metodología **Scrum** — **2 Sprints de 
 
 Diseñado en FigJam antes del desarrollo para mapear las rutas de usuario, administrador y visitante.
 
-🔗 [Ver userflow en FigJam] _en proceso_
+🔗 [Ver userflow en FigJam](https://www.figma.com/board/MHzYugh6tsOUmmw6wrvBHw/FPS---User-Flow)
 
 | Ruta | Tipo de usuario | Captura |
 | :--- | :------ | :------: |
-| Visitante | Usuario no autenticado | _en proceso_ |
-| Customer | Usuario registrado | _en proceso_ |
-| Admin | Administrador | _en proceso_ |
+| Visitante | Usuario no autenticado | ![Userflow Visitante](src/assets/imgs/screenshots/userflow/visitor.png) |
+| Customer | Usuario registrado | ![Userflow Visitante](src/assets/imgs/screenshots/userflow/customer.png) |
+| Admin | Administrador | ![Userflow Visitante](src/assets/imgs/screenshots/userflow/admin.png) |
 
 **Ruta visitante:**
 Home → Catálogo (filtro/búsqueda/paginación) → Detalle de juego → (botón de favorito bloqueado) → Login/Register
