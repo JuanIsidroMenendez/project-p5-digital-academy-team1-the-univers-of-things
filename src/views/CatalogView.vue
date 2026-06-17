@@ -62,6 +62,10 @@ const filteredGames = computed(() => {
   return [...new Set(allGenres)].sort()
 })
 
+const platforms = computed(() => {
+  const allPlatforms = games.value.map(game => game.platform)
+  return [...new Set(allPlatforms)].sort()
+})
 })
 
 onMounted(async () => {
