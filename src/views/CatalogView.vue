@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import ItemCard from '@/components/items/ItemCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { getGames } from '@/services/games-api.js';
@@ -63,6 +63,7 @@ const error = ref(null)
 const searchText = ref('')
 const selectedGenre = ref('')
 const selectedPlatform = ref('')
+const currentPage = ref(1)
 
 const filteredGames = computed(() => {
   let result = filterByText(games.value, searchText.value)
@@ -73,10 +74,9 @@ const filteredGames = computed(() => {
     )
   }
   return result
-  })
+})
 
-
-  const genres = computed(() => {
+const genres = computed(() => {
   const allGenres = games.value.map(game => game.genre)
   return [...new Set(allGenres)].sort()
 })
@@ -86,6 +86,9 @@ const platforms = computed(() => {
   return [...new Set(allPlatforms)].sort()
 })
 
+watch([searchText, selectedGenre, selectedPlatform], () => {
+  currentPage.value = 1
+})
 
 onMounted(async () => {
   isLoading.value = true
