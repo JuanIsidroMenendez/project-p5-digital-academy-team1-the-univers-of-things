@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from './firebase.js'
 
 export async function createUserProfile(uid, email, username) {
@@ -17,5 +17,11 @@ export async function getUserProfile(uid) {
         return null
     }
 return snapshot.data()
+
+}
+
+export async function updateUserFavorites(uid, favorites) {
+  const userRef = doc(db, 'users', uid)
+  await updateDoc(userRef, { fav: favorites })
 }
 

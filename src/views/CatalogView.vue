@@ -1,9 +1,8 @@
 <!-- Vista catalogo completo: busqueda, filtros y paginacion -->
 <template>
-  <!-- ↓↓↓ NUEVO ↓↓↓ -->
-  <MainLayout>
-  <!-- ↑↑↑ NUEVO ↑↑↑ -->
 
+  <MainLayout>
+  
     <section class="catalog-view__hero">
       <h1 class="catalog-view__title">El Catálogo</h1>
       <p class="catalog-view__subtitle">
@@ -12,7 +11,8 @@
     </section>
 
     <section class="catalog-view__content">
-      <!-- Aquí irá la barra de búsqueda -->
+
+      <SearchBar v-model="searchText"/>
 
       <div v-if="isLoading" class="catalog-view__loading">
         Cargando juegos...
@@ -21,10 +21,14 @@
       <div v-else-if="error" class="catalog-view__error">
         {{ error }}
       </div>
+      
+      <div v-else-if="filteredGames.length === 0" class="catalog-view__empty">
+        No se han encontrado resultados
+      </div>
 
       <div v-else class="catalog-view__grid">
         <ItemCard
-            v-for="(game, index) in games"
+            v-for="(game, index) in filteredGames"
             :key="game.id ?? index"
             :game="game"
             />
@@ -33,23 +37,27 @@
       <!-- Aquí irá la paginación -->
     </section>
 
-  <!-- ↓↓↓ NUEVO ↓↓↓ -->
-  </MainLayout>
-  <!-- ↑↑↑ NUEVO ↑↑↑ -->
+   </MainLayout>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import ItemCard from '@/components/items/ItemCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-// ↓↓↓ ELIMINAR ↓↓↓
-// import AppFooter from '@/components/layout/AppFooter.vue';
-// ↑↑↑ ELIMINAR ↑↑↑
 import { getGames } from '@/services/games-api.js';
+import SearchBar from '@/components/catalog/SearchBar.vue';
 
 const games = ref([])
 const isLoading = ref(false)
 const error = ref(null)
+const searchText = ref('')
+
+const filteredGames = computed(() => {
+  if (!searchText.value) return games.value
+  return games.value.filter(game =>
+    game.title.toLowerCase().includes(searchText.value.toLowerCase())
+  )
+})
 
 onMounted(async () => {
   isLoading.value = true

@@ -14,6 +14,7 @@
 @use 'components/add-to-favorites-btn';
 @use 'components/featured/_featured-hero';
 @use 'components/featured/_featured-monthly';
+@use 'components/search-bar';
 
 @use 'layouts/header';
 @use 'layouts/footer';
@@ -24,4 +25,5 @@
 @use 'views/catalog';
 @use 'views/game-detail-view';
 @use 'views/user-management-view';
+@use 'views/register-view';
 

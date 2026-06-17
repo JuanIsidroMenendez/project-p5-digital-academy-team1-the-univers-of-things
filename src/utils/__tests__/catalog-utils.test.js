@@ -36,6 +36,11 @@ describe('filterByGenre', () => {
         const result = filterByGenre(mockGames, '')
         expect(result).toHaveLength(3)
     })
+
+    it('devuelve lista vacia cuando ningun juego coincide', () => {
+        const result = filterByText(mockGames, 'xyzxyzxyz')
+        expect(result).toHaveLength(0)
+    })
 })
 
 describe('paginateGames', () => {
