@@ -7,7 +7,6 @@ import { createUserProfile, getUserProfile } from '@/api/user.service'
 
 export const useAuthStore = defineStore('auth', () => {
 
-    // Se corrigen las rutas en import (línea 4 y 5) y se mantienen const user y const loading
     const user = ref(null)
     const profile = ref(null)
     const loading = ref(true)

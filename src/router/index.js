@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-
+import { watch } from 'vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -84,16 +84,26 @@ const router = createRouter({
     },
   ]
 })
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
   const auth = useAuthStore()
-  
-  if (auth.loading) return
+
+  if (auth.loading) {
+    await new Promise(resolve => {
+      const unwatch = watch(() => auth.loading, (loading) => {
+        if (!loading) {
+          unwatch()
+          resolve()
+        }
+      })
+    })
+  }
 
   if (to.meta.requiresAuth && !auth.user) {
     return '/login'
   }
+
   if (to.meta.requiresAdmin && !auth.isAdmin) {
-  return '/dashboard'
-}
+    return '/dashboard'
+  }
 })
 export default router
