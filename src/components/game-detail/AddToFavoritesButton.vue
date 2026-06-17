@@ -1,18 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useFavoritesStore } from '@/stores/favorites-store'
 
-const authStore = useAuthStore()
-const isAuthenticated = computed(() => authStore.isAuthenticated)
-
-// COORDINACIÓN CON JENNY: descomentar cuando favorites-store esté listo
-// import { useFavoritesStore } from '@/stores/favorites'
-// const favoritesStore = useFavoritesStore()
-// const isFavorite = computed(() => favoritesStore.isFavorite(props.game.id))
-
-defineProps({
+// defineProps debe ir ANTES de usar "props" en cualquier computed o función
+const props = defineProps({
   game: {
     type: Object,
     required: true
@@ -20,23 +13,22 @@ defineProps({
 })
 
 const router = useRouter()
+const authStore = useAuthStore()
+const favoritesStore = useFavoritesStore()
 
-// Placeholders temporales hasta que los stores estén disponibles
-
-const isFavorite = ref(false)
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+const isFavorite = computed(() => favoritesStore.isFavorite(props.game.id))
 
 function handleClick() {
   if (!isAuthenticated.value) {
-    // Redirigir al login si no hay sesión
     router.push('/login')
     return
   }
-  // CUANDO favorites-store esté listo:
-  // if (isFavorite.value) {
-  //   favoritesStore.removeFromFavorites(props.game.id)
-  // } else {
-  //   favoritesStore.addToFavorites(props.game)
-  // }
+
+  if (!isFavorite.value) {
+    favoritesStore.addToFavorites(props.game)
+  }
+  // La eliminación se añadirá en US23
 }
 </script>
 
