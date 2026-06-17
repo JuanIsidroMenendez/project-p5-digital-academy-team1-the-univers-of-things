@@ -2,6 +2,7 @@
 <script setup>
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import { useAdminStore } from "@/stores/admin-store";
+import { filterUsers } from '@/utils/user-filters'
 import { onMounted, ref, computed } from "vue";
 
 const adminStore = useAdminStore();
@@ -11,12 +12,9 @@ onMounted(async () => {
 
 const searchQuery = ref("");
 
-const filteredUsers = computed(() => {
-  return adminStore.usersList.filter((user) =>
-    user.username?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    user.email?.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
-});
+const filteredUsers = computed(() => 
+    filterUsers(adminStore.usersList, searchQuery.value)
+)
 </script>
 
 <template>
@@ -49,6 +47,7 @@ const filteredUsers = computed(() => {
           </tr>
         </tbody>
       </table>
+      <p v-if="filteredUsers.length === 0">No se encontraron resultados</p>
     </section>
   </AdminLayout>
 </template>
