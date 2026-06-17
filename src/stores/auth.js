@@ -21,7 +21,8 @@ export const useAuthStore = defineStore('auth', () => {
 
         user.value = firebaseUser
         if (firebaseUser) {
-            profile.value = await getUserProfile(firebaseUser.uid)  // ← leemos Firestore
+            profile.value = await getUserProfile(firebaseUser.uid)  
+            role.value = profile.value?.role
         } else {
             profile.value = null
         }
