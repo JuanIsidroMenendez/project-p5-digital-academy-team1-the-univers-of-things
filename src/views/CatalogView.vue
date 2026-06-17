@@ -21,6 +21,10 @@
       <div v-else-if="error" class="catalog-view__error">
         {{ error }}
       </div>
+      
+      <div v-else-if="filteredGames.length === 0" class="catalog-view__empty">
+        No se han encontrado resultados
+      </div>
 
       <div v-else class="catalog-view__grid">
         <ItemCard
