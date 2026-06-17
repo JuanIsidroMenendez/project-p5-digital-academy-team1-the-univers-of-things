@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useFavoritesStore } from '@/stores/favorites-store'
 
-// defineProps debe ir ANTES de usar "props" en cualquier computed o función
 const props = defineProps({
   game: {
     type: Object,
@@ -19,6 +18,9 @@ const favoritesStore = useFavoritesStore()
 const isAuthenticated = computed(() => authStore.isAuthenticated)
 const isFavorite = computed(() => favoritesStore.isFavorite(props.game.id))
 
+// Estado para mostrar el mensaje temporal de confirmación (SC48, ST05)
+const showSuccessMessage = ref(false)
+
 function handleClick() {
   if (!isAuthenticated.value) {
     router.push('/login')
@@ -27,8 +29,13 @@ function handleClick() {
 
   if (!isFavorite.value) {
     favoritesStore.addToFavorites(props.game)
+
+    // Mostramos el mensaje de éxito durante 2.5 segundos y luego se oculta solo
+    showSuccessMessage.value = true
+    setTimeout(() => {
+      showSuccessMessage.value = false
+    }, 2500)
   }
-  // La eliminación se añadirá en US23
 }
 </script>
 
@@ -63,6 +70,16 @@ function handleClick() {
       <span aria-hidden="true">🔒</span>
       Inicia sesión para guardar
     </button>
+
+    <!-- Mensaje temporal de confirmación de éxito -->
+    <p
+      v-if="showSuccessMessage"
+      class="add-to-favorites__success"
+      role="status"
+      aria-live="polite"
+    >
+      ✓ ¡Añadido a favoritos!
+    </p>
 
   </div>
 </template>
@@ -113,6 +130,25 @@ function handleClick() {
         border-color: var(--color-border-purple);
       }
     }
+  }
+
+  &__success {
+    margin-top: var(--space-2);
+    color: #4ade80;
+    font-size: 0.85rem;
+    font-weight: 600;
+    animation: fade-in 0.2s ease;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
