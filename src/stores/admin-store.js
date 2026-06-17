@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { collection, getDocs } from 'firebase/firestore'
-import { db } from './firebase.js'
+import { db } from '@/api/firebase'
 
 export const useAdminStore = defineStore('admin', () => {
     const usersList = ref([])

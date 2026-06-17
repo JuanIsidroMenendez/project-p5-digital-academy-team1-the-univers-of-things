@@ -1,11 +1,13 @@
 <!-- Vista admin: gestión de usuarios -->
+
 <script setup>
 import AdminLayout from "@/layouts/AdminLayout.vue";
-import { ref } from "vue";
-const users = ref([
-  { id: 1, username: "AdminRoot", email: "admin@admin.com", status: "active" },
-  { id: 2, username: "PlayerOne", email: "player@test.com", status: "active" },
-]);
+import { useAdminStore } from "@/stores/admin-store";
+import { onMounted } from "vue";
+const adminStore = useAdminStore();
+onMounted(async () => {
+  await adminStore.fetchAllUsers();
+});
 </script>
 
 <template>
@@ -23,7 +25,7 @@ const users = ref([
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.id">
+          <tr v-for="user in adminStore.usersList" :key="user.id">
             <td>img</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
