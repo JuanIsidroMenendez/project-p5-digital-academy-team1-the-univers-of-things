@@ -1,9 +1,8 @@
 <!-- Vista catalogo completo: busqueda, filtros y paginacion -->
 <template>
-  <!-- ↓↓↓ NUEVO ↓↓↓ -->
-  <MainLayout>
-  <!-- ↑↑↑ NUEVO ↑↑↑ -->
 
+  <MainLayout>
+  
     <section class="catalog-view__hero">
       <h1 class="catalog-view__title">El Catálogo</h1>
       <p class="catalog-view__subtitle">
@@ -12,7 +11,8 @@
     </section>
 
     <section class="catalog-view__content">
-      <!-- Aquí irá la barra de búsqueda -->
+      
+      <SearchBar v-model="searchText"/>
 
       <div v-if="isLoading" class="catalog-view__loading">
         Cargando juegos...
