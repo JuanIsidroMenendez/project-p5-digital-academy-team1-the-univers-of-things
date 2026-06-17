@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import ItemCard from '@/components/items/ItemCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { getGames } from '@/services/games-api.js';
