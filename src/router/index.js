@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,44 +37,63 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('@/views/dashboard/DashboardView.vue')
+      component: () => import('@/views/dashboard/DashboardView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/dashboard/favorites',
       name: 'favorites',
-      component: () => import('@/views/dashboard/FavoritesView.vue')
+      component: () => import('@/views/dashboard/FavoritesView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/dashboard/profile',
       name: 'profile',
-      component: () => import('@/views/dashboard/ProfileView.vue')
+      component: () => import('@/views/dashboard/ProfileView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/admin',
       name: 'admin',
-      component: () => import('@/views/admin/AdminView.vue')
+      component: () => import('@/views/admin/AdminView.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/admin/users',
       name: 'admin-users',
-      component: () => import('@/views/admin/AdminView.vue')
+      component: () => import('@/views/admin/AdminView.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/admin/featured',
       name: 'admin-featured',
-      component: () => import('@/views/admin/AdminFeaturedView.vue')
+      component: () => import('@/views/admin/AdminFeaturedView.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/admin/profile',
       name: 'admin-profile',
-      component: () => import('@/views/admin/AdminProfileView.vue')
+      component: () => import('@/views/admin/AdminProfileView.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/admin/favorites',
       name: 'admin-favorites',
-      component: () => import('@/views/admin/AdminFavoritesView.vue')
+      component: () => import('@/views/admin/AdminFavoritesView.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
   ]
 })
+router.beforeEach((to, from) => {
+  const auth = useAuthStore()
+  
+  if (auth.loading) return
 
+  if (to.meta.requiresAuth && !auth.user) {
+    return '/login'
+  }
+  if (to.meta.requiresAdmin && !auth.isAdmin) {
+  return '/dashboard'
+}
+})
 export default router
