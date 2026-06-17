@@ -18,7 +18,8 @@ export const useAuthStore = defineStore('auth', () => {
     onAuthStateChanged(auth, async (firebaseUser) => {
         user.value = firebaseUser
         if (firebaseUser) {
-            profile.value = await getUserProfile(firebaseUser.uid)  // ← leemos Firestore
+            profile.value = await getUserProfile(firebaseUser.uid)  
+            role.value = profile.value?.role
             // NIEVES: cargamos los favoritos del usuario en el store de favoritos
             const favoritesStore = useFavoritesStore()
             favoritesStore.loadFavorites(profile.value?.fav)
