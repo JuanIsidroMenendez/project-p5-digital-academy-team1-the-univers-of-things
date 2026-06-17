@@ -1,5 +1,15 @@
-<!-- Navegacion publica: logo FPS + links + botones login/register -->
+<!-- Navegacion publica: logo FPS + links + botones login/register o usuario logueado -->
 <script setup>
+import { useAuthStore } from '@/stores/auth.js'
+import { useRouter } from 'vue-router'
+
+const auth = useAuthStore()
+const router = useRouter()
+
+async function handleLogout() {
+    await auth.logout()
+    router.push('/')
+}
 </script>
 
 <template>
@@ -25,25 +35,39 @@
             </ul>
 
             <ul class="header__actions" role="list">
-                <li>
-                    <RouterLink to="/login" class="btn btn--ghost">
-                        Iniciar sesión
-                    </RouterLink>
-                </li>
-                <li>
-                    <RouterLink to="/register" class="btn btn--primary">
-                        Registrarse
-                    </RouterLink>
-                </li>
+                <template v-if="auth.user">
+                    <li>
+                        <RouterLink to="/dashboard" class="btn btn--ghost">
+                            {{ auth.profile?.username || auth.user.email }}
+                        </RouterLink>
+                    </li>
+                    <li>
+                        <button class="btn btn--primary" @click="handleLogout">
+                            Cerrar sesión
+                        </button>
+                    </li>
+                </template>
+                <template v-else>
+                    <li>
+                        <RouterLink to="/login" class="btn btn--ghost">
+                            Iniciar sesión
+                        </RouterLink>
+                    </li>
+                    <li>
+                        <RouterLink to="/register" class="btn btn--primary">
+                            Registrarse
+                        </RouterLink>
+                    </li>
+                </template>
             </ul>
 
         </nav>
     </header>
 </template>
 
-<!-- Estilos del header -->
-
 <style lang="scss" scoped>
+@use '@/assets/styles/base/variables' as *;
+
 .header {
     position: sticky;
     top: 0;
@@ -65,6 +89,11 @@
         @media (min-width: $bp-tablet) {
             height: 64px;
             padding: 0 2.5rem;
+        }
+
+        @media (min-width: $bp-desktop) {
+            height: 72px;
+            padding: 0 4rem;
         }
     }
 
@@ -97,6 +126,10 @@
         @media (min-width: $bp-tablet) {
             font-size: 19px;
         }
+
+        @media (min-width: $bp-desktop) {
+            font-size: 21px;
+        }
     }
 
     &__links {
@@ -106,6 +139,10 @@
             display: flex;
             align-items: center;
             gap: 2.2rem;
+        }
+
+        @media (min-width: $bp-desktop) {
+            gap: 3rem;
         }
 
         a {
@@ -138,6 +175,10 @@
             gap: 10px;
         }
 
+        @media (min-width: $bp-desktop) {
+            gap: 14px;
+        }
+
         .btn {
             font-size: 10px;
             padding: 6px 10px;
@@ -145,6 +186,11 @@
             @media (min-width: $bp-tablet) {
                 font-size: 11px;
                 padding: 8px 18px;
+            }
+
+            @media (min-width: $bp-desktop) {
+                font-size: 12px;
+                padding: 10px 22px;
             }
         }
     }

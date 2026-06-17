@@ -1,6 +1,3 @@
-Perfecto. Pega este código dentro de `src/components/auth/RegisterForm.vue`:
-
-```vue
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'

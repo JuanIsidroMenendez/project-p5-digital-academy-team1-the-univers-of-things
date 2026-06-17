@@ -1,9 +1,15 @@
 <!-- Header privado del dashboard: logo, seccion actual, usuario y cerrar sesion -->
 <script setup>
-// TODO: conectar useAuthStore cuando el .env de Firebase este disponible
-// import { useAuthStore } from '@/stores/auth.js'
-// const auth = useAuthStore()
-// async function handleLogout() { await auth.logout() }
+import { useAuthStore } from '@/stores/auth.js'
+import { useRouter } from 'vue-router'
+
+const auth = useAuthStore()
+const router = useRouter()
+
+async function handleLogout() {
+    await auth.logout()
+    router.push('/')
+}
 </script>
 
 <template>
@@ -14,17 +20,16 @@
                 <img src="/src/assets/imgs/fps-logo.svg" alt="FPS logo" width="32" height="32" />
                 <span class="dashboard-header__logo-text">FPS</span>
                 <span class="dashboard-header__logo-sep" aria-hidden="true">/</span>
-                <!-- TODO: mostrar "Dashboard Admin" si auth.user.role === 'admin' -->
-                <span class="dashboard-header__logo-section">Dashboard</span>
+                <span class="dashboard-header__logo-section">{{ auth.isAdmin ? 'Dashboard Admin' : 'Dashboard' }}</span>
             </RouterLink>
 
             <div class="dashboard-header__user">
-                <!-- TODO: mostrar auth.user.displayName o auth.user.email -->
-                <span class="dashboard-header__username">Usuario</span>
-                <!-- TODO: mostrar badge ADMIN si auth.user.role === 'admin' -->
-                <span class="dashboard-header__badge dashboard-header__badge--customer">CLIENTE</span>
-                <button class="dashboard-header__logout" aria-label="Cerrar sesion">
-                    <!-- TODO: @click="handleLogout" cuando Firebase este listo -->
+                <span class="dashboard-header__username">{{ auth.profile?.username || auth.user?.email }}</span>
+                <span class="dashboard-header__badge"
+                    :class="auth.isAdmin ? 'dashboard-header__badge--admin' : 'dashboard-header__badge--customer'">
+                    {{ auth.isAdmin ? 'ADMIN' : 'CLIENTE' }}
+                </span>
+                <button class="dashboard-header__logout" aria-label="Cerrar sesion" @click="handleLogout">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path
                             d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
@@ -48,19 +53,24 @@
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--color-border-purple);
+    width: 100%;
 
     &__nav {
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 56px;
         padding: 0 1rem;
-        max-width: $bp-wide;
-        margin: 0 auto;
 
         @media (min-width: $bp-tablet) {
             height: 64px;
             padding: 0 2.5rem;
+        }
+
+        @media (min-width: $bp-desktop) {
+            height: 72px;
+            padding: 0 4rem;
         }
     }
 

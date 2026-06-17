@@ -1,7 +1,8 @@
 <!-- Vista gestión de destacados: juego del mes y lista de destacados -->
 <script setup>
 import AdminLayout from '@/layouts/AdminLayout.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { getFeaturedConfig, setMonthlyGame, addFeaturedGame, removeFeaturedGame } from '@/api/featured.service.js'
 
 // Mock de catálogo (en producción vendrá de Firestore/API)
 const catalog = [
