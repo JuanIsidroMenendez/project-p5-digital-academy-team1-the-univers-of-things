@@ -13,6 +13,14 @@
     <section class="catalog-view__content">
 
       <SearchBar v-model="searchText"/>
+      <FilterControls
+        :genres="genres"
+        :platforms="platforms"
+        :selected-genre="selectedGenre"
+        :selected-platform="selectedPlatform"
+        @update:selectedGenre="selectedGenre = $event"
+        @update:selectedPlatform="selectedPlatform = $event"
+      />
 
       <div v-if="isLoading" class="catalog-view__loading">
         Cargando juegos...
@@ -41,22 +49,45 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import ItemCard from '@/components/items/ItemCard.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { getGames } from '@/services/games-api.js';
 import SearchBar from '@/components/catalog/SearchBar.vue';
+import FilterControls from '@/components/catalog/FilterControls.vue';
+import { filterByText, filterByGenre } from '@/utils/catalog-utils';
 
 const games = ref([])
 const isLoading = ref(false)
 const error = ref(null)
 const searchText = ref('')
+const selectedGenre = ref('')
+const selectedPlatform = ref('')
+const currentPage = ref(1)
 
 const filteredGames = computed(() => {
-  if (!searchText.value) return games.value
-  return games.value.filter(game =>
-    game.title.toLowerCase().includes(searchText.value.toLowerCase())
-  )
+  let result = filterByText(games.value, searchText.value)
+  result = filterByGenre(result, selectedGenre.value)
+  if (selectedPlatform.value) {
+    result = result.filter(game =>
+      game.platform.toLowerCase().includes(selectedPlatform.value.toLowerCase())
+    )
+  }
+  return result
+})
+
+const genres = computed(() => {
+  const allGenres = games.value.map(game => game.genre)
+  return [...new Set(allGenres)].sort()
+})
+
+const platforms = computed(() => {
+  const allPlatforms = games.value.map(game => game.platform)
+  return [...new Set(allPlatforms)].sort()
+})
+
+watch([searchText, selectedGenre, selectedPlatform], () => {
+  currentPage.value = 1
 })
 
 onMounted(async () => {
