@@ -3,17 +3,19 @@
 <script setup>
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import { useAdminStore } from "@/stores/admin-store";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 const adminStore = useAdminStore();
 onMounted(async () => {
   await adminStore.fetchAllUsers();
 });
+const searchQuery = ref ('')
 </script>
 
 <template>
   <AdminLayout>
     <section class="user-management">
       <h1 class="user-management__title">Gestión de Usuarios</h1>
+      <input v-model="searchQuery"/>
       <table class="user-management__table">
         <thead>
           <tr>
