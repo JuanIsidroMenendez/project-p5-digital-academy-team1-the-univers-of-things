@@ -57,6 +57,11 @@ const filteredGames = computed(() => {
   return games.value.filter(game =>
     game.title.toLowerCase().includes(searchText.value.toLowerCase())
   )
+  const genres = computed(() => {
+  const allGenres = games.value.map(game => game.genre)
+  return [...new Set(allGenres)].sort()
+})
+
 })
 
 onMounted(async () => {
