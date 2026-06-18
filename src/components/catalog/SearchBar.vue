@@ -27,7 +27,39 @@
         @input="$emit('update:modelValue', $event.target.value)"
       />
     </div>
+ <!-- AÑADIDO PARA ARREGLAR LA UBICACIÓN DE LOS FILTROS POR CATEGORÍA QUE PASAN AQUÍ, A BARRA BÚSQUEDA -->
+    <div class="search-bar__filters">
 
+      <div class="search-bar__divider"></div>
+
+      <label for="genre-filter" class="visually-hidden">Filtrar por género</label>
+      <select
+        id="genre-filter"
+        class="search-bar__select"
+        :value="selectedGenre"
+        @change="$emit('update:selectedGenre', $event.target.value)"
+      >
+        <option value="">Género: Todos</option>
+        <option v-for="genre in genres" :key="genre" :value="genre">
+          {{ genre }}
+        </option>
+      </select>
+
+      <label for="platform-filter" class="visually-hidden">Filtrar por plataforma</label>
+      <select
+        id="platform-filter"
+        class="search-bar__select"
+        :value="selectedPlatform"
+        @change="$emit('update:selectedPlatform', $event.target.value)"
+      >
+        <option value="">Plataforma: Todas</option>
+        <option v-for="platform in platforms" :key="platform" :value="platform">
+          {{ platform }}
+        </option>
+      </select>
+
+    </div>
+   
   </div>
 </template>
 
@@ -36,10 +68,29 @@ defineProps({
   modelValue: {
     type: String,
     default: ''
+  },
+   genres: {
+    type: Array,
+    default: () => []
+  },
+  platforms: {
+    type: Array,
+    default: () => []
+  },
+  selectedGenre: {
+    type: String,
+    default: ''
+  },
+  selectedPlatform: {
+    type: String,
+    default: ''
   }
 })
 
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue', 
+'update:selectedGenre',
+'update:selectedPlatform'])
+
 </script>
 
 <style scoped>

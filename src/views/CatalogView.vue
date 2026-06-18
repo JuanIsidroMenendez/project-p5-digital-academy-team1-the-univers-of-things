@@ -12,15 +12,15 @@
 
     <section class="catalog-view__content">
 
-      <SearchBar v-model="searchText"/>
-      <FilterControls
-        :genres="genres"
-        :platforms="platforms"
-        :selected-genre="selectedGenre"
-        :selected-platform="selectedPlatform"
-        @update:selectedGenre="selectedGenre = $event"
-        @update:selectedPlatform="selectedPlatform = $event"
-      />
+      <SearchBar
+       v-model="searchText"
+       :genres="genres"
+       :platforms="platforms"
+       :selected-genre="selectedGenre"
+       :selected-platform="selectedPlatform"
+       @update:selectedGenre="selectedGenre = $event"
+       @update:selectedPlatform="selectedPlatform = $event"
+       />
 
       <div v-if="isLoading" class="catalog-view__loading">
         Cargando juegos...

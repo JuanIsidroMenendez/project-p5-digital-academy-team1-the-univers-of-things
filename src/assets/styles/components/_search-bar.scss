@@ -15,6 +15,46 @@
     margin-bottom: 2.5rem;
     transition: border-color var(--transition);
 
+    &__filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+&__divider {
+    width: 1px;
+    height: 22px;
+    background: var(--color-border);
+}
+
+&__select {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-family: $font-mono;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    padding: 8px 32px 8px 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    appearance: none;
+    outline: none;
+    transition: border-color var(--transition);
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+
+    &:hover {
+        border-color: var(--color-border-purple);
+    }
+
+    option {
+        background: #0d0d18;
+        color: var(--color-text);
+    }
+}
+
     &focus-within {
         border-color: var(--color-border-cyan);
     }
