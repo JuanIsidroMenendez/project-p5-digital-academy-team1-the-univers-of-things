@@ -12,9 +12,15 @@ export const useFavoritesStore = defineStore('favorites', () => {
     favoritesList.value = userFavorites || []
   }
 
+ // 🔵 REFACTOR: función auxiliar que centraliza la búsqueda de un favorito
+  // por su id, evitando repetir la misma búsqueda en varias funciones
+  function findFavoriteById(gameId) {
+    return favoritesList.value.find((game) => game.id === gameId)
+  }
+
   // Comprueba si un juego ya está en favoritos
   function isFavorite(gameId) {
-    return favoritesList.value.some((game) => game.id === gameId)
+    return Boolean(findFavoriteById(gameId))
   }
 
 // 🔵 REFACTOR: función auxiliar que centraliza la persistencia en Firestore,
@@ -51,11 +57,24 @@ export const useFavoritesStore = defineStore('favorites', () => {
     await persistFavorites()
   }
 
+  // Actualiza el título y/o contenido personalizado de un favorito
+  async function updateFavorite(gameId, newData) {
+    const favorite = findFavoriteById(gameId)
+    if (!favorite) return
+
+    favorite.customTitle = newData.customTitle
+    favorite.customContent = newData.customContent
+
+    await persistFavorites()
+  }
+
   return {
     favoritesList,
     loadFavorites,
     isFavorite,
     addToFavorites,
-    removeFromFavorites
+    removeFromFavorites,
+    updateFavorite
   }
+  
 })

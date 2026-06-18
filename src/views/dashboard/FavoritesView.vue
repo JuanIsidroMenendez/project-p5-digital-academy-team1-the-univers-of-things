@@ -1,16 +1,35 @@
 <!-- Vista favoritos: CRUD de favoritos, valoracion por estrellas y añadir nuevo -->
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import FavoriteCard from '@/components/favorites/FavoriteCard.vue'
+import EditFavoriteForm from '@/components/dashboard/EditFavoriteForm.vue'
 import { useFavoritesStore } from '@/stores/favorites-store'
 
 const favoritesStore = useFavoritesStore()
 const hasFavorites = computed(() => favoritesStore.favoritesList.length > 0)
 
-// Maneja la eliminación de un favorito emitida desde FavoriteCard
+// Guarda el id del favorito que se está editando actualmente (null si ninguno)
+const editingFavoriteId = ref(null)
+
 function handleRemove(gameId) {
   favoritesStore.removeFromFavorites(gameId)
+}
+
+// Activa el modo edición para un favorito concreto
+function handleEdit(favorite) {
+  editingFavoriteId.value = favorite.id
+}
+
+// Guarda los cambios del formulario de edición y sale del modo edición
+function handleSaveEdit(gameId, newData) {
+  favoritesStore.updateFavorite(gameId, newData)
+  editingFavoriteId.value = null
+}
+
+// Cancela la edición sin guardar cambios
+function handleCancelEdit() {
+  editingFavoriteId.value = null
 }
 </script>
 
@@ -36,7 +55,19 @@ function handleRemove(gameId) {
                     :key="favorite.id"
                     class="favorites-view__item"
                 >
-                    <FavoriteCard :favorite="favorite" @remove="handleRemove" />
+                    <!-- Si este favorito está en edición, mostramos el formulario en vez de la tarjeta -->
+                    <EditFavoriteForm
+                        v-if="editingFavoriteId === favorite.id"
+                        :favorite="favorite"
+                        @save="(newData) => handleSaveEdit(favorite.id, newData)"
+                        @cancel="handleCancelEdit"
+                    />
+                    <FavoriteCard
+                        v-else
+                        :favorite="favorite"
+                        @remove="handleRemove"
+                        @edit="handleEdit"
+                    />
                 </li>
             </TransitionGroup>
         </section>
@@ -94,14 +125,13 @@ function handleRemove(gameId) {
     }
 }
 
-// Transición de salida al eliminar un favorito 
+// Transición de salida al eliminar un favorito (versión definitiva, sutil)
 .favorite-leave-active {
-    transition: opacity 1s ease, transform 1s ease, background 1s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .favorite-leave-to {
     opacity: 0;
-    transform: scale(0.7) rotate(10deg);
-    background: red;
+    transform: scale(0.9);
 }
 </style>
