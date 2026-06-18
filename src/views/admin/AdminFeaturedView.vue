@@ -17,7 +17,7 @@ const monthlySuggestions = computed(() =>
 )
 
 function selectMonthly(game) {
-  monthlyGame.value = game
+  await featuredStore.selectMonthly(game)
   monthlyQuery.value = game.title
   showMonthlySuggestions.value = false
 }
@@ -39,14 +39,14 @@ const activeSuggestions = computed(() =>
         .slice(0, 6)
 )
 
-function addActive(game) {
+async function addActive(game) {
   await featuredStore.addFeatured(game)
   activeQuery.value = ''
   showActiveSuggestions.value = false
 }
 
-function removeActive(id) {
-  activeGames.value = activeGames.value.filter(g => g.id !== id)
+function removeActive(game) {
+  await featuredStore.removeFeatured(game)
 }
 </script>
 
@@ -83,7 +83,7 @@ function removeActive(id) {
           <div class="admin-featured__active-card">
             <div class="admin-featured__active-thumb"></div>
             <p class="admin-featured__active-title">{{ monthlyGame.title }}</p>
-            <button class="admin-featured__remove" @click="monthlyGame = null; monthlyQuery = ''">QUITAR</button>
+            <button class="admin-featured__remove" @click="featuredStore.selectMonthly(null); monthlyQuery = ''">QUITAR</button>
           </div>
         </div>
       </div>
