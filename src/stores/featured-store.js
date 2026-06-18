@@ -13,12 +13,13 @@ export const useFeaturedStore = defineStore('featured', () => {
         const featuredConfig = await getFeaturedConfig()
         catalog.value = games
         featuredList.value = featuredConfig.featuredGames.map(id => games.find(g => g.id === id))
-        gameOfTheMonth.value = featuredConfig.monthlyGame
+        gameOfTheMonth.value = games.find(g => g.id === featuredConfig.monthlyGame) ?? null
 
 
     }
 
     async function addFeatured(game) {
+        if (featuredList.value.length >= 6) return
         await addFeaturedGame(game.id)
         featuredList.value.push(game)
     }
@@ -29,7 +30,7 @@ export const useFeaturedStore = defineStore('featured', () => {
     }
 
     async function selectMonthly(game) {
-        await setMonthlyGame(game.id)
+        await setMonthlyGame(game?.id ?? null)
         gameOfTheMonth.value = game
     }
 
