@@ -1,11 +1,12 @@
-<!-- Tarjeta de favorito: titulo, notas editables, rating y boton eliminar -->
- <script setup>
+<script setup>
 defineProps({
   favorite: {
     type: Object,
     required: true
   }
 })
+
+defineEmits(['remove'])
 </script>
 
 <template>
@@ -25,6 +26,17 @@ defineProps({
         {{ favorite.customContent }}
       </p>
     </div>
+
+    <footer class="favorite-card__actions">
+      <button
+        class="favorite-card__delete-btn"
+        type="button"
+        :aria-label="`Eliminar ${favorite.customTitle || favorite.title} de favoritos`"
+        @click="$emit('remove', favorite.id)"
+      >
+        🗑️ Eliminar
+      </button>
+    </footer>
   </article>
 </template>
 
@@ -60,6 +72,32 @@ defineProps({
     color: var(--color-text-muted);
     font-size: 0.85rem;
     margin: 0;
+  }
+
+  &__actions {
+    padding: 0 var(--space-4) var(--space-4);
+  }
+
+  &__delete-btn {
+    width: 100%;
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    border: 1px solid var(--color-danger);
+    border-radius: var(--radius-sm);
+    color: var(--color-danger);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background var(--transition);
+
+    &:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-danger);
+      outline-offset: 2px;
+    }
   }
 }
 </style>

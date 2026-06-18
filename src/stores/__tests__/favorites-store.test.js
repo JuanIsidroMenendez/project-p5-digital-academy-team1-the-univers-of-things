@@ -41,7 +41,7 @@ describe('favoritesStore', () => {
     expect(store.favoritesList[0].title).toBe('Test Game')
   })
 
-  // 🔴 RED → 🟢 GREEN: ST08 y ST09
+  // 🔴 RED → 🟢 GREEN
   it('addToFavorites no añade un juego duplicado', async () => {
     const store = useFavoritesStore()
     await store.addToFavorites(mockGame)
@@ -74,5 +74,26 @@ describe('favoritesStore', () => {
     store.loadFavorites(undefined)
 
     expect(store.favoritesList).toHaveLength(0)
+  })
+
+  // 🔴 RED → 🟢 GREEN
+  it('removeFromFavorites elimina el juego correcto del store', async () => {
+    const store = useFavoritesStore()
+    await store.addToFavorites(mockGame)
+    await store.removeFromFavorites(mockGame.id)
+
+    expect(store.favoritesList).toHaveLength(0)
+  })
+
+  it('removeFromFavorites no afecta a otros juegos guardados', async () => {
+    const store = useFavoritesStore()
+    const otherGame = { ...mockGame, id: 2, title: 'Other Game' }
+
+    await store.addToFavorites(mockGame)
+    await store.addToFavorites(otherGame)
+    await store.removeFromFavorites(mockGame.id)
+
+    expect(store.favoritesList).toHaveLength(1)
+    expect(store.favoritesList[0].id).toBe(2)
   })
 })

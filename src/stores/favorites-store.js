@@ -17,12 +17,19 @@ export const useFavoritesStore = defineStore('favorites', () => {
     return favoritesList.value.some((game) => game.id === gameId)
   }
 
-  // Añade un juego a favoritos, comprobando duplicados antes de añadir (SC49)
+// 🔵 REFACTOR: función auxiliar que centraliza la persistencia en Firestore,
+  // evitando repetir "obtener authStore + llamar a updateUserFavorites"
+  // en cada acción que modifica la lista de favoritos
+  async function persistFavorites() {
+    const authStore = useAuthStore()
+    await updateUserFavorites(authStore.user.uid, favoritesList.value)
+  }
+
+  // Añade un juego a favoritos, comprobando duplicados antes de añadir
   async function addToFavorites(game) {
     const exists = isFavorite(game.id)
     if (exists) return
 
-    // Estructura mínima del favorito guardado en Firestore
     const favoriteData = {
       id: game.id,
       title: game.title,
@@ -35,16 +42,20 @@ export const useFavoritesStore = defineStore('favorites', () => {
     }
 
     favoritesList.value.push(favoriteData)
+    await persistFavorites()
+  }
 
-    // Persistir en Firestore vinculado al uid del usuario autenticado
-    const authStore = useAuthStore()
-    await updateUserFavorites(authStore.user.uid, favoritesList.value)
+  // Elimina un juego de favoritos por su id
+  async function removeFromFavorites(gameId) {
+    favoritesList.value = favoritesList.value.filter((game) => game.id !== gameId)
+    await persistFavorites()
   }
 
   return {
     favoritesList,
     loadFavorites,
     isFavorite,
-    addToFavorites
+    addToFavorites,
+    removeFromFavorites
   }
 })

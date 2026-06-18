@@ -7,6 +7,11 @@ import { useFavoritesStore } from '@/stores/favorites-store'
 
 const favoritesStore = useFavoritesStore()
 const hasFavorites = computed(() => favoritesStore.favoritesList.length > 0)
+
+// Maneja la eliminación de un favorito emitida desde FavoriteCard
+function handleRemove(gameId) {
+  favoritesStore.removeFromFavorites(gameId)
+}
 </script>
 
 <template>
@@ -20,16 +25,20 @@ const hasFavorites = computed(() => favoritesStore.favoritesList.length > 0)
                 <p>Todavía no tienes favoritos. ¡Explora el catálogo y guarda los que más te gusten!</p>
             </div>
 
-            <!-- Grid de tarjetas de favoritos -->
-            <ul v-else class="favorites-view__grid">
+            <!--
+              TransitionGroup permite animar la entrada/salida de elementos en una lista.
+              name="favorite" busca clases CSS favorite-leave-active, favorite-leave-to, etc.
+              tag="ul" indica que el contenedor renderizado es un <ul>
+            -->
+            <TransitionGroup v-else name="favorite" tag="ul" class="favorites-view__grid">
                 <li
                     v-for="favorite in favoritesStore.favoritesList"
                     :key="favorite.id"
                     class="favorites-view__item"
                 >
-                    <FavoriteCard :favorite="favorite" />
+                    <FavoriteCard :favorite="favorite" @remove="handleRemove" />
                 </li>
-            </ul>
+            </TransitionGroup>
         </section>
     </DashboardLayout>
 </template>
@@ -83,5 +92,16 @@ const hasFavorites = computed(() => favoritesStore.favoritesList.length > 0)
             grid-template-columns: repeat(3, 1fr);
         }
     }
+}
+
+// Transición de salida al eliminar un favorito 
+.favorite-leave-active {
+    transition: opacity 1s ease, transform 1s ease, background 1s ease;
+}
+
+.favorite-leave-to {
+    opacity: 0;
+    transform: scale(0.7) rotate(10deg);
+    background: red;
 }
 </style>
