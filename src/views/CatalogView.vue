@@ -1,8 +1,6 @@
 <!-- Vista catalogo completo: busqueda, filtros y paginacion -->
 <template>
-
   <MainLayout>
-  
     <section class="catalog-view__hero">
       <h1 class="catalog-view__title">El Catálogo</h1>
       <p class="catalog-view__subtitle">
@@ -29,78 +27,101 @@
       <div v-else-if="error" class="catalog-view__error">
         {{ error }}
       </div>
-      
+
       <div v-else-if="filteredGames.length === 0" class="catalog-view__empty">
         No se han encontrado resultados
       </div>
 
       <div v-else class="catalog-view__grid">
         <ItemCard
-            v-for="(game, index) in filteredGames"
-            :key="game.id ?? index"
-            :game="game"
-            />
+          v-for="(game, index) in paginatedGames"
+          :key="game.id ?? index"
+          :game="game"
+        />
       </div>
-
-      <!-- Aquí irá la paginación -->
+      <AppPagination
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        @page-change="handlePageChange"
+      />
     </section>
-
-   </MainLayout>
+  </MainLayout>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
-import ItemCard from '@/components/items/ItemCard.vue';
-import MainLayout from '@/layouts/MainLayout.vue';
-import { getGames } from '@/services/games-api.js';
-import SearchBar from '@/components/catalog/SearchBar.vue';
-import FilterControls from '@/components/catalog/FilterControls.vue';
-import { filterByText, filterByGenre } from '@/utils/catalog-utils';
+import { ref, onMounted, computed, watch } from "vue";
+import ItemCard from "@/components/items/ItemCard.vue";
+import MainLayout from "@/layouts/MainLayout.vue";
+import AppPagination from "@/components/layout/AppPagination.vue"; // Reutilizamos el mismo componente de la Home
+import { getGames } from "@/services/games-api.js";
 
-const games = ref([])
-const isLoading = ref(false)
-const error = ref(null)
-const searchText = ref('')
-const selectedGenre = ref('')
-const selectedPlatform = ref('')
-const currentPage = ref(1)
+import {
+  filterByText,
+  filterByGenre,
+  paginateGames,
+} from "@/utils/catalog-utils";
+
+const games = ref([]);
+const isLoading = ref(false);
+const error = ref(null);
+const searchText = ref("");
+const selectedGenre = ref("");
+const selectedPlatform = ref("");
+const currentPage = ref(1);
+const gamesPerPage = 10; // Mismo tamaño de página que en la Home, para mantener consistencia
 
 const filteredGames = computed(() => {
-  let result = filterByText(games.value, searchText.value)
-  result = filterByGenre(result, selectedGenre.value)
+  let result = filterByText(games.value, searchText.value);
+  result = filterByGenre(result, selectedGenre.value);
   if (selectedPlatform.value) {
-    result = result.filter(game =>
-      game.platform.toLowerCase().includes(selectedPlatform.value.toLowerCase())
-    )
+    result = result.filter((game) =>
+      game.platform
+        .toLowerCase()
+        .includes(selectedPlatform.value.toLowerCase()),
+    );
   }
-  return result
-})
+  return result;
+});
+
+// Numero total de paginas en funcion de los resultados ya filtrados
+const totalPages = computed(() =>
+  Math.ceil(filteredGames.value.length / gamesPerPage),
+);
+
+// Recorte de la lista filtrada segun la pagina actual
+const paginatedGames = computed(() =>
+  paginateGames(filteredGames.value, currentPage.value, gamesPerPage),
+);
 
 const genres = computed(() => {
-  const allGenres = games.value.map(game => game.genre)
-  return [...new Set(allGenres)].sort()
-})
+  const allGenres = games.value.map((game) => game.genre);
+  return [...new Set(allGenres)].sort();
+});
 
 const platforms = computed(() => {
-  const allPlatforms = games.value.map(game => game.platform)
-  return [...new Set(allPlatforms)].sort()
-})
+  const allPlatforms = games.value.map((game) => game.platform);
+  return [...new Set(allPlatforms)].sort();
+});
 
 watch([searchText, selectedGenre, selectedPlatform], () => {
-  currentPage.value = 1
-})
+  currentPage.value = 1;
+});
+
+// Manejador del evento que emite AppPagination al cambiar de pagina
+function handlePageChange(page) {
+  currentPage.value = page;
+}
 
 onMounted(async () => {
-  isLoading.value = true
+  isLoading.value = true;
   try {
-    games.value = await getGames()
+    games.value = await getGames();
   } catch (e) {
-    error.value = 'Error al cargar los juegos. Inténtalo de nuevo más tarde.'
+    error.value = "Error al cargar los juegos. Inténtalo de nuevo más tarde.";
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-})
+});
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
