@@ -68,10 +68,29 @@ defineProps({
   modelValue: {
     type: String,
     default: ''
+  },
+   genres: {
+    type: Array,
+    default: () => []
+  },
+  platforms: {
+    type: Array,
+    default: () => []
+  },
+  selectedGenre: {
+    type: String,
+    default: ''
+  },
+  selectedPlatform: {
+    type: String,
+    default: ''
   }
 })
 
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue', 
+'update:selectedGenre',
+'update:selectedPlatform'])
+
 </script>
 
 <style scoped>
