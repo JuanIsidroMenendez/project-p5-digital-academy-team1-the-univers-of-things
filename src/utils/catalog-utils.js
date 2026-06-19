@@ -16,6 +16,13 @@ export function filterByGenre(games, genre) {
     )
 }
 
+export function filterByPlatform(games, platform) {
+    if (!platform) return games
+    return games.filter(game =>
+        game.platform.includes(platform)
+    )
+}
+
 export function paginateGames(games, page, perPage) {
     const start = (page - 1) * perPage
     return games.slice(start, start + perPage)
