@@ -53,7 +53,8 @@ import { ref, onMounted, computed, watch } from "vue";
 import ItemCard from "@/components/items/ItemCard.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
 import AppPagination from "@/components/layout/AppPagination.vue"; // Reutilizamos el mismo componente de la Home
-import { getGames } from "@/services/games-api.js";
+//import { getGames } from "@/services/games-api.js"; //Al desactivar este import, el juego ya no se coge de la API.
+import { useGamesStore } from '@/stores/games-store';
 
 import {
   filterByText,
@@ -61,9 +62,11 @@ import {
   paginateGames,
 } from "@/utils/catalog-utils";
 
-const games = ref([]);
-const isLoading = ref(false);
-const error = ref(null);
+//const games = ref([]);
+//const isLoading = ref(false);
+//const error = ref(null);
+
+const gamesStore = useGamesStore()
 const searchText = ref("");
 const selectedGenre = ref("");
 const selectedPlatform = ref("");
@@ -71,7 +74,8 @@ const currentPage = ref(1);
 const gamesPerPage = 10; // Mismo tamaño de página que en la Home, para mantener consistencia
 
 const filteredGames = computed(() => {
-  let result = filterByText(games.value, searchText.value);
+  //let result = filterByText(games.value, searchText.value);
+  let result = filterByText(gamesStore.games, searchText.value)
   result = filterByGenre(result, selectedGenre.value);
   if (selectedPlatform.value) {
     result = result.filter((game) =>
@@ -94,12 +98,14 @@ const paginatedGames = computed(() =>
 );
 
 const genres = computed(() => {
-  const allGenres = games.value.map((game) => game.genre);
+  //const allGenres = games.value.map((game) => game.genre);
+  const allGenres = gamesStore.games.map(game => game.genre)
   return [...new Set(allGenres)].sort();
 });
 
 const platforms = computed(() => {
-  const allPlatforms = games.value.map((game) => game.platform);
+  //const allPlatforms = games.value.map((game) => game.platform);
+  const allPlatforms = gamesStore.games.map(game => game.platform)
   return [...new Set(allPlatforms)].sort();
 });
 
@@ -113,14 +119,15 @@ function handlePageChange(page) {
 }
 
 onMounted(async () => {
-  isLoading.value = true;
-  try {
-    games.value = await getGames();
-  } catch (e) {
-    error.value = "Error al cargar los juegos. Inténtalo de nuevo más tarde.";
-  } finally {
-    isLoading.value = false;
-  }
+  await gamesStore.fetchGames()
+ // isLoading.value = true;
+  //try {
+    //games.value = await getGames();
+  //} catch (e) {
+  //  error.value = "Error al cargar los juegos. Inténtalo de nuevo más tarde.";
+ // } finally {
+    //isLoading.value = false;
+ // }
 });
 </script>
 
