@@ -1,19 +1,17 @@
 <!-- Widget del juego del mes: imagen, titulo, descripcion, tags y badge -->
 <script setup>
-// TODO: recibir prop gameId del store de admin cuando Iuliam implemente la gestion de destacados
-defineProps({
-    gameId: {
-        type: Number,
-        default: null
-    }
-})
+import { computed } from 'vue'
+import { useFeaturedStore } from '@/stores/featured-store'
+
+const featuredStore = useFeaturedStore()
+const game = computed(() => featuredStore.gameOfTheMonth)
 </script>
 
 <template>
-    <RouterLink v-if="gameId" :to="{ name: 'game-detail', params: { id: gameId } }" class="juego-mes"
+    <RouterLink v-if="game" :to="{ name: 'game-detail', params: { id: game.id } }" class="juego-mes"
         aria-label="Ver detalle del juego del mes">
         <div class="juego-mes__thumb">
-            <div class="juego-mes__thumb-bg" aria-hidden="true"></div>
+            <img :src="game.thumbnail" :alt="game.title" class="juego-mes__thumb-bg" style="object-fit: cover;" />
             <span class="juego-mes__badge">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path
@@ -23,14 +21,11 @@ defineProps({
             </span>
         </div>
         <div class="juego-mes__body">
-            <h2 class="juego-mes__title">Neon Odyssey</h2>
-            <p class="juego-mes__desc">
-                Explora un universo cyberpunk masivo.
-                Miles de jugadores, una sola misión.
-            </p>
+            <h2 class="juego-mes__title">{{ game.title }}</h2>
+            <p class="juego-mes__desc">{{ game.short_description }}</p>
             <div class="juego-mes__meta">
-                <span class="badge badge--rpg">RPG</span>
-                <span class="badge badge--platform">PC</span>
+                <span class="badge badge--genre">{{ game.genre }}</span>
+                <span class="badge badge--platform">{{ game.platform }}</span>
             </div>
             <p class="juego-mes__hint">Gestionado por el administrador</p>
         </div>
@@ -48,16 +43,7 @@ defineProps({
             </span>
         </div>
         <div class="juego-mes__body">
-            <h2 class="juego-mes__title">Neon Odyssey</h2>
-            <p class="juego-mes__desc">
-                Explora un universo cyberpunk masivo.
-                Miles de jugadores, una sola misión.
-            </p>
-            <div class="juego-mes__meta">
-                <span class="badge badge--rpg">RPG</span>
-                <span class="badge badge--platform">PC</span>
-            </div>
-            <p class="juego-mes__hint">Gestionado por el administrador</p>
+            <p class="juego-mes__hint">El administrador no ha configurado el juego del mes todavía.</p>
         </div>
     </article>
 </template>
