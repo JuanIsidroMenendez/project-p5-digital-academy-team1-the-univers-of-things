@@ -9,15 +9,25 @@
   box-shadow: 0 0 20px 5px rgba(180, 140, 0, 0.4);
   margin-bottom: 5rem;
   margin-top: 2rem;
-  &__text {
-  }
+  transition: transform 0.3s ease;
+  
+  &:hover{
+    transform: scale(1.08);
+    
 
+  }
+        
   &__image {
     width: 500px;
     object-fit: cover;
   }
 }
-
+a {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 2rem;
+  align-items: center;
+}
 .featured-monthly__tag {
   display: inline-block;
   padding: 0.3rem 0.8rem;
