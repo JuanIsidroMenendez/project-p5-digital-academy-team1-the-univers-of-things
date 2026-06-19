@@ -1,6 +1,10 @@
 <!-- Seccion de destacados en la homepage: bento grid con juegos destacados -->
 <script setup>
-// TODO: recibir datos del store cuando Iuliam implemente la gestion de destacados
+import { computed } from 'vue'
+import { useFeaturedStore } from '@/stores/featured-store'
+
+const featuredStore = useFeaturedStore()
+const featuredList = computed(() => featuredStore.featuredList)
 </script>
 
 <template>
@@ -14,49 +18,53 @@
                 Destacados
             </h2>
 
-            <div class="bento">
-                <article class="bento__card bento__card--big">
-                    <div class="bento__bg bento__bg--purple" aria-hidden="true"></div>
+            <div v-if="featuredList.length > 0" class="bento">
+                <RouterLink v-if="featuredList[0]" :to="{ name: 'game-detail', params: { id: featuredList[0].id } }"
+                    class="bento__card bento__card--big" :aria-label="`Ver detalle de ${featuredList[0].title}`">
+                    <img :src="featuredList[0].thumbnail" :alt="featuredList[0].title" class="bento__bg" />
                     <div class="bento__overlay" aria-hidden="true"></div>
                     <div class="bento__content">
                         <span class="bento__badge">
                             <span class="bento__badge-dot" aria-hidden="true"></span>
                             Destacado
                         </span>
-                        <h3 class="bento__title">Neon Odyssey</h3>
-                        <p class="bento__desc">
-                            Explora un universo cyberpunk masivo.
-                            Miles de jugadores, una sola misión.
-                        </p>
+                        <h3 class="bento__title">{{ featuredList[0].title }}</h3>
+                        <p class="bento__desc">{{ featuredList[0].short_description }}</p>
                     </div>
-                </article>
+                </RouterLink>
 
-                <article class="bento__card bento__card--small">
-                    <div class="bento__bg bento__bg--red" aria-hidden="true"></div>
+                <RouterLink v-if="featuredList[1]" :to="{ name: 'game-detail', params: { id: featuredList[1].id } }"
+                    class="bento__card bento__card--small" :aria-label="`Ver detalle de ${featuredList[1].title}`">
+                    <img :src="featuredList[1].thumbnail" :alt="featuredList[1].title" class="bento__bg" />
                     <div class="bento__overlay" aria-hidden="true"></div>
                     <div class="bento__content bento__content--sm">
                         <span class="bento__badge">
                             <span class="bento__badge-dot" aria-hidden="true"></span>
                             Destacado
                         </span>
-                        <h3 class="bento__title bento__title--sm">Chrome Rebellion</h3>
-                        <p class="bento__desc--sm">Acción táctica en entornos post-apocalípticos.</p>
+                        <h3 class="bento__title bento__title--sm">{{ featuredList[1].title }}</h3>
+                        <p class="bento__desc bento__desc--sm">{{ featuredList[1].short_description }}</p>
                     </div>
-                </article>
+                </RouterLink>
 
-                <article class="bento__card bento__card--small">
-                    <div class="bento__bg bento__bg--green" aria-hidden="true"></div>
+                <RouterLink v-if="featuredList[2]" :to="{ name: 'game-detail', params: { id: featuredList[2].id } }"
+                    class="bento__card bento__card--small" :aria-label="`Ver detalle de ${featuredList[2].title}`">
+                    <img :src="featuredList[2].thumbnail" :alt="featuredList[2].title" class="bento__bg" />
                     <div class="bento__overlay" aria-hidden="true"></div>
                     <div class="bento__content bento__content--sm">
                         <span class="bento__badge">
                             <span class="bento__badge-dot" aria-hidden="true"></span>
                             Destacado
                         </span>
-                        <h3 class="bento__title bento__title--sm">Void Protocol</h3>
-                        <p class="bento__desc--sm">Estrategia en tiempo real, espacio profundo.</p>
+                        <h3 class="bento__title bento__title--sm">{{ featuredList[2].title }}</h3>
+                        <p class="bento__desc bento__desc--sm">{{ featuredList[2].short_description }}</p>
                     </div>
-                </article>
+                </RouterLink>
             </div>
+
+            <p v-else class="destacados-home__empty">
+                El administrador no ha configurado juegos destacados todavía.
+            </p>
 
         </div>
     </section>
