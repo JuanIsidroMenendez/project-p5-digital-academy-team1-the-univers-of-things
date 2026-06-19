@@ -1,13 +1,13 @@
 <!-- Seccion catalogo en homepage: buscador, filtros, grid de juegos y paginacion -->
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { computed, watch, onMounted } from 'vue'
 import AppPagination from '@/components/layout/AppPagination.vue'
-import { getGames } from '@/services/games-api.js'
+import { useGamesStore } from '@/stores/games-store'
 import { filterByText, filterByGenre, filterByPlatform, paginateGames } from '@/utils/catalog-utils.js'
+import { ref } from 'vue'
 
-const games = ref([])
-const isLoading = ref(false)
-const error = ref(null)
+const gamesStore = useGamesStore()
+
 const searchQuery = ref('')
 const selectedGenre = ref('')
 const selectedPlatform = ref('')
@@ -15,26 +15,19 @@ const currentPage = ref(1)
 const gamesPerPage = 10
 
 onMounted(async () => {
-    isLoading.value = true
-    try {
-        games.value = await getGames()
-    } catch (e) {
-        error.value = 'Error al cargar los juegos. Intentalo de nuevo.'
-    } finally {
-        isLoading.value = false
-    }
+    await gamesStore.fetchGames()
 })
 
-const genres = computed(() => [...new Set(games.value.map(g => g.genre))].sort())
+const genres = computed(() => [...new Set(gamesStore.games.map(g => g.genre))].sort())
 
 const platforms = computed(() => {
     const order = ['PC (Windows)', 'Web Browser', 'PC (Windows), Web Browser']
-    const all = [...new Set(games.value.map(g => g.platform))]
+    const all = [...new Set(gamesStore.games.map(g => g.platform))]
     return all.sort((a, b) => order.indexOf(a) - order.indexOf(b))
 })
 
 const filteredGames = computed(() => {
-    const byText = filterByText(games.value, searchQuery.value)
+    const byText = filterByText(gamesStore.games, searchQuery.value)
     const byGenre = filterByGenre(byText, selectedGenre.value)
     return filterByPlatform(byGenre, selectedPlatform.value)
 })
@@ -88,12 +81,12 @@ function handlePageChange(page) {
                 </div>
             </form>
 
-            <div v-if="isLoading" class="catalog-home__loading">
+            <div v-if="gamesStore.isLoading" class="catalog-home__loading">
                 Cargando juegos...
             </div>
 
-            <div v-else-if="error" class="catalog-home__error">
-                {{ error }}
+            <div v-else-if="gamesStore.error" class="catalog-home__error">
+                {{ gamesStore.error }}
             </div>
 
             <template v-else>
