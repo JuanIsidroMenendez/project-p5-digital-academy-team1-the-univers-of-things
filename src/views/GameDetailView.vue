@@ -117,7 +117,7 @@ watch(() => route.params.id, (newId) => {
             <h2 id="description-heading" class="game-detail__section-title">
               Descripción
             </h2>
-            <p class="game-detail__description-text">{{ game.description }}</p>
+            <p class="game-detail__description-text">{{ game.short_description }}</p>
             <AddToFavoritesButton :game="game" />
           </section>
 

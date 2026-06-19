@@ -1,26 +1,30 @@
 <script setup>
 import ItemCard from "@/components/items/ItemCard.vue";
-import { getGames } from '@/services/games-api.js'
-import { ref, onMounted} from 'vue'
+import { computed } from 'vue'
+import { useFeaturedStore } from '@/stores/featured-store.js'
 
-const games = ref([]);
+const featuredStore = useFeaturedStore()
 
-onMounted(async () => {
-    try {
-        games.value = (await getGames()).slice(0, 6)
-    } catch (e) {
-        console.error(e)
-    }
-})
+const featuredList = computed(() => featuredStore.featuredList)
+
+
 </script>
 
 <template>
   <div class="featured-grid">
     <ItemCard
-      v-for="game in games"
+      v-for="game in featuredList"
       :key="game.id"
       :game="game"
       :featured="game.featured"
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+
+.featured-grid{
+  margin-top: 5rem;
+}
+
+</style>

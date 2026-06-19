@@ -28,6 +28,14 @@ onMounted(async () => {
     }
 })
 
+const genres = computed(() => [...new Set(games.value.map(g => g.genre))].sort())
+
+const platforms = computed(() => {
+    const order = ['PC (Windows)', 'Web Browser', 'PC (Windows), Web Browser']
+    const all = [...new Set(games.value.map(g => g.platform))]
+    return all.sort((a, b) => order.indexOf(a) - order.indexOf(b))
+})
+
 const filteredGames = computed(() => {
     //const byText = filterByText(games.value, searchQuery.value)
     const byText = filterByText(gamesStore.games, searchQuery.value)
@@ -35,7 +43,6 @@ const filteredGames = computed(() => {
 })
 
 const totalPages = computed(() => Math.ceil(filteredGames.value.length / gamesPerPage))
-
 const paginatedGames = computed(() => paginateGames(filteredGames.value, currentPage.value, gamesPerPage))
 
 watch([searchQuery, selectedGenre, selectedPlatform], () => {
@@ -53,7 +60,7 @@ function handlePageChange(page) {
 
             <h2 id="catalogo-title" class="section-label">El catálogo</h2>
 
-            <form class="catalog-filters" role="search" aria-label="Busqueda y filtros del catalogo">
+            <form class="catalog-filters" role="search" aria-label="Busqueda y filtros del catalogo" @submit.prevent>
                 <div class="catalog-filters__search">
                     <svg class="catalog-filters__search-icon" width="16" height="16" viewBox="0 0 24 24"
                         fill="currentColor" aria-hidden="true">
@@ -69,17 +76,17 @@ function handlePageChange(page) {
                     <label for="genre-filter" class="visually-hidden">Filtrar por género</label>
                     <select id="genre-filter" v-model="selectedGenre" class="catalog-filters__select">
                         <option value="">Género: Todos</option>
-                        <option value="action">Acción</option>
-                        <option value="rpg">RPG</option>
-                        <option value="strategy">Estrategia</option>
-                        <option value="shooter">Shooter</option>
+                        <option v-for="genre in genres" :key="genre" :value="genre">
+                            {{ genre }}
+                        </option>
                     </select>
 
                     <label for="platform-filter" class="visually-hidden">Filtrar por plataforma</label>
                     <select id="platform-filter" v-model="selectedPlatform" class="catalog-filters__select">
                         <option value="">Plataforma: Todas</option>
-                        <option value="pc">PC</option>
-                        <option value="browser">Navegador</option>
+                        <option v-for="platform in platforms" :key="platform" :value="platform">
+                            {{ platform }}
+                        </option>
                     </select>
                 </div>
             </form>
@@ -95,7 +102,8 @@ function handlePageChange(page) {
             <template v-else>
                 <ul v-if="paginatedGames.length > 0" class="catalog-home__grid">
                     <li v-for="(game, index) in paginatedGames" :key="game.id ?? index">
-                        <article class="card" aria-label="{{ game.title }}">
+                        <RouterLink :to="{ name: 'game-detail', params: { id: game.id } }" class="card"
+                            :aria-label="`Ver detalle de ${game.title}`">
                             <div class="card__thumb">
                                 <img :src="game.thumbnail" :alt="game.title" class="card__thumb-bg" />
                             </div>
@@ -109,7 +117,7 @@ function handlePageChange(page) {
                                     <span class="badge badge--action">{{ game.genre }}</span>
                                 </div>
                             </div>
-                        </article>
+                        </RouterLink>
                     </li>
                 </ul>
 

@@ -1,4 +1,4 @@
-@use '@/assets/styles/base/variables' as *;
+@use "@/assets/styles/base/variables" as *;
 
 .featured-hero {
   display: flex;
@@ -20,27 +20,34 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 1.5rem;
-  
+  background-size: 250%;
+  animation: fps-shimmer 5s ease infinite;
 }
 
 .page-subtitle {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--color-text-muted);
   max-width: 600px;
   text-align: center;
   line-height: 1.6;
-  
 }
 
 .hero-tag {
-  display: inline-block;
-  padding: 0.4rem 1rem;
-  border: 1px solid var(--color-secondary);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--color-secondary);
+  background: var(--color-secondary-dim);
+  border: 1px solid var(--color-border-cyan);
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
   margin-bottom: 1.5rem;
-  background: rgba(34, 211, 238, 0.08);
+
+  @media (min-width: $bp-tablet) {
+    margin-bottom: 2.2rem;
+  }
 }

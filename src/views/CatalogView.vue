@@ -9,16 +9,15 @@
     </section>
 
     <section class="catalog-view__content">
-
       <SearchBar
-       v-model="searchText"
-       :genres="genres"
-       :platforms="platforms"
-       :selected-genre="selectedGenre"
-       :selected-platform="selectedPlatform"
-       @update:selectedGenre="selectedGenre = $event"
-       @update:selectedPlatform="selectedPlatform = $event"
-       />
+        v-model="searchText"
+        :genres="genres"
+        :platforms="platforms"
+        :selected-genre="selectedGenre"
+        :selected-platform="selectedPlatform"
+        @update:selectedGenre="selectedGenre = $event"
+        @update:selectedPlatform="selectedPlatform = $event"
+      />
 
       <div v-if="gamesStore.isLoading" class="catalog-view__loading">
        Cargando juegos...
