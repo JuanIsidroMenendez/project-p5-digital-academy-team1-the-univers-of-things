@@ -49,7 +49,7 @@ function handlePageChange(page) {
 
             <h2 id="catalogo-title" class="section-label">El catálogo</h2>
 
-            <form class="catalog-filters" role="search" aria-label="Busqueda y filtros del catalogo">
+            <form class="catalog-filters" role="search" aria-label="Busqueda y filtros del catalogo" @submit.prevent>
                 <div class="catalog-filters__search">
                     <svg class="catalog-filters__search-icon" width="16" height="16" viewBox="0 0 24 24"
                         fill="currentColor" aria-hidden="true">
