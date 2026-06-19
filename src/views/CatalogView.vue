@@ -20,13 +20,13 @@
        @update:selectedPlatform="selectedPlatform = $event"
        />
 
-      <div v-if="isLoading" class="catalog-view__loading">
-        Cargando juegos...
-      </div>
+      <div v-if="gamesStore.isLoading" class="catalog-view__loading">
+       Cargando juegos...
+       </div>
 
-      <div v-else-if="error" class="catalog-view__error">
-        {{ error }}
-      </div>
+      <div v-else-if="gamesStore.error" class="catalog-view__error">
+      {{ gamesStore.error }}
+       </div>
 
       <div v-else-if="filteredGames.length === 0" class="catalog-view__empty">
         No se han encontrado resultados
@@ -52,6 +52,7 @@
 import { ref, onMounted, computed, watch } from "vue";
 import ItemCard from "@/components/items/ItemCard.vue";
 import MainLayout from "@/layouts/MainLayout.vue";
+import SearchBar from '@/components/catalog/SearchBar.vue'
 import AppPagination from "@/components/layout/AppPagination.vue"; // Reutilizamos el mismo componente de la Home
 //import { getGames } from "@/services/games-api.js"; //Al desactivar este import, el juego ya no se coge de la API.
 import { useGamesStore } from '@/stores/games-store';
