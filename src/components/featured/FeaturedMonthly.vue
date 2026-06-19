@@ -13,12 +13,16 @@ const gameMonth = computed(() => featuredStore.gameOfTheMonth)
 
 
 <template>
-  <div class="featured-monthly" v-if="gameMonth">
+  <RouterLink :to="{ name: 'game-detail', params: { id: gameMonth.id } }" v-if="gameMonth">
+
+  <div class="featured-monthly" ">
     <div class="featured-monthly__text">
     <span class="featured-monthly__tag">• DESTACADO DEL MES</span>
     <h1 class="featured-monthly__title">{{ gameMonth.title }}</h1>
     <p class="featured-monthly__descripcion">{{ gameMonth.short_description }}</p>
+    
   </div>
     <img :src="gameMonth.thumbnail" class="featured-monthly__image"/>
   </div>
+  </RouterLink>
 </template>
