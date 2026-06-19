@@ -52,6 +52,7 @@ const game = computed(() => featuredStore.gameOfTheMonth)
 @use '@/assets/styles/base/variables' as *;
 
 .juego-mes {
+    display: block;
     background: var(--color-surface-high);
     border: 1px solid var(--color-border-purple);
     border-radius: 20px;
@@ -79,6 +80,7 @@ const game = computed(() => featuredStore.gameOfTheMonth)
     &__thumb-bg {
         width: 100%;
         height: 100%;
+        object-fit: cover;
         background: linear-gradient(145deg, #0c0020, #1e0060, #000c30);
         transition: transform 0.45s ease;
     }
@@ -137,10 +139,10 @@ const game = computed(() => featuredStore.gameOfTheMonth)
         font-size: 9px;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--color-text-dim);
+        color: var(--color-primary);
         text-align: center;
         padding-top: 10px;
-        border-top: 1px solid var(--color-border);
+        border-top: 1px solid var(--color-border-purple);
     }
 }
 </style>

@@ -43,7 +43,7 @@ const featuredList = computed(() => featuredStore.featuredList)
                             Destacado
                         </span>
                         <h3 class="bento__title bento__title--sm">{{ featuredList[1].title }}</h3>
-                        <p class="bento__desc--sm">{{ featuredList[1].short_description }}</p>
+                        <p class="bento__desc bento__desc--sm">{{ featuredList[1].short_description }}</p>
                     </div>
                 </RouterLink>
 
@@ -57,7 +57,7 @@ const featuredList = computed(() => featuredStore.featuredList)
                             Destacado
                         </span>
                         <h3 class="bento__title bento__title--sm">{{ featuredList[2].title }}</h3>
-                        <p class="bento__desc--sm">{{ featuredList[2].short_description }}</p>
+                        <p class="bento__desc bento__desc--sm">{{ featuredList[2].short_description }}</p>
                     </div>
                 </RouterLink>
             </div>
