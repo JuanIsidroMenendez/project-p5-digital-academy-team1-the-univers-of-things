@@ -96,4 +96,34 @@ describe('favoritesStore', () => {
     expect(store.favoritesList).toHaveLength(1)
     expect(store.favoritesList[0].id).toBe(2)
   })
+
+  // 🔴 RED → 🟢 GREEN
+  it('updateFavorite actualiza el título y contenido del juego correcto', async () => {
+    const store = useFavoritesStore()
+    await store.addToFavorites(mockGame)
+
+    await store.updateFavorite(mockGame.id, {
+      customTitle: 'Nuevo título',
+      customContent: 'Mis notas personales'
+    })
+
+    const updated = store.favoritesList.find((game) => game.id === mockGame.id)
+    expect(updated.customTitle).toBe('Nuevo título')
+    expect(updated.customContent).toBe('Mis notas personales')
+  })
+
+  it('updateFavorite no afecta a otros favoritos guardados', async () => {
+    const store = useFavoritesStore()
+    const otherGame = { ...mockGame, id: 2, title: 'Other Game' }
+
+    await store.addToFavorites(mockGame)
+    await store.addToFavorites(otherGame)
+    await store.updateFavorite(mockGame.id, {
+      customTitle: 'Nuevo título',
+      customContent: 'Notas'
+    })
+
+    const unchanged = store.favoritesList.find((game) => game.id === 2)
+    expect(unchanged.customTitle).toBe('')
+  })
 })

@@ -6,7 +6,7 @@ defineProps({
   }
 })
 
-defineEmits(['remove'])
+defineEmits(['remove', 'edit'])
 </script>
 
 <template>
@@ -28,6 +28,14 @@ defineEmits(['remove'])
     </div>
 
     <footer class="favorite-card__actions">
+      <button
+        class="favorite-card__edit-btn"
+        type="button"
+        :aria-label="`Editar ${favorite.customTitle || favorite.title}`"
+        @click="$emit('edit', favorite)"
+      >
+        ✏️ Editar
+      </button>
       <button
         class="favorite-card__delete-btn"
         type="button"
@@ -75,28 +83,44 @@ defineEmits(['remove'])
   }
 
   &__actions {
+    display: flex;
+    gap: var(--space-2);
     padding: 0 var(--space-4) var(--space-4);
   }
 
+  &__edit-btn,
   &__delete-btn {
-    width: 100%;
+    flex: 1;
     padding: var(--space-2) var(--space-4);
-    background: transparent;
-    border: 1px solid var(--color-danger);
     border-radius: var(--radius-sm);
-    color: var(--color-danger);
     cursor: pointer;
     font-size: 0.85rem;
     font-weight: 600;
     transition: background var(--transition);
 
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &__edit-btn {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+
+    &:hover {
+      background: var(--color-primary-dim);
+    }
+  }
+
+  &__delete-btn {
+    background: transparent;
+    border: 1px solid var(--color-danger);
+    color: var(--color-danger);
+
     &:hover {
       background: rgba(239, 68, 68, 0.1);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--color-danger);
-      outline-offset: 2px;
     }
   }
 }
