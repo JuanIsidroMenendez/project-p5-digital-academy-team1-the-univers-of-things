@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import { useAuthStore } from '@/stores/auth.js'
 import { uploadAvatarToStorage } from '@/api/user.service.js'
+import { passwordsMatch, isValidPassword } from '@/utils/form-validators'
 
 import avatar1 from '@/assets/avatars/avatar-1.svg'
 import avatar2 from '@/assets/avatars/avatar-2.svg'
@@ -113,12 +114,13 @@ async function handleChangePassword() {
     passwordError.value = ''
     passwordFeedback.value = ''
 
-    if (newPassword.value !== confirmPassword.value) {
+    if (!passwordsMatch(newPassword.value, confirmPassword.value)) {
         passwordError.value = 'Las contraseñas no coinciden'
         return
     }
-    if (newPassword.value.length < 6) {
-        passwordError.value = 'La contraseña debe tener al menos 6 caracteres'
+
+    if (!isValidPassword(newPassword.value)) {
+        passwordError.value = 'La contraseña debe tener al menos 8 caracteres y un número'
         return
     }
 
