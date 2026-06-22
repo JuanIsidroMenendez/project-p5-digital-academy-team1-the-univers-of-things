@@ -71,7 +71,7 @@ const searchText = ref("");
 const selectedGenre = ref("");
 const selectedPlatform = ref("");
 const currentPage = ref(1);
-const gamesPerPage = 10; // Mismo tamaño de página que en la Home, para mantener consistencia
+const gamesPerPage = 30; 
 
 const filteredGames = computed(() => {
   //let result = filterByText(games.value, searchText.value);
