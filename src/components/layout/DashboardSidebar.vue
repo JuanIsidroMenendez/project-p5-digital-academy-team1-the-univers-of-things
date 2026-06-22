@@ -2,6 +2,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
 import { useRouter } from 'vue-router'
+import avatar1 from '@/assets/avatars/avatar-1.svg'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -16,9 +17,8 @@ async function handleLogout() {
     <aside class="dashboard-sidebar" aria-label="Navegacion del dashboard de usuario">
 
         <div class="dashboard-sidebar__profile">
-            <div class="dashboard-sidebar__avatar" aria-hidden="true">
-                {{ auth.profile?.avatar || '🎮' }}
-            </div>
+            <img :src="auth.profile?.profileImg || avatar1" :alt="`Avatar de ${auth.profile?.username}`"
+                class="dashboard-sidebar__avatar" />
             <p class="dashboard-sidebar__username">
                 {{ auth.profile?.username || auth.user?.email }}
             </p>
@@ -87,11 +87,8 @@ async function handleLogout() {
         height: 56px;
         border-radius: 50%;
         margin: 0 auto 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        background: linear-gradient(135deg, #7c3aed, #22d3ee);
+        display: block;
+        object-fit: cover;
         border: 2px solid var(--color-border-purple);
     }
 
