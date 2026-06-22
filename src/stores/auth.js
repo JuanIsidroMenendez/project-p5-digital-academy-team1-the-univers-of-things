@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'  //Nieves: añado computed, que hace falta para const isAdmin e isUser.
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth'
 import { auth } from '@/api/firebase'
 import { logoutUser } from '@/services/auth-service'
 import { createUserProfile, getUserProfile } from '@/api/user.service'
@@ -15,10 +15,11 @@ export const useAuthStore = defineStore('auth', () => {
     const role = ref(null)
     const isAdmin = computed(() => role.value === 'admin')
     const isCustomer = computed(() => role.value === 'customer')
+
     onAuthStateChanged(auth, async (firebaseUser) => {
         user.value = firebaseUser
         if (firebaseUser) {
-            profile.value = await getUserProfile(firebaseUser.uid)  
+            profile.value = await getUserProfile(firebaseUser.uid)
             role.value = profile.value?.role
             // NIEVES: cargamos los favoritos del usuario en el store de favoritos
             const favoritesStore = useFavoritesStore()
@@ -28,27 +29,45 @@ export const useAuthStore = defineStore('auth', () => {
         }
         loading.value = false
     })
+
     async function register(email, password, username) {
         const result = await createUserWithEmailAndPassword(auth, email, password)
         await createUserProfile(result.user.uid, email, username)
     }
+
     async function login(email, password) {
         await signInWithEmailAndPassword(auth, email, password)
     }
+
     function clearUser() {
         user.value = null
         isAuthenticated.value = false
         role.value = null
     }
+
     async function logout() {
         await logoutUser()
         clearUser()
     }
+
     function setUser(userData) {
         user.value = userData
         isAuthenticated.value = true
         role.value = userData.role
     }
+
+    async function updateAvatar(avatarUrl) {
+        const { updateUserAvatar } = await import('@/api/user.service')
+        await updateUserAvatar(user.value.uid, avatarUrl)
+        profile.value = { ...profile.value, profileImg: avatarUrl }
+    }
+
+    async function changePassword(currentPassword, newPassword) {
+        const credential = EmailAuthProvider.credential(user.value.email, currentPassword)
+        await reauthenticateWithCredential(user.value, credential)
+        await updatePassword(user.value, newPassword)
+    }
+
     return {
         user,
         profile,
@@ -61,6 +80,8 @@ export const useAuthStore = defineStore('auth', () => {
         login,
         setUser,
         clearUser,
-        logout
+        logout,
+        updateAvatar,
+        changePassword
     }
 })
