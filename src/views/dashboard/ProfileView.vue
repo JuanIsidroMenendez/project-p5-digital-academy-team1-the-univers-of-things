@@ -1,8 +1,8 @@
-<!-- Vista perfil de usuario: cambio de avatar y contraseña -->
 <script setup>
 import { ref } from 'vue'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import { useAuthStore } from '@/stores/auth.js'
+import { uploadAvatarToStorage } from '@/api/user.service.js'
 
 import avatar1 from '@/assets/avatars/avatar-1.svg'
 import avatar2 from '@/assets/avatars/avatar-2.svg'
@@ -46,14 +46,27 @@ async function handleSelectAvatar(avatar) {
     }
 }
 
-function handleFileUpload(event) {
+async function handleFileUpload(event) {
     const file = event.target.files[0]
     if (!file) return
+
     if (!file.type.startsWith('image/')) {
         avatarFeedback.value = 'Solo se permiten imágenes (JPG, PNG)'
         return
     }
-    avatarFeedback.value = 'Subida a Firebase Storage próximamente'
+
+    avatarFeedback.value = 'Subiendo imagen...'
+
+    try {
+        const uid = auth.user.uid
+        const downloadURL = await uploadAvatarToStorage(uid, file)
+        await auth.updateAvatar(downloadURL)
+
+        avatarFeedback.value = '✓ Avatar actualizado'
+        setTimeout(() => { avatarFeedback.value = '' }, 2500)
+    } catch {
+        avatarFeedback.value = 'Error al subir la imagen'
+    }
 }
 
 async function handleChangePassword() {
