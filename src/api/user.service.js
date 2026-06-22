@@ -35,7 +35,7 @@ export async function updateUserAvatar(uid, avatarUrl) {
 
 export async function updateUserBg(uid, bg) {
     const userRef = doc(db, 'users', uid)
-    await updateDoc(userRef, { profileBg: bg })
+    await setDoc(userRef, { profileBg: bg }, { merge: true })
 }
 
 export async function uploadAvatarToStorage(uid, file) {

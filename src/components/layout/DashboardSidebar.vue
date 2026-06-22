@@ -105,13 +105,18 @@ async function handleLogout() {
         justify-content: center;
         border: 2px solid var(--color-border-purple);
         overflow: hidden;
+        position: relative;
+        background-size: cover;
+        background-position: center;
     }
 
     &__avatar {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         display: block;
+        border-radius: 50%;
+        background: transparent !important;
     }
 
     &__username {
