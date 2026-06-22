@@ -62,6 +62,12 @@ export const useAuthStore = defineStore('auth', () => {
         profile.value = { ...profile.value, profileImg: avatarUrl }
     }
 
+    async function updateBg(bg) {
+        const { updateUserBg } = await import('@/api/user.service')
+        await updateUserBg(user.value.uid, bg)
+        profile.value = { ...profile.value, profileBg: bg }
+    }
+
     async function changePassword(currentPassword, newPassword) {
         const credential = EmailAuthProvider.credential(user.value.email, currentPassword)
         await reauthenticateWithCredential(user.value, credential)
@@ -82,6 +88,7 @@ export const useAuthStore = defineStore('auth', () => {
         clearUser,
         logout,
         updateAvatar,
+        updateBg,
         changePassword
     }
 })
