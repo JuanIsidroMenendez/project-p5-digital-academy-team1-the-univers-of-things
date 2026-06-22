@@ -4,7 +4,15 @@ import { db, storage } from './firebase.js'
 
 export async function createUserProfile(uid, email, username) {
     const userRef = doc(db, 'users', uid)
-    const userData = { uid, email, username, role: 'customer', fav: [], profileImg: 'default.png' }
+    const userData = {
+        uid,
+        email,
+        username,
+        role: 'customer',
+        fav: [],
+        profileImg: null,
+        profileBg: 'linear-gradient(135deg, #7c3aed, #22d3ee)'
+    }
     await setDoc(userRef, userData)
 }
 
@@ -23,6 +31,11 @@ export async function updateUserFavorites(uid, favorites) {
 export async function updateUserAvatar(uid, avatarUrl) {
     const userRef = doc(db, 'users', uid)
     await updateDoc(userRef, { profileImg: avatarUrl })
+}
+
+export async function updateUserBg(uid, bg) {
+    const userRef = doc(db, 'users', uid)
+    await updateDoc(userRef, { profileBg: bg })
 }
 
 export async function uploadAvatarToStorage(uid, file) {
