@@ -18,7 +18,13 @@ const favorites = [
       <div class="admin-favorites__table-wrapper">
         <div class="admin-favorites__toolbar">
           <span class="section-label">Todos los favoritos</span>
-          <input type="search" placeholder="Buscar por usuario o juego..." class="admin-favorites__search" />
+          
+          <label for="favorites-search" class="visually-hidden">Buscar por usuario o juego</label>
+          <input
+           id="favorites-search"
+           type="search" 
+           placeholder="Buscar por usuario o juego..." 
+           class="admin-favorites__search" />
         </div>
 
         <table class="admin-favorites__table">
