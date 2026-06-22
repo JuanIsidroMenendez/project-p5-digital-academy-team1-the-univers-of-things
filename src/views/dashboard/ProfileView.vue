@@ -40,7 +40,11 @@ const backgrounds = [
 
 const selectedAvatar = ref(null)
 const selectedBg = ref(null)
+const previewImg = ref(auth.profile?.profileImg || null)
+const previewBg = ref(auth.profile?.profileBg || 'linear-gradient(135deg, #7c3aed, #22d3ee)')
+
 const avatarFeedback = ref('')
+const bgFeedback = ref('')
 
 const currentPassword = ref('')
 const newPassword = ref('')
@@ -48,25 +52,37 @@ const confirmPassword = ref('')
 const passwordFeedback = ref('')
 const passwordError = ref('')
 
-async function handleSelectAvatar(avatar) {
+function handleClickAvatar(avatar) {
     selectedAvatar.value = avatar.id
+    previewImg.value = avatar.src
+}
+
+function handleClickBg(bg) {
+    selectedBg.value = bg.id
+    previewBg.value = bg.value
+}
+
+async function handleSaveAvatar() {
+    if (!selectedAvatar.value) return
+    const avatar = avatars.find(a => a.id === selectedAvatar.value)
     try {
         await auth.updateAvatar(avatar.src)
-        avatarFeedback.value = '✓ Avatar actualizado'
+        avatarFeedback.value = '✓ Avatar guardado'
         setTimeout(() => { avatarFeedback.value = '' }, 2500)
     } catch {
-        avatarFeedback.value = 'Error al actualizar el avatar'
+        avatarFeedback.value = 'Error al guardar el avatar'
     }
 }
 
-async function handleSelectBg(bg) {
-    selectedBg.value = bg.id
+async function handleSaveBg() {
+    if (!selectedBg.value) return
+    const bg = backgrounds.find(b => b.id === selectedBg.value)
     try {
         await auth.updateBg(bg.value)
-        avatarFeedback.value = '✓ Fondo actualizado'
-        setTimeout(() => { avatarFeedback.value = '' }, 2500)
+        bgFeedback.value = '✓ Fondo guardado'
+        setTimeout(() => { bgFeedback.value = '' }, 2500)
     } catch {
-        avatarFeedback.value = 'Error al actualizar el fondo'
+        bgFeedback.value = 'Error al guardar el fondo'
     }
 }
 
@@ -85,7 +101,8 @@ async function handleFileUpload(event) {
         const uid = auth.user.uid
         const downloadURL = await uploadAvatarToStorage(uid, file)
         await auth.updateAvatar(downloadURL)
-        avatarFeedback.value = '✓ Avatar actualizado'
+        previewImg.value = downloadURL
+        avatarFeedback.value = '✓ Avatar guardado'
         setTimeout(() => { avatarFeedback.value = '' }, 2500)
     } catch {
         avatarFeedback.value = 'Error al subir la imagen'
@@ -128,11 +145,11 @@ async function handleChangePassword() {
                 <!-- Columna izquierda: avatar -->
                 <div class="profile-view__card">
 
+                    <!-- Preview del avatar actual -->
                     <div class="profile-view__avatar-wrap">
-                        <div class="profile-view__avatar-bg"
-                            :style="{ background: auth.profile?.profileBg || 'linear-gradient(135deg, #7c3aed, #22d3ee)' }">
-                            <img v-if="auth.profile?.profileImg" :src="auth.profile.profileImg"
-                                :alt="`Avatar de ${auth.profile?.username}`" class="profile-view__avatar" />
+                        <div class="profile-view__avatar-bg" :style="{ background: previewBg }">
+                            <img v-if="previewImg" :src="previewImg" :alt="`Avatar de ${auth.profile?.username}`"
+                                class="profile-view__avatar" />
                         </div>
                         <p class="profile-view__name">{{ auth.profile?.username }}</p>
                         <p class="profile-view__email">{{ auth.user?.email }}</p>
@@ -147,11 +164,18 @@ async function handleChangePassword() {
                                     :class="{ 'profile-view__avatar-option--selected': selectedAvatar === avatar.id }"
                                     :aria-label="`Seleccionar ${avatar.alt}`"
                                     :aria-pressed="selectedAvatar === avatar.id" type="button"
-                                    @click="handleSelectAvatar(avatar)">
+                                    @click="handleClickAvatar(avatar)">
                                     <img :src="avatar.src" :alt="avatar.alt" width="40" height="40" />
                                 </button>
                             </li>
                         </ul>
+                        <button class="profile-view__save-btn" :disabled="!selectedAvatar" type="button"
+                            @click="handleSaveAvatar">
+                            Guardar avatar
+                        </button>
+                        <p v-if="avatarFeedback" class="profile-view__feedback" role="status" aria-live="polite">
+                            {{ avatarFeedback }}
+                        </p>
                     </div>
 
                     <!-- Picker de fondos -->
@@ -162,9 +186,16 @@ async function handleChangePassword() {
                                 <button class="profile-view__bg-option"
                                     :class="{ 'profile-view__bg-option--selected': selectedBg === bg.id }"
                                     :style="{ background: bg.value }" :aria-label="`Seleccionar fondo ${bg.id}`"
-                                    :aria-pressed="selectedBg === bg.id" type="button" @click="handleSelectBg(bg)" />
+                                    :aria-pressed="selectedBg === bg.id" type="button" @click="handleClickBg(bg)" />
                             </li>
                         </ul>
+                        <button class="profile-view__save-btn" :disabled="!selectedBg" type="button"
+                            @click="handleSaveBg">
+                            Guardar fondo
+                        </button>
+                        <p v-if="bgFeedback" class="profile-view__feedback" role="status" aria-live="polite">
+                            {{ bgFeedback }}
+                        </p>
                     </div>
 
                     <div class="profile-view__divider" aria-hidden="true">
@@ -177,9 +208,6 @@ async function handleChangePassword() {
                     <input ref="fileInput" type="file" accept="image/*" class="profile-view__file-input"
                         aria-label="Subir imagen de avatar" @change="handleFileUpload" />
 
-                    <p v-if="avatarFeedback" class="profile-view__feedback" role="status" aria-live="polite">
-                        {{ avatarFeedback }}
-                    </p>
                 </div>
 
                 <!-- Columna derecha: cambio de contraseña -->
@@ -291,7 +319,6 @@ async function handleChangePassword() {
         margin-bottom: 1.5rem;
     }
 
-    // Círculo con el fondo de color
     &__avatar-bg {
         width: 90px;
         height: 90px;
@@ -302,14 +329,14 @@ async function handleChangePassword() {
         justify-content: center;
         margin-bottom: 0.4rem;
         overflow: hidden;
+        flex-shrink: 0;
     }
 
-    // Imagen encima del fondo (solo si existe)
     &__avatar {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: var(--radius-full);
+        display: block;
     }
 
     &__name {
@@ -357,7 +384,7 @@ async function handleChangePassword() {
         grid-template-columns: repeat(4, 1fr);
         gap: 0.625rem;
         list-style: none;
-        margin: 0 0 0.5rem;
+        margin: 0 0 0.75rem;
         padding: 0;
     }
 
@@ -393,7 +420,6 @@ async function handleChangePassword() {
         }
     }
 
-    // Botones del picker de fondos
     &__bg-option {
         width: 100%;
         aspect-ratio: 1 / 1;
@@ -410,6 +436,31 @@ async function handleChangePassword() {
         &--selected {
             border-color: var(--color-primary);
             box-shadow: 0 0 0 3px var(--color-primary-dim);
+        }
+    }
+
+    &__save-btn {
+        width: 100%;
+        font-family: $font-mono;
+        font-size: 0.6875rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        border: 1px solid var(--color-border-purple);
+        background: var(--color-primary-dim);
+        padding: 0.6rem 1rem;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: background var(--transition), opacity var(--transition);
+        margin-top: 0.25rem;
+
+        &:hover:not(:disabled) {
+            background: rgba(168, 85, 247, 0.2);
+        }
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
     }
 
@@ -463,7 +514,7 @@ async function handleChangePassword() {
         font-family: $font-mono;
         font-size: 0.6875rem;
         color: var(--color-success);
-        margin-top: 0.75rem;
+        margin-top: 0.5rem;
         text-align: center;
         letter-spacing: 0.04em;
     }
