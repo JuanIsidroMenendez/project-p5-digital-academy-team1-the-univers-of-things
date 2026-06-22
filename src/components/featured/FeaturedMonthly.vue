@@ -22,7 +22,7 @@ const gameMonth = computed(() => featuredStore.gameOfTheMonth)
     <h1 class="featured-monthly__title">{{ gameMonth.title }}</h1>
     <p class="featured-monthly__descripcion">{{ gameMonth.short_description }}</p>
   </div>
-    <img :src="gameMonth.thumbnail" class="featured-monthly__image"/>
+    <img :src="gameMonth.thumbnail" :alt="gameMonth.title" class="featured-monthly__image"/>
     </RouterLink>
   </div>
   
