@@ -30,7 +30,8 @@
                     </svg>
                 </a>
 
-                <a href="#" class="footer__social-link" aria-label="Unete a nuestro Discord" rel="noopener noreferrer">
+                <a href="https://discord.com/" 
+                target="_blank" class="footer__social-link" aria-label="Unete a nuestro Discord" rel="noopener noreferrer">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
                         focusable="false">
                         <path
