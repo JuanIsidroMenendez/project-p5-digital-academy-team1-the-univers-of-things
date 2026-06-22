@@ -12,8 +12,7 @@
             </small>
 
             <nav class="footer__social" aria-label="Redes sociales">
-
-                <a href="#" class="footer__social-link" aria-label="Siguenos en Facebook" rel="noopener noreferrer">
+                <a href="https://www.facebook.com/factoriaf5" target="_blank" class="footer__social-link" aria-label="Siguenos en Facebook" rel="noopener noreferrer">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
                         focusable="false">
                         <path
