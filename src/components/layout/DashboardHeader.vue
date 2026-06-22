@@ -23,6 +23,18 @@ async function handleLogout() {
                 <span class="dashboard-header__logo-section">{{ auth.isAdmin ? 'Dashboard Admin' : 'Dashboard' }}</span>
             </RouterLink>
 
+            <ul class="dashboard-header__links" role="list">
+                <li>
+                    <RouterLink to="/" class="dashboard-header__link">Inicio</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/catalog" class="dashboard-header__link">Catálogo</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/featured" class="dashboard-header__link">Destacados</RouterLink>
+                </li>
+            </ul>
+
             <div class="dashboard-header__user">
                 <span class="dashboard-header__username">{{ auth.profile?.username || auth.user?.email }}</span>
                 <span class="dashboard-header__badge"
