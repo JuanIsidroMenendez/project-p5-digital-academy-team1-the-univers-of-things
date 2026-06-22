@@ -27,7 +27,7 @@ async function fetchGame(id) {
   game.value = null
 
   try {
-    await gamesStore.fetchGames() // Juan
+    await gamesStore.fetchGames() 
     const found = gamesStore.getGameById(id)
     if (!found) throw new Error('Juego no encontrado')
     game.value = found
@@ -49,7 +49,7 @@ watch(() => route.params.id, (newId) => {
 
 <template>
   <MainLayout>
-  <main class="game-detail">
+  <div class="game-detail"> <!-- Auditoría estructural: Se cambia el main class por div class, dado que es incorrecto el uso de main dentro de un mainlayout -->
 
     <!-- Estado de carga -->
     <div v-if="isLoading" class="game-detail__skeleton">
@@ -158,7 +158,7 @@ watch(() => route.params.id, (newId) => {
 
       </article>
     </template>
-  </main>
+  </div>
   </MainLayout>
 </template>
 
