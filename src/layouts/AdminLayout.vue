@@ -24,9 +24,6 @@ import AppAurora from '@/components/layout/AppAurora.vue'
         <RouterLink to="/admin/users" class="dashboard-sidebar__link">
           <span>Gestión de usuarios</span>
         </RouterLink>
-        <RouterLink to="/admin/favorites" class="dashboard-sidebar__link">
-          <span>Favoritos</span>
-        </RouterLink>
         <RouterLink to="/admin/profile" class="dashboard-sidebar__link">
           <span>Perfil</span>
         </RouterLink>

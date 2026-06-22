@@ -135,3 +135,15 @@ async function removeActive(game) {
     </section>
   </AdminLayout>
 </template>
+<style lang="css" scoped>
+
+.admin-featured__section {
+  position: relative;
+  z-index: 1;
+}
+
+.admin-featured__section:first-of-type {
+  z-index: 2;
+}
+
+</style>

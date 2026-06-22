@@ -76,12 +76,6 @@ const router = createRouter({
       component: () => import('@/views/admin/AdminProfileView.vue'),
       meta: { requiresAuth: true, requiresAdmin: true }
     },
-    {
-      path: '/admin/favorites',
-      name: 'admin-favorites',
-      component: () => import('@/views/admin/AdminFavoritesView.vue'),
-      meta: { requiresAuth: true, requiresAdmin: true }
-    },
   ]
 })
 router.beforeEach(async (to, from) => {
