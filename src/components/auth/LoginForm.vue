@@ -95,9 +95,14 @@ async function handleSubmit() {
         :class="{ 'login-form__input--error': errors.email }"
         autocomplete="email"
         placeholder="tu@email.com"
+        aria-describedby="email-error"
         @blur="validateEmail"
       />
-      <span v-if="errors.email" class="login-form__field-error" role="alert">
+      <span 
+      v-if="errors.email"
+      id="email-error" 
+      class="login-form__field-error" 
+      role="alert">
         {{ errors.email }}
       </span>
     </div>
@@ -114,9 +119,14 @@ async function handleSubmit() {
         :class="{ 'login-form__input--error': errors.password }"
         autocomplete="current-password"
         placeholder="••••••••••"
+        aria-describedby="password-error"
         @blur="validatePassword"
       />
-      <span v-if="errors.password" class="login-form__field-error" role="alert">
+      <span 
+      v-if="errors.password"
+      id="password-error" 
+      class="login-form__field-error" 
+      role="alert">
         {{ errors.password }}
       </span>
     </div>

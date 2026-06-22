@@ -21,7 +21,9 @@ const filteredUsers = computed(() =>
   <AdminLayout>
     <section class="user-management">
       <h1 class="user-management__title">Gestión de Usuarios</h1>
+      <label for="user-search" class="visually-hidden">Buscar usuario o email</label>
       <input
+        id="user-search"
         v-model="searchQuery"
         placeholder="Introduce usuario o email"
         class="user-management__search"

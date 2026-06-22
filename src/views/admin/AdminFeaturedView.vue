@@ -67,7 +67,9 @@ async function removeActive(game) {
         <p class="admin-featured__hint">Busca el juego que aparecerá destacado en portada.</p>
 
         <div class="admin-featured__search-wrap" @focusout="hideMonthly">
-          <input
+           <label for="monthly-search" class="visually-hidden">Buscar juego del mes</label>
+           <input
+            id="monthly-search"
             v-model="monthlyQuery"
             type="search"
             placeholder="Buscar juego..."
@@ -99,8 +101,9 @@ async function removeActive(game) {
         <p class="admin-featured__hint">Busca y añade juegos visibles en la sección de destacados.</p>
 
         <div class="admin-featured__search-wrap" @focusout="hideActive">
-          <input
-            v-model="activeQuery"
+           <label for="active-search" class="visually-hidden">Buscar juego para añadir a destacados</label>
+           <input
+            id="active-search"
             type="search"
             placeholder="Buscar juego para añadir..."
             class="admin-featured__search"

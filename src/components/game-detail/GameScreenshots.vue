@@ -14,6 +14,7 @@ defineProps({
 
 const activeIndex = ref(null)
 const closeButtonRef = ref(null)
+const lightboxRef = ref(null)
 
 async function openLightbox(index) {
   activeIndex.value = index
@@ -26,9 +27,34 @@ function closeLightbox() {
   activeIndex.value = null
 }
 
+function trapFocus(event) {
+  const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  const focusableElements = Array.from(lightboxRef.value?.querySelectorAll(focusableSelectors) ?? [])
+
+  if (focusableElements.length === 0) return
+
+  const firstElement = focusableElements[0]
+  const lastElement = focusableElements[focusableElements.length - 1]
+
+  if (event.shiftKey) {
+    // Tab + Shift: si estamos en el primero, saltamos al último
+    if (document.activeElement === firstElement) {
+      event.preventDefault()
+      lastElement.focus()
+    }
+  } else {
+    // Tab: si estamos en el último, saltamos al primero
+    if (document.activeElement === lastElement) {
+      event.preventDefault()
+      firstElement.focus()
+    }
+  }
+}
+
 // Cierra el lightbox al pulsar Escape
 function handleKeydown(event) {
   if (event.key === 'Escape') closeLightbox()
+  if (event.key === 'Tab') trapFocus(event)
 }
 </script>
 
@@ -63,6 +89,7 @@ function handleKeydown(event) {
     <!-- Lightbox -->
     <div
       v-if="activeIndex !== null"
+      ref="lightboxRef"
       class="game-screenshots__lightbox"
       role="dialog"
       aria-modal="true"
