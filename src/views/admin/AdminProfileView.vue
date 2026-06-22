@@ -45,7 +45,10 @@ const avatarOptions = Array.from({ length: 8 }, (_, i) => ({ id: i + 1 }))
             type="password"
             placeholder="Nueva contraseña"
             class="admin-profile__input"
+            aria-describedby="new-password-hint"
           />
+          <span id="new-password-hint" class="visually-hidden">Introduce tu nueva contraseña</span>
+
           <label for="confirm-password" class="visually-hidden">Confirmar contraseña</label>
           <input
             id="confirm-password"
@@ -53,7 +56,9 @@ const avatarOptions = Array.from({ length: 8 }, (_, i) => ({ id: i + 1 }))
             type="password"
             placeholder="Confirmar contraseña"
             class="admin-profile__input"
+            aria-describedby="confirm-password-hint"
           />
+          <span id="confirm-password-hint" class="visually-hidden">Repite tu nueva contraseña para confirmarla</span>
           <button class="admin-profile__btn-update">Actualizar contraseña</button>
         </div>
       </div>
