@@ -1,3 +1,4 @@
+<!-- Vista perfil de usuario: cambio de avatar y contraseña -->
 <script setup>
 import { ref } from 'vue'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
@@ -26,7 +27,19 @@ const avatars = [
     { id: 8, src: avatar8, alt: 'Avatar 8' },
 ]
 
+const backgrounds = [
+    { id: 1, value: 'linear-gradient(135deg, #7c3aed, #22d3ee)' },
+    { id: 2, value: 'linear-gradient(135deg, #c2410c, #f97316)' },
+    { id: 3, value: 'linear-gradient(135deg, #0e7490, #2563eb)' },
+    { id: 4, value: 'linear-gradient(135deg, #166534, #22d3ee)' },
+    { id: 5, value: 'linear-gradient(135deg, #9d174d, #7c3aed)' },
+    { id: 6, value: 'linear-gradient(135deg, #92400e, #dc2626)' },
+    { id: 7, value: 'linear-gradient(135deg, #164e63, #a855f7)' },
+    { id: 8, value: 'linear-gradient(135deg, #1e1b4b, #4c1d95)' },
+]
+
 const selectedAvatar = ref(null)
+const selectedBg = ref(null)
 const avatarFeedback = ref('')
 
 const currentPassword = ref('')
@@ -46,6 +59,17 @@ async function handleSelectAvatar(avatar) {
     }
 }
 
+async function handleSelectBg(bg) {
+    selectedBg.value = bg.id
+    try {
+        await auth.updateBg(bg.value)
+        avatarFeedback.value = '✓ Fondo actualizado'
+        setTimeout(() => { avatarFeedback.value = '' }, 2500)
+    } catch {
+        avatarFeedback.value = 'Error al actualizar el fondo'
+    }
+}
+
 async function handleFileUpload(event) {
     const file = event.target.files[0]
     if (!file) return
@@ -61,7 +85,6 @@ async function handleFileUpload(event) {
         const uid = auth.user.uid
         const downloadURL = await uploadAvatarToStorage(uid, file)
         await auth.updateAvatar(downloadURL)
-
         avatarFeedback.value = '✓ Avatar actualizado'
         setTimeout(() => { avatarFeedback.value = '' }, 2500)
     } catch {
@@ -106,12 +129,16 @@ async function handleChangePassword() {
                 <div class="profile-view__card">
 
                     <div class="profile-view__avatar-wrap">
-                        <img :src="auth.profile?.profileImg || avatar1" :alt="`Avatar de ${auth.profile?.username}`"
-                            class="profile-view__avatar" />
+                        <div class="profile-view__avatar-bg"
+                            :style="{ background: auth.profile?.profileBg || 'linear-gradient(135deg, #7c3aed, #22d3ee)' }">
+                            <img v-if="auth.profile?.profileImg" :src="auth.profile.profileImg"
+                                :alt="`Avatar de ${auth.profile?.username}`" class="profile-view__avatar" />
+                        </div>
                         <p class="profile-view__name">{{ auth.profile?.username }}</p>
                         <p class="profile-view__email">{{ auth.user?.email }}</p>
                     </div>
 
+                    <!-- Picker de avatares -->
                     <div class="profile-view__picker">
                         <p class="profile-view__picker-title">Elige tu avatar</p>
                         <ul class="profile-view__avatars" role="list" aria-label="Galería de avatares">
@@ -123,6 +150,19 @@ async function handleChangePassword() {
                                     @click="handleSelectAvatar(avatar)">
                                     <img :src="avatar.src" :alt="avatar.alt" width="40" height="40" />
                                 </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Picker de fondos -->
+                    <div class="profile-view__picker">
+                        <p class="profile-view__picker-title">Elige tu fondo</p>
+                        <ul class="profile-view__avatars" role="list" aria-label="Galería de fondos">
+                            <li v-for="bg in backgrounds" :key="bg.id">
+                                <button class="profile-view__bg-option"
+                                    :class="{ 'profile-view__bg-option--selected': selectedBg === bg.id }"
+                                    :style="{ background: bg.value }" :aria-label="`Seleccionar fondo ${bg.id}`"
+                                    :aria-pressed="selectedBg === bg.id" type="button" @click="handleSelectBg(bg)" />
                             </li>
                         </ul>
                     </div>
@@ -251,14 +291,25 @@ async function handleChangePassword() {
         margin-bottom: 1.5rem;
     }
 
-    &__avatar {
+    // Círculo con el fondo de color
+    &__avatar-bg {
         width: 90px;
         height: 90px;
         border-radius: var(--radius-full);
         border: 3px solid var(--color-border-purple);
-        object-fit: cover;
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-bottom: 0.4rem;
+        overflow: hidden;
+    }
+
+    // Imagen encima del fondo (solo si existe)
+    &__avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: var(--radius-full);
     }
 
     &__name {
@@ -330,6 +381,26 @@ async function handleChangePassword() {
             object-fit: cover;
             pointer-events: none;
         }
+
+        &:hover {
+            transform: scale(1.08);
+            border-color: var(--color-border-cyan);
+        }
+
+        &--selected {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-dim);
+        }
+    }
+
+    // Botones del picker de fondos
+    &__bg-option {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: var(--radius-full);
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: border-color var(--transition), transform var(--transition);
 
         &:hover {
             transform: scale(1.08);
