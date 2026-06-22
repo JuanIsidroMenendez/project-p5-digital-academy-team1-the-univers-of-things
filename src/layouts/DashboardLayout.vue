@@ -2,14 +2,18 @@
 
 <script setup>
 import DashboardHeader from '@/components/layout/DashboardHeader.vue'
+import DashboardSidebar from '@/components/layout/DashboardSidebar.vue'
 </script>
 
 <template>
     <div class="dashboard-layout">
         <DashboardHeader />
-        <main class="dashboard-layout__content">
-            <slot />
-        </main>
+        <div class="dashboard-layout__body">
+            <DashboardSidebar />
+            <main class="dashboard-layout__content">
+                <slot />
+            </main>
+        </div>
     </div>
 </template>
 
@@ -20,6 +24,11 @@ import DashboardHeader from '@/components/layout/DashboardHeader.vue'
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
+    &__body {
+        display: flex;
+        flex: 1;
+    }
 
     &__content {
         flex: 1;
