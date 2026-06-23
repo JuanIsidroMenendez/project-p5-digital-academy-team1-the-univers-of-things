@@ -23,6 +23,18 @@ async function handleLogout() {
                 <span class="dashboard-header__logo-section">{{ auth.isAdmin ? 'Dashboard Admin' : 'Dashboard' }}</span>
             </RouterLink>
 
+            <ul class="dashboard-header__links" role="list">
+                <li>
+                    <RouterLink to="/" class="dashboard-header__link">Inicio</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/catalog" class="dashboard-header__link">Catálogo</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/featured" class="dashboard-header__link">Destacados</RouterLink>
+                </li>
+            </ul>
+
             <div class="dashboard-header__user">
                 <span class="dashboard-header__username">{{ auth.profile?.username || auth.user?.email }}</span>
                 <span class="dashboard-header__badge"
@@ -76,6 +88,7 @@ async function handleLogout() {
 
     &__logo {
         display: flex;
+        flex-direction: row;
         align-items: center;
         gap: 8px;
         text-decoration: none;
@@ -99,6 +112,32 @@ async function handleLogout() {
         color: var(--color-primary);
         letter-spacing: 0.08em;
         text-transform: uppercase;
+    }
+
+    &__links {
+        display: none;
+        list-style: none;
+        align-items: center;
+        gap: 2rem;
+
+        @media (min-width: $bp-tablet) {
+            display: flex;
+        }
+    }
+
+    &__link {
+        font-family: $font-mono;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        text-decoration: none;
+        transition: color var(--transition);
+
+        &:hover,
+        &.router-link-active {
+            color: var(--color-secondary);
+        }
     }
 
     &__user {
