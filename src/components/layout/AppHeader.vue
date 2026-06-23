@@ -60,7 +60,16 @@ async function handleLogout() {
                     </li>
                 </template>
             </ul>
-
+            <!-- ↓ MENÚ BURGER -->
+            <button
+                class="header__hamburger"
+                type="button"
+                aria-label="Abrir menú de navegación"
+            >
+                <span class="header__hamburger-line"></span>
+                <span class="header__hamburger-line"></span>
+                <span class="header__hamburger-line"></span>
+            </button>
         </nav>
     </header>
 </template>
