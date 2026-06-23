@@ -79,6 +79,7 @@ async function handleLogout() {
                 class="header__hamburger"
                 type="button"
                 aria-label="Abrir menú de navegación"
+                @click="toggleMenu"
             >
                 <span class="header__hamburger-line"></span>
                 <span class="header__hamburger-line"></span>
