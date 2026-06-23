@@ -1,10 +1,10 @@
 <!-- Vista perfil de admin: cambio de avatar y contraseña -->
 <script setup>
 import AdminLayout from "@/layouts/AdminLayout.vue";
-import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth.js";
 import { uploadAvatarToStorage } from "@/api/user.service.js";
 import { passwordsMatch, isValidPassword } from "@/utils/form-validators";
+import { ref, watch } from 'vue'
 
 import avatar1 from "@/assets/avatars/avatar-1.svg";
 import avatar2 from "@/assets/avatars/avatar-2.svg";
@@ -42,6 +42,22 @@ const selectedBg = ref(null);
 const previewImg = ref(auth.profile?.profileImg || null);
 const previewBg = ref(
   auth.profile?.profileBg || "linear-gradient(135deg, #7c3aed, #22d3ee)",
+);
+
+watch(
+  () => auth.profile?.profileBg,
+  (newBg) => {
+    if (newBg && !selectedBg.value) previewBg.value = newBg;
+  },
+  { immediate: true }
+);
+
+watch(
+  () => auth.profile?.profileImg,
+  (newImg) => {
+    if (newImg && !selectedAvatar.value) previewImg.value = newImg;
+  },
+  { immediate: true }
 );
 
 const avatarFeedback = ref("");
@@ -87,7 +103,8 @@ async function handleSaveBg() {
     setTimeout(() => {
       bgFeedback.value = "";
     }, 2500);
-  } catch {
+  } catch (error) {
+    console.error('Error guardando fondo:', error)
     bgFeedback.value = "Error al guardar el fondo";
   }
 }
@@ -121,6 +138,10 @@ async function handleChangePassword() {
   passwordError.value = "";
   passwordFeedback.value = "";
 
+  if (newPassword.value === currentPassword.value) {
+    passwordError.value = "La nueva contraseña no puede ser igual a la actual";
+    return;
+  }
   if (!passwordsMatch(newPassword.value, confirmPassword.value)) {
     passwordError.value = "Las contraseñas no coinciden";
     return;
@@ -155,7 +176,9 @@ async function handleChangePassword() {
       <div class="admin-profile__content">
         <!-- Columna izquierda: avatar -->
         <div class="admin-profile__left">
-          <div class="admin-profile__avatar"><img :src="previewImg" /></div>
+          <div class="admin-profile__avatar" :style="{ background: previewBg }">
+            <img :src="previewImg" />
+          </div>
           <p class="admin-profile__name">{{ auth.profile?.username }}</p>
           <p class="admin-profile__email">{{ auth.user?.email }}</p>
 
@@ -178,15 +201,47 @@ async function handleChangePassword() {
             class="btn btn--primary admin-profile__btn-sm"
             @click="handleSaveAvatar"
           >
-            Subir avatar
+            Guardar avatar
           </button>
+          <p v-if="avatarFeedback">{{ avatarFeedback }}</p>
+
+          <!-- Picker de fondos -->
+          <div class="admin-profile__picker">
+            <p class="admin-profile__picker-title">Elige tu fondo</p>
+            <ul
+              class="admin-profile__avatars"
+              role="list"
+              aria-label="Galería de fondos"
+            >
+              <li v-for="bg in backgrounds" :key="bg.id">
+                <button
+                  class="admin-profile__bg-option"
+                  :class="{
+                    'admin-profile__bg-option--selected': selectedBg === bg.id,
+                  }"
+                  :style="{ background: bg.value }"
+                  :aria-label="`Seleccionar fondo ${bg.id}`"
+                  :aria-pressed="selectedBg === bg.id"
+                  type="button"
+                  @click="handleClickBg(bg)"
+                />
+              </li>
+            </ul>
+            <button
+              class="btn btn--primary admin-profile__btn-sm"
+              :disabled="!selectedBg"
+              type="button"
+              @click="handleSaveBg"
+            >
+              Guardar fondo
+            </button>
+            <p v-if="bgFeedback">{{ bgFeedback }}</p>
+          </div>
         </div>
+
         <!-- Columna derecha: contraseña -->
         <div class="admin-profile__right">
           <span class="admin-profile__label">Cambiar contraseña</span>
-          <label for="new-password" class="visually-hidden"
-            >Nueva contraseña</label
-          >
           <input
             v-model="currentPassword"
             type="password"
@@ -199,26 +254,16 @@ async function handleChangePassword() {
             type="password"
             placeholder="Nueva contraseña"
             class="admin-profile__input"
-            aria-describedby="new-password-hint"
           />
-          <span id="new-password-hint" class="visually-hidden"
-            >Introduce tu nueva contraseña</span
-          >
-
-          <label for="confirm-password" class="visually-hidden"
-            >Confirmar contraseña</label
-          >
           <input
             id="confirm-password"
             v-model="confirmPassword"
             type="password"
             placeholder="Confirmar contraseña"
             class="admin-profile__input"
-            aria-describedby="confirm-password-hint"
           />
-          <span id="confirm-password-hint" class="visually-hidden"
-            >Repite tu nueva contraseña para confirmarla</span
-          >
+          <p v-if="passwordError">{{ passwordError }}</p>
+          <p v-if="passwordFeedback">{{ passwordFeedback }}</p>
           <button
             class="admin-profile__btn-update"
             @click="handleChangePassword"
@@ -230,3 +275,43 @@ async function handleChangePassword() {
     </section>
   </AdminLayout>
 </template>
+
+<style lang="scss" scoped>
+.admin-profile__bg-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+
+  &:hover {
+    transform: scale(1.08);
+    border-color: var(--color-border-cyan);
+  }
+
+  &--selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-dim);
+  }
+}
+
+.admin-profile__picker {
+  margin-top: 1rem;
+}
+
+.admin-profile__avatars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.admin-profile__avatar {
+  border-radius: 50%;
+}
+</style>
