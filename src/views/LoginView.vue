@@ -21,15 +21,6 @@
           ¿No tienes cuenta?
           <RouterLink to="/register">Regístrate</RouterLink>
         </div>
-
-        <!-- Acceso demo admin -->
-        <div class="login-view__demo">
-          <p class="login-view__demo-title">Acceso de demostración</p>
-          <button type="button" class="login-view__btn-admin">
-            ⚙️ Entrar como Admin
-          </button>
-        </div>
-
       </div>
     </div>
 
@@ -40,12 +31,6 @@
 import MainLayout from '@/layouts/MainLayout.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
 
-import { useRouter } from 'vue-router'
-const router = useRouter()
-
-async function handleAdminLogin() {
-  await router.push('/admin')
-}
 </script>
 
 <style scoped>
