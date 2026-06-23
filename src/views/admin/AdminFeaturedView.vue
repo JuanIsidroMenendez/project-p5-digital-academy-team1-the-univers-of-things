@@ -104,6 +104,7 @@ async function removeActive(game) {
            <label for="active-search" class="visually-hidden">Buscar juego para añadir a destacados</label>
            <input
             id="active-search"
+            v-model="activeQuery"
             type="search"
             placeholder="Buscar juego para añadir..."
             class="admin-featured__search"
@@ -144,6 +145,7 @@ async function removeActive(game) {
 
 .admin-featured__section:first-of-type {
   z-index: 2;
+  
 }
 
 </style>
