@@ -37,7 +37,7 @@ async function handleLogout() {
             <ul class="header__actions" role="list">
                 <template v-if="auth.user">
                     <li>
-                        <RouterLink :to="auth.profile.role === 'role:customer' ? '/dashboard' : '/admin/users'" class="btn btn--ghost">
+                        <RouterLink :to="auth.profile?.role === 'role:customer' ? '/dashboard' : '/admin/users'" class="btn btn--ghost">
                             {{ auth.profile?.username || auth.user.email }}
                         </RouterLink>
                     </li>

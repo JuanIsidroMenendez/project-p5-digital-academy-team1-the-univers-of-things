@@ -2,6 +2,9 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import AppAurora from '@/components/layout/AppAurora.vue'
+import { useAuthStore } from '@/stores/auth.js'
+
+const auth = useAuthStore()
 </script>
 
 <template>
@@ -15,8 +18,10 @@ import AppAurora from '@/components/layout/AppAurora.vue'
       </div>
 
       <div class="dashboard-sidebar__profile">
-        <div class="dashboard-sidebar__avatar"></div>
-        <p class="dashboard-sidebar__name">AdminRoot</p>
+        <div class="dashboard-sidebar__avatar" :style="{ background: auth.profile?.profileBg }">
+          <img v-if="auth.profile?.profileImg" :src="auth.profile.profileImg" alt="Avatar" />
+        </div>
+        <p class="dashboard-sidebar__name">{{ auth.user?.email }}</p>
         <span class="dashboard-sidebar__badge">ADMIN</span>
       </div>
 
@@ -47,7 +52,7 @@ import AppAurora from '@/components/layout/AppAurora.vue'
           <span class="dashboard-header__page">Dashboard Admin</span>
         </div>
         <div class="dashboard-header__user">
-          <span class="dashboard-header__name">AdminRoot</span>
+          <span class="dashboard-header__name">{{ auth.user?.email }}</span>
           <span class="dashboard-header__badge">ADMIN</span>
         </div>
       </header>
