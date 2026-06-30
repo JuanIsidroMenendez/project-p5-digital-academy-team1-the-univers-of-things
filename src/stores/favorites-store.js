@@ -68,13 +68,23 @@ export const useFavoritesStore = defineStore('favorites', () => {
     await persistFavorites()
   }
 
+  // Valora un favorito con una puntuación de 1 a 5 estrellas
+  async function rateFavorite(gameId, rating) {
+    const favorite = findFavoriteById(gameId)
+    if (!favorite) return
+
+    favorite.rating = rating
+    await persistFavorites()
+  }
+
   return {
     favoritesList,
     loadFavorites,
     isFavorite,
     addToFavorites,
     removeFromFavorites,
-    updateFavorite
+    updateFavorite,
+    rateFavorite
   }
   
 })
