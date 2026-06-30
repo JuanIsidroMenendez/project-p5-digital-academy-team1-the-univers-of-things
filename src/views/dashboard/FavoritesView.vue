@@ -31,6 +31,12 @@ function handleSaveEdit(gameId, newData) {
 function handleCancelEdit() {
   editingFavoriteId.value = null
 }
+
+// Guarda la nueva valoración de un favorito
+function handleRate(gameId, rating) {
+  favoritesStore.rateFavorite(gameId, rating)
+}
+
 </script>
 
 <template>
@@ -67,6 +73,7 @@ function handleCancelEdit() {
                         :favorite="favorite"
                         @remove="handleRemove"
                         @edit="handleEdit"
+                        @rate="handleRate"
                     />
                 </li>
             </TransitionGroup>

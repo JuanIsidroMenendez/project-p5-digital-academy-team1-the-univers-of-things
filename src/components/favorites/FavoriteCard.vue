@@ -1,4 +1,6 @@
 <script setup>
+import StarRating from '@/components/shared/StarRating.vue'
+
 defineProps({
   favorite: {
     type: Object,
@@ -6,7 +8,7 @@ defineProps({
   }
 })
 
-defineEmits(['remove', 'edit'])
+defineEmits(['remove', 'edit', 'rate'])
 </script>
 
 <template>
@@ -25,6 +27,10 @@ defineEmits(['remove', 'edit'])
       <p v-if="favorite.customContent" class="favorite-card__content">
         {{ favorite.customContent }}
       </p>
+      <StarRating
+        :rating="favorite.rating"
+        @rating-change="(value) => $emit('rate', favorite.id, value)"
+      />
     </div>
 
     <footer class="favorite-card__actions">
@@ -79,7 +85,7 @@ defineEmits(['remove', 'edit'])
   &__content {
     color: var(--color-text-muted);
     font-size: 0.85rem;
-    margin: 0;
+    margin: 0 0 var(--space-3);
   }
 
   &__actions {
