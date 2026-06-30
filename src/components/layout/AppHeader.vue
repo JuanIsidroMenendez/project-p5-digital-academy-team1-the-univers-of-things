@@ -2,9 +2,15 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const auth = useAuthStore()
 const router = useRouter()
+
+const menuOpen = ref(false)
+function toggleMenu() {
+    menuOpen.value = !menuOpen.value
+}
 
 async function handleLogout() {
     await auth.logout()
@@ -33,6 +39,14 @@ async function handleLogout() {
                     <RouterLink to="/featured">Destacados</RouterLink>
                 </li>
             </ul>
+            <ul v-show="menuOpen" class="header__mobile-menu" role="list">
+            <li><RouterLink to="/" @click="menuOpen = false">Inicio</RouterLink>
+            </li>
+            <li><RouterLink to="/catalog" @click="menuOpen = false">Catálogo</RouterLink>
+            </li>
+            <li><RouterLink to="/featured" @click="menuOpen = false">Destacados</RouterLink>
+            </li>
+             </ul>
 
             <ul class="header__actions" role="list">
                 <template v-if="auth.user">
@@ -60,7 +74,18 @@ async function handleLogout() {
                     </li>
                 </template>
             </ul>
-
+            <!-- ↓ MENÚ BURGER -->
+            <button
+                class="header__hamburger"
+                type="button"
+                :aria-expanded="menuOpen"
+                :aria-label="menuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'"
+                @click="toggleMenu"
+            >
+                <span class="header__hamburger-line"></span>
+                <span class="header__hamburger-line"></span>
+                <span class="header__hamburger-line"></span>
+            </button>
         </nav>
     </header>
 </template>
@@ -194,5 +219,87 @@ async function handleLogout() {
             }
         }
     }
+    &__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition);
+
+    @media (min-width: $bp-tablet) {
+        display: none;
+    }
+
+    &:hover {
+        background: var(--color-primary-dim);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-secondary);
+        outline-offset: 2px;
+    }
+}
+
+&__hamburger-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--color-text);
+    border-radius: 2px;
+    transition: transform var(--transition), opacity var(--transition);
+}
+
+&__mobile-menu {
+    display: none;
+
+    @media (max-width: calc($bp-tablet - 1px)) {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(3, 3, 8, 0.97);
+        backdrop-filter: blur(24px);
+        border-bottom: 1px solid var(--color-border);
+        padding: 1rem 1.5rem;
+        gap: 0.5rem;
+        list-style: none;
+        z-index: 99;
+
+        a {
+            display: block;
+            padding: 0.75rem 0;
+            font-family: $font-mono;
+            font-size: 12px;
+            color: var(--color-text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--color-border);
+            transition: color var(--transition);
+
+            &:hover,
+            &.router-link-active {
+                color: var(--color-secondary);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--color-secondary);
+                outline-offset: 2px;
+            }
+        }
+
+        li:last-child a {
+            border-bottom: none;
+        }
+    }
+}
 }
 </style>

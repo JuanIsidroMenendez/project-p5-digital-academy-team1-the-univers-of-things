@@ -30,7 +30,6 @@
 <script setup>
 import MainLayout from '@/layouts/MainLayout.vue'
 import LoginForm from '@/components/auth/LoginForm.vue'
-
 </script>
 
 <style scoped>
