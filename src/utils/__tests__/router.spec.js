@@ -32,6 +32,6 @@ describe('Router Guards', () => {
             loading: false
         })
         await router.push('/admin')
-        expect(router.currentRoute.value.path).toBe('/dashboard')
+        expect(router.currentRoute.value.path).toBe('/dashboard/profile')
         })
     })
