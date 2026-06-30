@@ -104,7 +104,6 @@ async function handleSaveBg() {
       bgFeedback.value = "";
     }, 2500);
   } catch (error) {
-    console.error('Error guardando fondo:', error)
     bgFeedback.value = "Error al guardar el fondo";
   }
 }
@@ -177,7 +176,7 @@ async function handleChangePassword() {
         <!-- Columna izquierda: avatar -->
         <div class="admin-profile__left">
           <div class="admin-profile__avatar" :style="{ background: previewBg }">
-            <img :src="previewImg" />
+            <img :src="previewImg" :alt="selectedAvatar ? `Avatar seleccionado ${selectedAvatar}` : 'Avatar actual'" />
           </div>
           <p class="admin-profile__name">{{ auth.profile?.username }}</p>
           <p class="admin-profile__email">{{ auth.user?.email }}</p>
