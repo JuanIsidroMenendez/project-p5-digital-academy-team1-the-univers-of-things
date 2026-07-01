@@ -97,4 +97,16 @@ describe('featuredStore', () => {
     await store.selectMonthly(null)
     expect(store.gameOfTheMonth).toBeNull()
   })
+
+  it('fetchAll no incluye undefined si un ID de Firestore no existe en el catalogo', async () => {
+    const { getFeaturedConfig } = await import('@/api/featured.service.js')
+    getFeaturedConfig.mockResolvedValueOnce({ featuredGames: [1, 999], monthlyGame: 1 })
+
+    const store = useFeaturedStore()
+    await store.fetchAll()
+
+    expect(store.featuredList.every(g => g !== undefined)).toBe(true)
+    expect(store.featuredList).toHaveLength(1)
+    expect(store.featuredList[0].id).toBe(1)
+  })
 })

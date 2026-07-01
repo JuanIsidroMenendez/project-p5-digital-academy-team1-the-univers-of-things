@@ -236,6 +236,22 @@ async function handleChangePassword() {
             </button>
             <p v-if="bgFeedback">{{ bgFeedback }}</p>
           </div>
+
+          <button
+            class="btn btn--primary admin-profile__btn-sm"
+            type="button"
+            @click="$refs.fileInput.click()"
+          >
+            Subir imagen propia
+          </button>
+          <input
+            ref="fileInput"
+            type="file"
+            accept="image/*"
+            class="admin-profile__file-input"
+            aria-label="Subir imagen de avatar"
+            @change="handleFileUpload"
+          />
         </div>
 
         <!-- Columna derecha: contraseña -->
@@ -316,5 +332,9 @@ async function handleChangePassword() {
 
 .admin-profile__avatar {
   border-radius: 50%;
+}
+
+.admin-profile__file-input {
+  display: none;
 }
 </style>
