@@ -80,4 +80,17 @@ describe('CatalogView', () => {
     expect(wrapper.text()).toContain('Game 2')
     expect(wrapper.text()).not.toContain('Game 1')
   })
+
+  it('cambia de página al pulsar "siguiente" en la paginación', async () => {
+    gamesStoreMock.games = makeGames(35)
+    const wrapper = mount(CatalogView)
+
+    expect(wrapper.text()).toContain('Game 1')
+    expect(wrapper.text()).not.toContain('Game 31')
+
+    await wrapper.find('[aria-label="Pagina siguiente"]').trigger('click')
+
+    expect(wrapper.text()).not.toContain('Game 1')
+    expect(wrapper.text()).toContain('Game 31')
+  })
 })
