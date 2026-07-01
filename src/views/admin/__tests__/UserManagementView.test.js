@@ -36,4 +36,12 @@ describe('UserManagementView', () => {
     expect(wrapper.text()).toContain('Alice')
     expect(wrapper.text()).not.toContain('Bob')
   })
+
+  it('llama a toggleUserAccess al pulsar RESTRINGIR', async () => {
+    const wrapper = mount(UserManagementView)
+
+    await wrapper.find('.user-management__btn').trigger('click')
+
+    expect(adminStoreMock.toggleUserAccess).toHaveBeenCalledWith('user-1', 'active')
+  })
 })
