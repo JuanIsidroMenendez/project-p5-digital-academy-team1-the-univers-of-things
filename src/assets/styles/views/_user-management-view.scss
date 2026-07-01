@@ -24,8 +24,14 @@
     }
   }
 
+  &__table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
   &__table {
     width: 100%;
+    min-width: 480px;
     border-collapse: collapse;
     background: var(--color-surface);
     border-radius: var(--radius-lg, 12px);

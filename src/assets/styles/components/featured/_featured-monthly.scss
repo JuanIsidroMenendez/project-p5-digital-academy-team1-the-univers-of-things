@@ -1,33 +1,57 @@
+@use '@/assets/styles/base/variables' as *;
+
 .featured-monthly {
   display: flex;
   max-width: 900px;
-  margin: 0 auto;
-  flex-direction: row-reverse;
-  gap: 2rem;
+  margin: 0 auto 3rem;
+  flex-direction: column;
+  gap: 1.25rem;
   align-items: center;
+  padding: 1.25rem;
   background: linear-gradient(135deg, #1a0533 0%, #b8860b);
   box-shadow: 0 0 20px 5px rgba(180, 140, 0, 0.4);
-  margin-bottom: 5rem;
   margin-top: 2rem;
   transition: transform 0.3s ease;
   animation: fps-slide-up 0.6s ease-out;
-  
-  &:hover{
-    transform: scale(1.08);
-    
 
+  @media (min-width: $bp-tablet) {
+    flex-direction: row-reverse;
+    gap: 2rem;
+    padding: 0;
+    margin-bottom: 5rem;
   }
-        
+
+  &:hover{
+    transform: scale(1.03);
+
+    @media (min-width: $bp-tablet) {
+      transform: scale(1.08);
+    }
+  }
+
   &__image {
-    width: 500px;
+    width: 100%;
+    max-width: 320px;
     object-fit: cover;
+
+    @media (min-width: $bp-tablet) {
+      width: 500px;
+      max-width: none;
+    }
   }
-}
-a {
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 2rem;
-  align-items: center;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: center;
+    width: 100%;
+
+    @media (min-width: $bp-tablet) {
+      flex-direction: row-reverse;
+      gap: 2rem;
+    }
+  }
 }
 .featured-monthly__tag {
   display: inline-block;

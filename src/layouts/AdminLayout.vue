@@ -1,10 +1,22 @@
 <!-- Layout privado admin: sidebar + header + slot -->
 <script setup>
-import { RouterLink } from 'vue-router'
+import { ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import AppAurora from '@/components/layout/AppAurora.vue'
 import { useAuthStore } from '@/stores/auth.js'
 
 const auth = useAuthStore()
+const router = useRouter()
+
+const isMobileNavOpen = ref(false)
+function toggleMobileNav() {
+  isMobileNavOpen.value = !isMobileNavOpen.value
+}
+
+async function handleLogout() {
+  await auth.logout()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -15,6 +27,19 @@ const auth = useAuthStore()
         <RouterLink to="/">
           <img src="@/assets/imgs/fps-logo.svg" alt="FPS" class="dashboard-sidebar__logo-img" />
         </RouterLink>
+
+        <button
+          type="button"
+          class="dashboard-sidebar__toggle"
+          :aria-expanded="isMobileNavOpen"
+          aria-controls="admin-sidebar-nav"
+          :aria-label="isMobileNavOpen ? 'Cerrar menu del dashboard' : 'Abrir menu del dashboard'"
+          @click="toggleMobileNav"
+        >
+          <span class="dashboard-sidebar__toggle-line"></span>
+          <span class="dashboard-sidebar__toggle-line"></span>
+          <span class="dashboard-sidebar__toggle-line"></span>
+        </button>
       </div>
 
       <div class="dashboard-sidebar__profile">
@@ -25,17 +50,21 @@ const auth = useAuthStore()
         <span class="dashboard-sidebar__badge">ADMIN</span>
       </div>
 
-      <nav class="dashboard-sidebar__nav">
-        <RouterLink to="/admin/users" class="dashboard-sidebar__link">
+      <nav
+        id="admin-sidebar-nav"
+        class="dashboard-sidebar__nav"
+        :class="{ 'dashboard-sidebar__nav--open': isMobileNavOpen }"
+      >
+        <RouterLink to="/admin/users" class="dashboard-sidebar__link" @click="isMobileNavOpen = false">
           <span>Gestión de usuarios</span>
         </RouterLink>
-        <RouterLink to="/admin/profile" class="dashboard-sidebar__link">
+        <RouterLink to="/admin/profile" class="dashboard-sidebar__link" @click="isMobileNavOpen = false">
           <span>Perfil</span>
         </RouterLink>
-        <RouterLink to="/admin/featured" class="dashboard-sidebar__link">
+        <RouterLink to="/admin/featured" class="dashboard-sidebar__link" @click="isMobileNavOpen = false">
           <span>Destacados</span>
         </RouterLink>
-        <a href="#" class="dashboard-sidebar__link dashboard-sidebar__link--logout">
+        <a href="#" class="dashboard-sidebar__link dashboard-sidebar__link--logout" @click.prevent="handleLogout">
           <span>Cerrar sesión</span>
         </a>
       </nav>
