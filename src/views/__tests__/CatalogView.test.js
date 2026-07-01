@@ -50,4 +50,11 @@ describe('CatalogView', () => {
     expect(wrapper.text()).toContain('Error al cargar los juegos')
     expect(wrapper.find('.item-card-stub').exists()).toBe(false)
   })
+
+  it('muestra "sin resultados" cuando no hay juegos', () => {
+    gamesStoreMock.games = []
+    const wrapper = mount(CatalogView)
+
+    expect(wrapper.text()).toContain('No se han encontrado resultados')
+  })
 })
