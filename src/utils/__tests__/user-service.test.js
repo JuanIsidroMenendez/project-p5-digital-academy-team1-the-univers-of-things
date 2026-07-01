@@ -73,3 +73,12 @@ describe('user.service', () => {
       expect(result).toBeNull()
     })
   })
+   // ── updateUserFavorites ──
+  describe('updateUserFavorites', () => {
+    it('llama a updateDoc con la lista de favoritos correcta', async () => {
+      const favorites = [{ id: 1, title: 'Game 1' }]
+      await updateUserFavorites('uid-123', favorites)
+
+      expect(updateDoc).toHaveBeenCalledWith('mockRef', { fav: favorites })
+    })
+  })
