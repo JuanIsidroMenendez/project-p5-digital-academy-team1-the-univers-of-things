@@ -28,4 +28,11 @@ describe('games-api', () => {
 
     await expect(getGames()).rejects.toThrow('Error 500')
   })
+
+  it('getGames propaga el error si fetch rechaza', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    fetch.mockRejectedValue(new Error('Network error'))
+
+    await expect(getGames()).rejects.toThrow('Network error')
+  })
 })
