@@ -42,4 +42,21 @@ describe('auth-service', () => {
       username: '',
     })
   })
+
+  it('loginUser devuelve los datos de Firestore cuando el perfil existe y está activo', async () => {
+    getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({ role: 'admin', status: 'active', username: 'alice' }),
+    })
+
+    const result = await loginUser('test@example.com', 'password123')
+
+    expect(result).toEqual({
+      uid: 'user-1',
+      email: 'test@example.com',
+      role: 'admin',
+      status: 'active',
+      username: 'alice',
+    })
+  })
 })
