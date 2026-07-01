@@ -34,4 +34,15 @@ describe('Router Guards', () => {
         await router.push('/admin')
         expect(router.currentRoute.value.path).toBe('/dashboard/profile')
         })
+
+    test('no redirige en rutas públicas sin meta', async () => {
+        useAuthStore.mockReturnValue({
+            user: null,
+            isAdmin: false,
+            isCustomer: false,
+            loading: false
+        })
+        await router.push('/catalog')
+        expect(router.currentRoute.value.path).toBe('/catalog')
+    })
     })
