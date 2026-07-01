@@ -98,10 +98,14 @@ import FeaturedGameWidget from '@/components/home/FeaturedGameWidget.vue'
     }
 
     &__right {
-        display: none;
+        display: block;
+        width: 100%;
+        max-width: 420px;
+        margin: 2rem auto 0;
 
         @media (min-width: $bp-desktop) {
-            display: block;
+            max-width: none;
+            margin: 0;
         }
     }
 
