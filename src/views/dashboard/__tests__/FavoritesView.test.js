@@ -61,4 +61,16 @@ describe('FavoritesView', () => {
     expect(wrapper.text()).toContain('Todavía no tienes favoritos')
     expect(wrapper.find('.favorite-card-stub').exists()).toBe(false)
   })
+
+  it('muestra la lista de favoritos cuando hay alguno', () => {
+    favoritesStoreMock.favoritesList = [
+      { id: 'g1', title: 'Quantum Strike' },
+      { id: 'g2', title: 'Neon Odyssey' },
+    ]
+    const wrapper = mount(FavoritesView)
+
+    expect(wrapper.text()).not.toContain('Todavía no tienes favoritos')
+    expect(wrapper.findAll('.favorite-card-stub')).toHaveLength(2)
+    expect(wrapper.text()).toContain('Quantum Strike')
+  })
 })
