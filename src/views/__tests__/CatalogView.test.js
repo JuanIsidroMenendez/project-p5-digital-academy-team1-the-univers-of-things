@@ -93,4 +93,17 @@ describe('CatalogView', () => {
     expect(wrapper.text()).not.toContain('Game 1')
     expect(wrapper.text()).toContain('Game 31')
   })
+
+  it('vuelve a la página 1 al cambiar el texto de búsqueda', async () => {
+    gamesStoreMock.games = makeGames(35)
+    const wrapper = mount(CatalogView)
+
+    await wrapper.find('[aria-label="Pagina siguiente"]').trigger('click')
+    expect(wrapper.text()).toContain('Game 31')
+
+    await wrapper.find('#game-search').setValue('Game')
+
+    expect(wrapper.text()).toContain('Game 1')
+    expect(wrapper.text()).not.toContain('Game 31')
+  })
 })
