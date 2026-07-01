@@ -40,4 +40,16 @@ describe('ProfileView', () => {
 
     expect(authStoreMock.updateBg).toHaveBeenCalledTimes(1)
   })
+
+  it('rechaza el cambio de contraseña si la confirmación no coincide', async () => {
+    const wrapper = mount(ProfileView)
+
+    await wrapper.find('#current-password').setValue('actual123')
+    await wrapper.find('#new-password').setValue('nueva1234')
+    await wrapper.find('#confirm-password').setValue('otraCosa123')
+    await wrapper.find('.profile-view__submit').trigger('click')
+
+    expect(wrapper.text()).toContain('Las contraseñas no coinciden')
+    expect(authStoreMock.changePassword).not.toHaveBeenCalled()
+  })
 })
