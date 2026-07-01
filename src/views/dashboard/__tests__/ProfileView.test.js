@@ -31,4 +31,13 @@ describe('ProfileView', () => {
 
     expect(authStoreMock.updateAvatar).toHaveBeenCalledTimes(1)
   })
+
+  it('selecciona un fondo y lo guarda llamando a updateBg', async () => {
+    const wrapper = mount(ProfileView)
+
+    await wrapper.find('.profile-view__bg-option').trigger('click')
+    await wrapper.findAll('.profile-view__save-btn')[1].trigger('click')
+
+    expect(authStoreMock.updateBg).toHaveBeenCalledTimes(1)
+  })
 })
