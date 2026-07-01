@@ -51,4 +51,16 @@ describe('AdminProfileView', () => {
     expect(wrapper.text()).toContain('La nueva contraseña no puede ser igual a la actual')
     expect(authStoreMock.changePassword).not.toHaveBeenCalled()
   })
+
+  it('rechaza el cambio de contraseña si la confirmación no coincide', async () => {
+    const wrapper = mount(AdminProfileView)
+
+    await wrapper.find('.admin-profile__input').setValue('actual123')
+    await wrapper.find('#new-password').setValue('nueva1234')
+    await wrapper.find('#confirm-password').setValue('otraCosa123')
+    await wrapper.find('.admin-profile__btn-update').trigger('click')
+
+    expect(wrapper.text()).toContain('Las contraseñas no coinciden')
+    expect(authStoreMock.changePassword).not.toHaveBeenCalled()
+  })
 })
