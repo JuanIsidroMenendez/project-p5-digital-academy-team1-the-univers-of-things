@@ -21,4 +21,11 @@ describe('games-api', () => {
 
     expect(result).toEqual(mockGames)
   })
+
+  it('getGames lanza error si la respuesta no es ok', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    fetch.mockResolvedValue({ ok: false, status: 500 })
+
+    await expect(getGames()).rejects.toThrow('Error 500')
+  })
 })
