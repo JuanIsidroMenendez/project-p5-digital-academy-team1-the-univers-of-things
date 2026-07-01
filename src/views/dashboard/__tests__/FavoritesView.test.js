@@ -139,4 +139,14 @@ describe('FavoritesView', () => {
     expect(favoritesStoreMock.addToFavorites).toHaveBeenCalledWith({ id: 'new-game', title: 'New Game' })
     expect(wrapper.find('.add-panel-stub').exists()).toBe(false)
   })
+
+  it('cierra el panel de añadir sin seleccionar ningún juego', async () => {
+    const wrapper = mount(FavoritesView)
+
+    await wrapper.find('.favorites-view__add-btn').trigger('click')
+    await wrapper.find('.stub-close').trigger('click')
+
+    expect(favoritesStoreMock.addToFavorites).not.toHaveBeenCalled()
+    expect(wrapper.find('.add-panel-stub').exists()).toBe(false)
+  })
 })
