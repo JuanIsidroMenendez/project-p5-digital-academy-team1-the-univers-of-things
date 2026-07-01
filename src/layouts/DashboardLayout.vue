@@ -30,18 +30,23 @@ import AppAurora from '@/components/layout/AppAurora.vue'
 
     &__body {
         display: flex;
+        flex-direction: column;
         flex: 1;
-        align-items: flex-start;
+        align-items: stretch;
         min-height: 0;
         overflow: hidden;
+
+        @media (min-width: $bp-tablet) {
+            flex-direction: row;
+            align-items: flex-start;
+        }
     }
 
     &__content {
         flex: 1;
         min-width: 0;
         overflow-y: auto;
-        height: calc(100vh - 56px);
-        padding: 2rem 1rem;
+        padding: 1.5rem 1rem;
 
         @media (min-width: $bp-tablet) {
             height: calc(100vh - 64px);

@@ -1,9 +1,15 @@
 <!-- Sidebar de navegacion del dashboard: avatar, nombre, rol y enlaces -->
 <script setup>
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.js'
 import { useRouter } from 'vue-router'
 const auth = useAuthStore()
 const router = useRouter()
+
+const isMobileNavOpen = ref(false)
+function toggleMobileNav() {
+    isMobileNavOpen.value = !isMobileNavOpen.value
+}
 
 async function handleLogout() {
     await auth.logout()
@@ -24,12 +30,31 @@ async function handleLogout() {
                 {{ auth.profile?.username || auth.user?.email }}
             </p>
             <span class="dashboard-sidebar__badge">Cliente</span>
+
+            <button
+                type="button"
+                class="dashboard-sidebar__toggle"
+                :aria-expanded="isMobileNavOpen"
+                aria-controls="dashboard-sidebar-nav"
+                :aria-label="isMobileNavOpen ? 'Cerrar menu del dashboard' : 'Abrir menu del dashboard'"
+                @click="toggleMobileNav"
+            >
+                <span class="dashboard-sidebar__toggle-line"></span>
+                <span class="dashboard-sidebar__toggle-line"></span>
+                <span class="dashboard-sidebar__toggle-line"></span>
+            </button>
         </div>
 
-        <nav aria-label="Secciones del dashboard">
+        <nav
+            id="dashboard-sidebar-nav"
+            class="dashboard-sidebar__nav-wrap"
+            :class="{ 'dashboard-sidebar__nav-wrap--open': isMobileNavOpen }"
+            aria-label="Secciones del dashboard"
+        >
             <ul class="dashboard-sidebar__nav" role="list">
                 <li>
-                    <RouterLink to="/dashboard/profile" class="dashboard-sidebar__link" aria-label="Ir a mi perfil">
+                    <RouterLink to="/dashboard/profile" class="dashboard-sidebar__link" aria-label="Ir a mi perfil"
+                        @click="isMobileNavOpen = false">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         </svg>
                         Perfil
@@ -37,7 +62,7 @@ async function handleLogout() {
                 </li>
                 <li>
                     <RouterLink to="/dashboard/favorites" class="dashboard-sidebar__link"
-                        aria-label="Ir a mis favoritos">
+                        aria-label="Ir a mis favoritos" @click="isMobileNavOpen = false">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         </svg>
                         Mis Favoritos
@@ -63,23 +88,28 @@ async function handleLogout() {
 @use '@/assets/styles/base/variables' as *;
 
 .dashboard-sidebar {
-    width: 220px;
+    width: 100%;
     flex-shrink: 0;
     background: rgba(8, 8, 18, 0.97);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-right: 1px solid var(--color-border);
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
-    padding: 1.5rem 0;
-    position: sticky;
-    top: 0;
-    height: calc(100vh - 56px);
-    overflow-y: auto;
+    padding: 1rem 0;
+    position: relative;
     z-index: 10;
 
     @media (min-width: $bp-tablet) {
+        width: 220px;
+        border-right: 1px solid var(--color-border);
+        border-bottom: none;
+        padding: 1.5rem 0;
+        position: sticky;
+        top: 0;
         height: calc(100vh - 64px);
+        overflow-y: auto;
     }
 
     @media (min-width: $bp-desktop) {
@@ -87,10 +117,17 @@ async function handleLogout() {
     }
 
     &__profile {
-        padding: 0 1.5rem 1.2rem;
-        border-bottom: 1px solid var(--color-border);
-        margin-bottom: 1rem;
+        position: relative;
+        padding: 0 1.5rem 0.75rem;
+        border-bottom: none;
+        margin-bottom: 0;
         text-align: center;
+
+        @media (min-width: $bp-tablet) {
+            padding: 0 1.5rem 1.2rem;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 1rem;
+        }
     }
 
     &__avatar-bg {
@@ -137,10 +174,65 @@ async function handleLogout() {
         border-radius: 4px;
     }
 
+    &__toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 0;
+        right: 1rem;
+        background: transparent;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background var(--transition);
+
+        &:hover {
+            background: var(--color-primary-dim);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        @media (min-width: $bp-tablet) {
+            display: none;
+        }
+    }
+
+    &__toggle-line {
+        display: block;
+        width: 16px;
+        height: 2px;
+        background: var(--color-text);
+        border-radius: 2px;
+    }
+
+    &__nav-wrap {
+        display: none;
+
+        &--open {
+            display: block;
+        }
+
+        @media (min-width: $bp-tablet) {
+            display: block;
+        }
+    }
+
     &__nav {
         list-style: none;
-        padding: 0 0.8rem;
+        padding: 0.5rem 0.8rem 0;
         flex: 1;
+
+        @media (min-width: $bp-tablet) {
+            padding: 0 0.8rem;
+        }
 
         li {
             margin-bottom: 4px;
