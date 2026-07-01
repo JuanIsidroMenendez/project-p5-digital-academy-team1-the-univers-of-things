@@ -78,4 +78,18 @@ describe('ProfileView', () => {
     expect(wrapper.text()).toContain('Contraseña actualizada correctamente')
     expect(wrapper.find('#current-password').element.value).toBe('')
   })
+
+  it('muestra error si el store rechaza el cambio de contraseña', async () => {
+    authStoreMock.changePassword.mockRejectedValue(new Error('auth/wrong-password'))
+    const wrapper = mount(ProfileView)
+
+    await wrapper.find('#current-password').setValue('malaClave1')
+    await wrapper.find('#new-password').setValue('nueva1234')
+    await wrapper.find('#confirm-password').setValue('nueva1234')
+    await wrapper.find('.profile-view__submit').trigger('click')
+    await Promise.resolve()
+    await Promise.resolve()
+
+    expect(wrapper.text()).toContain('Contraseña actual incorrecta')
+  })
 })
