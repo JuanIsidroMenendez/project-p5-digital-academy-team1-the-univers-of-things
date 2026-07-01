@@ -1,0 +1,33 @@
+// Entry point: solo @use en orden base > components > layouts > views
+
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/animations';
+
+@use 'components/button';
+@use 'components/card';
+@use 'components/bento';
+@use 'components/section-label';
+@use 'components/pagination';
+@use 'components/game-screenshots';
+@use 'components/similar-games';
+@use 'components/add-to-favorites-btn';
+@use 'components/featured/_featured-hero';
+@use 'components/featured/_featured-monthly';
+@use 'components/search-bar';
+@use 'components/filter-controls';
+@use 'components/edit-favorite-form';
+@use 'components/star-rating';
+@use 'components/add-favorite-from-list';
+
+@use 'layouts/header';
+@use 'layouts/footer';
+
+@use 'views/login';
+@use 'views/dashboard';
+@use 'views/featured-view';
+@use 'views/catalog';
+@use 'views/game-detail-view';
+@use 'views/user-management-view';
+@use 'views/register-view';
+

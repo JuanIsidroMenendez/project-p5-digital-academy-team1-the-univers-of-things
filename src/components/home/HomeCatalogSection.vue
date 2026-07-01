@@ -1,0 +1,280 @@
+<!-- Seccion catalogo en homepage: buscador, filtros, grid de juegos y paginacion -->
+<script setup>
+import { computed, watch, onMounted } from 'vue'
+import AppPagination from '@/components/layout/AppPagination.vue'
+import { useGamesStore } from '@/stores/games-store'
+import { filterByText, filterByGenre, filterByPlatform, paginateGames } from '@/utils/catalog-utils.js'
+import { ref } from 'vue'
+
+const gamesStore = useGamesStore()
+
+const searchQuery = ref('')
+const selectedGenre = ref('')
+const selectedPlatform = ref('')
+const currentPage = ref(1)
+const gamesPerPage = 10
+
+onMounted(async () => {
+    await gamesStore.fetchGames()
+})
+
+const genres = computed(() => [...new Set(gamesStore.games.map(g => g.genre))].sort())
+
+const platforms = computed(() => {
+    const order = ['PC (Windows)', 'Web Browser', 'PC (Windows), Web Browser']
+    const all = [...new Set(gamesStore.games.map(g => g.platform))]
+    return all.sort((a, b) => order.indexOf(a) - order.indexOf(b))
+})
+
+const filteredGames = computed(() => {
+    const byText = filterByText(gamesStore.games, searchQuery.value)
+    const byGenre = filterByGenre(byText, selectedGenre.value)
+    return filterByPlatform(byGenre, selectedPlatform.value)
+})
+
+const totalPages = computed(() => Math.ceil(filteredGames.value.length / gamesPerPage))
+const paginatedGames = computed(() => paginateGames(filteredGames.value, currentPage.value, gamesPerPage))
+
+watch([searchQuery, selectedGenre, selectedPlatform], () => {
+    currentPage.value = 1
+})
+
+function handlePageChange(page) {
+    currentPage.value = page
+}
+</script>
+
+<template>
+    <section class="catalog-home" aria-labelledby="catalogo-title">
+        <div class="catalog-home__inner">
+
+            <h2 id="catalogo-title" class="section-label">El catálogo</h2>
+
+            <form class="catalog-filters" role="search" aria-label="Busqueda y filtros del catalogo" @submit.prevent>
+                <div class="catalog-filters__search">
+                    <svg class="catalog-filters__search-icon" width="16" height="16" viewBox="0 0 24 24"
+                        fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    </svg>
+                    <label for="game-search" class="visually-hidden">Buscar juego por nombre</label>
+                    <input id="game-search" v-model="searchQuery" class="catalog-filters__input" type="search"
+                        placeholder="Buscar juego..." />
+                </div>
+
+                <div class="catalog-filters__selects">
+                    <label for="genre-filter" class="visually-hidden">Filtrar por género</label>
+                    <select id="genre-filter" v-model="selectedGenre" class="catalog-filters__select">
+                        <option value="">Género: Todos</option>
+                        <option v-for="genre in genres" :key="genre" :value="genre">
+                            {{ genre }}
+                        </option>
+                    </select>
+
+                    <label for="platform-filter" class="visually-hidden">Filtrar por plataforma</label>
+                    <select id="platform-filter" v-model="selectedPlatform" class="catalog-filters__select">
+                        <option value="">Plataforma: Todas</option>
+                        <option v-for="platform in platforms" :key="platform" :value="platform">
+                            {{ platform }}
+                        </option>
+                    </select>
+                </div>
+            </form>
+
+            <div v-if="gamesStore.isLoading" class="catalog-home__loading">
+                Cargando juegos...
+            </div>
+
+            <div v-else-if="gamesStore.error" class="catalog-home__error">
+                {{ gamesStore.error }}
+            </div>
+
+            <template v-else>
+                <ul v-if="paginatedGames.length > 0" class="catalog-home__grid">
+                    <li v-for="(game, index) in paginatedGames" :key="game.id ?? index">
+                        <RouterLink :to="{ name: 'game-detail', params: { id: game.id } }" class="card"
+                            :aria-label="`Ver detalle de ${game.title}`">
+                            <div class="card__thumb">
+                                <img :src="game.thumbnail" :alt="game.title" class="card__thumb-bg" />
+                            </div>
+                            <div class="card__body">
+                                <div class="card__header">
+                                    <span class="card__title">{{ game.title }}</span>
+                                </div>
+                                <p class="card__description">{{ game.short_description }}</p>
+                                <div class="card__meta">
+                                    <span class="badge badge--platform">{{ game.platform }}</span>
+                                    <span class="badge badge--action">{{ game.genre }}</span>
+                                </div>
+                            </div>
+                        </RouterLink>
+                    </li>
+                </ul>
+
+                <p v-else class="catalog-home__empty">Sin resultados para tu búsqueda.</p>
+
+                <AppPagination :current-page="currentPage" :total-pages="totalPages" @page-change="handlePageChange" />
+            </template>
+
+        </div>
+    </section>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/base/variables' as *;
+
+// Filtros
+.catalog-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    margin: 0 1rem 1.5rem;
+
+    @media (min-width: $bp-tablet) {
+        flex-direction: row;
+        align-items: center;
+        padding: 14px 22px;
+        margin: 0 2rem 2rem;
+    }
+
+    @media (min-width: $bp-desktop) {
+        margin: 0 auto 2.5rem;
+        max-width: $bp-wide;
+        padding: 14px 22px;
+    }
+
+    &__search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        @media (min-width: $bp-tablet) {
+            flex: 1;
+        }
+    }
+
+    &__search-icon {
+        flex-shrink: 0;
+        color: var(--color-text-dim);
+    }
+
+    &__input {
+        background: none;
+        border: none;
+        color: var(--color-text);
+        font-family: $font-body;
+        font-size: 14px;
+        width: 100%;
+
+        &::placeholder {
+            color: var(--color-text-dim);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__selects {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__select {
+        flex: 1;
+        background: transparent;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        color: var(--color-text-muted);
+        font-family: $font-mono;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        padding: 8px 12px;
+        cursor: pointer;
+        text-transform: uppercase;
+        appearance: none;
+        transition: border-color var(--transition);
+
+        &:hover {
+            border-color: var(--color-border-purple);
+        }
+
+        &:focus {
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        option {
+            background: #0d0d18;
+            color: var(--color-text);
+        }
+
+        @media (min-width: $bp-tablet) {
+            flex: initial;
+            padding: 8px 14px;
+        }
+    }
+}
+
+// Catalogo home
+
+.catalog-home {
+    padding: 0 1rem 2rem;
+
+    @media (min-width: $bp-tablet) {
+        padding: 0 2rem 2.5rem;
+    }
+
+    @media (min-width: $bp-desktop) {
+        padding: 0 4rem 3rem;
+        max-width: $bp-wide;
+        margin: 0 auto;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-bottom: 2rem;
+        list-style: none;
+
+        @media (min-width: $bp-mobile) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (min-width: $bp-tablet) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (min-width: $bp-desktop) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (min-width: 1200px) {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+
+    &__placeholder {
+        min-height: 200px;
+        cursor: default;
+
+        &:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--color-border);
+        }
+    }
+
+    &__placeholder-bg {
+        background: linear-gradient(145deg, #0f0020, #2d0060);
+        animation: fps-pulse 2s ease infinite;
+    }
+}
+</style>

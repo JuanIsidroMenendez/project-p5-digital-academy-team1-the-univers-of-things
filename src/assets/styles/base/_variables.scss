@@ -1,0 +1,70 @@
+// CSS CUSTOM PROPERTIES
+
+:root {
+    // Fondos
+    --color-bg: #030308;
+    --color-surface: rgba(10, 10, 24, 0.75);
+    --color-surface-high: rgba(18, 18, 36, 0.92);
+
+    // Marca
+    --color-primary: #a855f7;
+    --color-primary-dim: rgba(168, 85, 247, 0.12);
+    --color-secondary: #22d3ee;
+    --color-secondary-dim: rgba(34, 211, 238, 0.1);
+    --color-accent: #f97316;
+
+    // Texto
+    --color-text: #f1f5f9;
+    --color-text-muted: #94a3b8;
+    --color-text-dim: #475569;
+
+    // Bordes
+    --color-border: rgba(148, 163, 184, 0.1);
+    --color-border-purple: rgba(168, 85, 247, 0.3);
+    --color-border-cyan: rgba(34, 211, 238, 0.25);
+
+    // Estados
+    --color-success: #4ade80;
+    --color-danger: #ef4444;
+    --color-warning: #fbbf24;
+
+    // Espaciado (grid de 8px)
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+
+    // Radios
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --radius-full: 9999px;
+
+    // Transiciones
+    --transition: 0.2s ease;
+    --transition-slow: 0.35s ease;
+}
+
+// Variables SASS 
+
+$primary: #a855f7;
+$secondary: #22d3ee;
+$accent: #f97316;
+$bg: #030308;
+
+// Breakpoints — mobile-first
+$bp-mobile: 480px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-wide: 1400px;
+
+// Fuentes
+$font-display: 'Syne', sans-serif;
+$font-body: 'DM Sans', sans-serif;
+$font-mono: 'Space Mono', monospace;

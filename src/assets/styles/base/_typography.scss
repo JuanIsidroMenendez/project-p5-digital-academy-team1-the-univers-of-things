@@ -1,0 +1,35 @@
+@use "./variables" as *;
+
+// Tipografias del proyecto + escala base
+
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=swap");
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-display;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+p {
+  font-family: $font-body;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.text-display {
+  font-family: $font-display;
+}
+
+.text-body {
+  font-family: $font-body;
+}
+
+.text-mono {
+  font-family: $font-mono;
+}

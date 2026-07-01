@@ -1,0 +1,1 @@
+<!-- Lista de tarjetas de juegos con grid responsive -->

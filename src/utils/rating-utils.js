@@ -1,0 +1,1 @@
+// Utilidades puras del sistema de valoracion por estrellas (TDD con Vitest)

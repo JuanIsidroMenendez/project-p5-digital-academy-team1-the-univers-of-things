@@ -1,0 +1,58 @@
+@use '../base/variables' as *;
+
+// Paginacion reutilizable a traves del componente AppPagination
+
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.5rem 1rem 2rem;
+
+    &__btn {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+        font-family: $font-mono;
+        font-size: 12px;
+        border: 1px solid var(--color-border);
+        background: transparent;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        transition: all var(--transition);
+
+        &:hover:not(:disabled) {
+            border-color: var(--color-border-purple);
+            color: var(--color-text);
+        }
+
+        &--active {
+            background: var(--color-primary-dim);
+            border-color: var(--color-border-purple);
+            color: var(--color-primary);
+        }
+
+        &:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+    }
+
+    &__dots {
+        color: var(--color-text-dim);
+        font-size: 12px;
+        padding: 0 4px;
+        font-family: $font-mono;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}

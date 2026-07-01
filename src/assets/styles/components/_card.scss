@@ -1,0 +1,142 @@
+@use "../base/variables" as *;
+
+// Estilos globales de .card y badges de genero
+
+.card {
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition:
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+
+  &:hover {
+    border-color: var(--color-border-purple);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(168, 85, 247, 0.12);
+  }
+
+  &__thumb {
+    width: 100%;
+    height: 155px;
+    position: relative;
+    overflow: hidden;
+
+    &-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      
+      .card:hover & {
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  &__body {
+    padding: 14px 16px 16px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  &__title {
+    font-family: $font-display;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  &__description {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    margin-bottom: var(--space-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 6px;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    background: rgba(249, 115, 22, 0.1);
+  }
+}
+
+.badge {
+  font-family: $font-mono;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &--action {
+    background: rgba(239, 68, 68, 0.13);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.28);
+  }
+
+  &--rpg {
+    background: rgba(168, 85, 247, 0.13);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.28);
+  }
+
+  &--strategy {
+    background: rgba(59, 130, 246, 0.13);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.28);
+  }
+
+  &--shooter {
+    background: rgba(249, 115, 22, 0.13);
+    color: #fb923c;
+    border: 1px solid rgba(249, 115, 22, 0.28);
+  }
+
+  &--platform {
+    color: var(--color-text-dim);
+    background: rgba(148, 163, 184, 0.06);
+    border: 1px solid var(--color-border);
+  }
+
+  &--free {
+    color: var(--color-success);
+    background: rgba(74, 222, 128, 0.09);
+    border: 1px solid rgba(74, 222, 128, 0.22);
+  }
+}
