@@ -92,3 +92,15 @@ describe('user.service', () => {
       })
     })
   })
+  // ── updateUserBg ──
+  describe('updateUserBg', () => {
+    it('llama a setDoc con el fondo correcto y merge true', async () => {
+      await updateUserBg('uid-123', 'linear-gradient(135deg, #000, #fff)')
+
+      expect(setDoc).toHaveBeenCalledWith(
+        'mockRef',
+        { profileBg: 'linear-gradient(135deg, #000, #fff)' },
+        { merge: true }
+      )
+    })
+  })
