@@ -52,6 +52,7 @@ describe('user.service', () => {
       })
     })
   })
+
   // ── getUserProfile ──
   describe('getUserProfile', () => {
     it('devuelve los datos del usuario si existe en Firestore', async () => {
@@ -73,7 +74,8 @@ describe('user.service', () => {
       expect(result).toBeNull()
     })
   })
-   // ── updateUserFavorites ──
+
+  // ── updateUserFavorites ──
   describe('updateUserFavorites', () => {
     it('llama a updateDoc con la lista de favoritos correcta', async () => {
       const favorites = [{ id: 1, title: 'Game 1' }]
@@ -82,6 +84,7 @@ describe('user.service', () => {
       expect(updateDoc).toHaveBeenCalledWith('mockRef', { fav: favorites })
     })
   })
+
   // ── updateUserAvatar ──
   describe('updateUserAvatar', () => {
     it('llama a updateDoc con la URL del avatar correcta', async () => {
@@ -92,6 +95,7 @@ describe('user.service', () => {
       })
     })
   })
+
   // ── updateUserBg ──
   describe('updateUserBg', () => {
     it('llama a setDoc con el fondo correcto y merge true', async () => {
@@ -104,3 +108,17 @@ describe('user.service', () => {
       )
     })
   })
+
+  // ── uploadAvatarToStorage ──
+  describe('uploadAvatarToStorage', () => {
+    it('sube el archivo y devuelve la URL de descarga', async () => {
+      const mockFile = { name: 'avatar.jpg' }
+      const result = await uploadAvatarToStorage('uid-123', mockFile)
+
+      expect(uploadBytes).toHaveBeenCalledWith('mockStorageRef', mockFile)
+      expect(getDownloadURL).toHaveBeenCalledWith('mockStorageRef')
+      expect(result).toBe('https://example.com/avatar.jpg')
+    })
+  })
+
+})
