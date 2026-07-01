@@ -64,4 +64,18 @@ describe('ProfileView', () => {
     expect(wrapper.text()).toContain('al menos 8 caracteres y un número')
     expect(authStoreMock.changePassword).not.toHaveBeenCalled()
   })
+
+  it('cambia la contraseña con éxito y limpia los campos', async () => {
+    const wrapper = mount(ProfileView)
+
+    await wrapper.find('#current-password').setValue('actual123')
+    await wrapper.find('#new-password').setValue('nueva1234')
+    await wrapper.find('#confirm-password').setValue('nueva1234')
+    await wrapper.find('.profile-view__submit').trigger('click')
+    await Promise.resolve()
+
+    expect(authStoreMock.changePassword).toHaveBeenCalledWith('actual123', 'nueva1234')
+    expect(wrapper.text()).toContain('Contraseña actualizada correctamente')
+    expect(wrapper.find('#current-password').element.value).toBe('')
+  })
 })
