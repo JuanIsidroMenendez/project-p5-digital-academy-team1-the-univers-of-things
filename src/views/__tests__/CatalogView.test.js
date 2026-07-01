@@ -64,4 +64,10 @@ describe('CatalogView', () => {
     expect(wrapper.findAll('.item-card-stub')).toHaveLength(3)
     expect(wrapper.text()).toContain('Game 1')
   })
+
+  it('llama a fetchGames en onMounted', () => {
+    mount(CatalogView)
+
+    expect(gamesStoreMock.fetchGames).toHaveBeenCalledTimes(1)
+  })
 })
