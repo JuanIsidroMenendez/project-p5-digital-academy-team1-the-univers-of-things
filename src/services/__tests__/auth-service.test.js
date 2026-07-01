@@ -59,4 +59,16 @@ describe('auth-service', () => {
       username: 'alice',
     })
   })
+
+  it('loginUser rechaza y desloguea a un usuario con status restricted', async () => {
+    getDoc.mockResolvedValue({
+      exists: () => true,
+      data: () => ({ role: 'customer', status: 'restricted', username: 'bob' }),
+    })
+
+    await expect(loginUser('test@example.com', 'password123')).rejects.toEqual({
+      code: 'auth/access-restricted',
+    })
+    expect(signOut).toHaveBeenCalledTimes(1)
+  })
 })
