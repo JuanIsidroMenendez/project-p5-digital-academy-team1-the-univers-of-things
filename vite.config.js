@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/project-p5-digital-academy-team1-the-univers-of-things/',
   plugins: [
     vue(),
   ],
