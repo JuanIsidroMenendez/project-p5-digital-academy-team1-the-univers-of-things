@@ -73,4 +73,25 @@ describe('AdminFeaturedView', () => {
       expect.objectContaining({ id: 'a', title: 'Quantum Strike' })
     )
   })
+
+  it('quita un juego activo destacado al pulsar QUITAR', async () => {
+    featuredStoreMock.featuredList = [{ id: 'a', title: 'Quantum Strike', thumbnail: 'a.jpg' }]
+    const wrapper = mount(AdminFeaturedView)
+
+    await wrapper.find('.admin-featured__active-card .admin-featured__remove').trigger('click')
+
+    expect(featuredStoreMock.removeFeatured).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'a' })
+    )
+  })
+
+  it('deshabilita el buscador y avisa cuando hay 6 juegos destacados', () => {
+    featuredStoreMock.featuredList = Array.from({ length: 6 }, (_, i) => ({
+      id: `g${i}`, title: `Game ${i}`, thumbnail: `${i}.jpg`,
+    }))
+    const wrapper = mount(AdminFeaturedView)
+
+    expect(wrapper.find('#active-search').attributes('disabled')).toBeDefined()
+    expect(wrapper.text()).toContain('Máx. 6 juegos destacados')
+  })
 })
