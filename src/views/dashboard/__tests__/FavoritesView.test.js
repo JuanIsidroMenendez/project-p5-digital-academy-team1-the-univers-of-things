@@ -82,4 +82,14 @@ describe('FavoritesView', () => {
 
     expect(favoritesStoreMock.removeFromFavorites).toHaveBeenCalledWith('g1')
   })
+
+  it('entra en modo edición y muestra el formulario en vez de la tarjeta', async () => {
+    favoritesStoreMock.favoritesList = [{ id: 'g1', title: 'Quantum Strike' }]
+    const wrapper = mount(FavoritesView)
+
+    await wrapper.find('.stub-edit').trigger('click')
+
+    expect(wrapper.find('.edit-form-stub').exists()).toBe(true)
+    expect(wrapper.find('.favorite-card-stub').exists()).toBe(false)
+  })
 })
