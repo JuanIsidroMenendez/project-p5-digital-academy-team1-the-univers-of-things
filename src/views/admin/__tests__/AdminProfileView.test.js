@@ -117,6 +117,7 @@ describe('AdminProfileView', () => {
   })
 
   it('muestra error si updateBg falla', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
     authStoreMock.updateBg.mockRejectedValue(new Error('storage/error'))
     const wrapper = mount(AdminProfileView)
 
