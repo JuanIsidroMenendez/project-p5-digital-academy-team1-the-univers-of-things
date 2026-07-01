@@ -60,4 +60,17 @@ describe('AdminFeaturedView', () => {
 
     expect(featuredStoreMock.selectMonthly).toHaveBeenCalledWith(null)
   })
+
+  it('añade un juego activo al hacer click en una sugerencia', async () => {
+    const wrapper = mount(AdminFeaturedView)
+
+    const input = wrapper.find('#active-search')
+    await input.trigger('focus')
+    await input.setValue('quantum')
+    await wrapper.find('.admin-featured__suggestion').trigger('click')
+
+    expect(featuredStoreMock.addFeatured).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'a', title: 'Quantum Strike' })
+    )
+  })
 })
