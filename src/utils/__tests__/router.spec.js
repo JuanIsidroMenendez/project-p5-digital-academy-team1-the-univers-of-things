@@ -56,4 +56,15 @@ describe('Router Guards', () => {
         await router.push('/dashboard/favorites')
         expect(router.currentRoute.value.path).toBe('/dashboard/favorites')
     })
+
+    test('permite navegar a ruta admin si isAdmin es true', async () => {
+        useAuthStore.mockReturnValue({
+            user: { uid: '123' },
+            isAdmin: true,
+            isCustomer: false,
+            loading: false
+        })
+        await router.push('/admin/users')
+        expect(router.currentRoute.value.path).toBe('/admin/users')
+    })
     })
