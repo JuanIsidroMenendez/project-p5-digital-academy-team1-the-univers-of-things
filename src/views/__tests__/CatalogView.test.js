@@ -42,4 +42,12 @@ describe('CatalogView', () => {
     expect(wrapper.text()).toContain('Cargando juegos...')
     expect(wrapper.find('.item-card-stub').exists()).toBe(false)
   })
+
+  it('muestra el mensaje de error cuando gamesStore.error tiene texto', () => {
+    gamesStoreMock.error = 'Error al cargar los juegos. Inténtalo de nuevo más tarde.'
+    const wrapper = mount(CatalogView)
+
+    expect(wrapper.text()).toContain('Error al cargar los juegos')
+    expect(wrapper.find('.item-card-stub').exists()).toBe(false)
+  })
 })
