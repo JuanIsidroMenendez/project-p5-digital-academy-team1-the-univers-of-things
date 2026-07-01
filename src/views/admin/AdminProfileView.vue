@@ -128,7 +128,8 @@ async function handleFileUpload(event) {
     setTimeout(() => {
       avatarFeedback.value = "";
     }, 2500);
-  } catch {
+  } catch (error) {
+    console.error("Error al subir avatar a Firebase Storage:", error);
     avatarFeedback.value = "Error al subir la imagen";
   }
 }
