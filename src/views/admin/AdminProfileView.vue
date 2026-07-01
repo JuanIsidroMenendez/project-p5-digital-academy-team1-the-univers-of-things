@@ -104,7 +104,6 @@ async function handleSaveBg() {
       bgFeedback.value = "";
     }, 2500);
   } catch (error) {
-    console.error('Error guardando fondo:', error)
     bgFeedback.value = "Error al guardar el fondo";
   }
 }
@@ -177,7 +176,7 @@ async function handleChangePassword() {
         <!-- Columna izquierda: avatar -->
         <div class="admin-profile__left">
           <div class="admin-profile__avatar" :style="{ background: previewBg }">
-            <img :src="previewImg" />
+            <img :src="previewImg" :alt="selectedAvatar ? `Avatar seleccionado ${selectedAvatar}` : 'Avatar actual'" />
           </div>
           <p class="admin-profile__name">{{ auth.profile?.username }}</p>
           <p class="admin-profile__email">{{ auth.user?.email }}</p>
@@ -242,12 +241,15 @@ async function handleChangePassword() {
         <!-- Columna derecha: contraseña -->
         <div class="admin-profile__right">
           <span class="admin-profile__label">Cambiar contraseña</span>
+          <label for="current-password" class="visually-hidden">Contraseña actual</label>
           <input
+            id="current-password"
             v-model="currentPassword"
             type="password"
             placeholder="Contraseña actual"
             class="admin-profile__input"
           />
+          <label for="new-password" class="visually-hidden">Nueva contraseña</label>
           <input
             id="new-password"
             v-model="newPassword"
@@ -255,6 +257,7 @@ async function handleChangePassword() {
             placeholder="Nueva contraseña"
             class="admin-profile__input"
           />
+          <label for="confirm-password" class="visually-hidden">Confirmar contraseña</label>
           <input
             id="confirm-password"
             v-model="confirmPassword"

@@ -8,8 +8,12 @@ import { useFeaturedStore } from '@/stores/featured-store.js'
 
 const featuredStore = useFeaturedStore()
 
-onMounted(() => {
-  featuredStore.fetchAll()
+onMounted(async () => {
+  try {
+    await featuredStore.fetchAll()
+  } catch {
+    console.warn('No se pudieron cargar los juegos destacados')
+  }
 })
 </script>
 <template>

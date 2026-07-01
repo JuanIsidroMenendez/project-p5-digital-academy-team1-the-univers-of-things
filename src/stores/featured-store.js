@@ -12,7 +12,7 @@ export const useFeaturedStore = defineStore('featured', () => {
         const games = await getGames()
         const featuredConfig = await getFeaturedConfig()
         catalog.value = games
-        featuredList.value = featuredConfig.featuredGames.map(id => games.find(g => g.id === id))
+        featuredList.value = featuredConfig.featuredGames.map(id => games.find(g => g.id === id)).filter(Boolean)
         gameOfTheMonth.value = games.find(g => g.id === featuredConfig.monthlyGame) ?? null
 
 

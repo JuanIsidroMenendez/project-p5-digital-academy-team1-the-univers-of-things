@@ -2,8 +2,6 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.js'
 import { useRouter } from 'vue-router'
-import avatar1 from '@/assets/avatars/avatar-1.svg'
-
 const auth = useAuthStore()
 const router = useRouter()
 

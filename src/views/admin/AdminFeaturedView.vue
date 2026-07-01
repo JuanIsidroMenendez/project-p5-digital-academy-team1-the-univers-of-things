@@ -8,7 +8,13 @@ const featuredStore = useFeaturedStore()
 const monthlyQuery = ref('')
 const monthlyGame = computed(() => featuredStore.gameOfTheMonth)
 const showMonthlySuggestions = ref(false)
-onMounted(async () => await featuredStore.fetchAll())
+onMounted(async () => {
+  try {
+    await featuredStore.fetchAll()
+  } catch {
+    console.warn('No se pudieron cargar los juegos destacados')
+  }
+})
 const featuredFull = computed(() => featuredStore.featuredList.length >= 6)
 
 
