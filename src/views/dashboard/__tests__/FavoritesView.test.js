@@ -125,4 +125,18 @@ describe('FavoritesView', () => {
 
     expect(favoritesStoreMock.rateFavorite).toHaveBeenCalledWith('g1', 5)
   })
+
+  it('abre el panel de añadir y añade el juego seleccionado', async () => {
+    const wrapper = mount(FavoritesView)
+
+    expect(wrapper.find('.add-panel-stub').exists()).toBe(false)
+
+    await wrapper.find('.favorites-view__add-btn').trigger('click')
+    expect(wrapper.find('.add-panel-stub').exists()).toBe(true)
+
+    await wrapper.find('.stub-select').trigger('click')
+
+    expect(favoritesStoreMock.addToFavorites).toHaveBeenCalledWith({ id: 'new-game', title: 'New Game' })
+    expect(wrapper.find('.add-panel-stub').exists()).toBe(false)
+  })
 })
