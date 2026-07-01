@@ -46,4 +46,14 @@ describe('games-api', () => {
 
     expect(result).toEqual({ id: 2, title: 'Neon Odyssey' })
   })
+
+  it('getGameById lanza error si el juego no existe', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    fetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockGames),
+    })
+
+    await expect(getGameById(999)).rejects.toThrow('Juego no encontrado')
+  })
 })
