@@ -71,4 +71,13 @@ describe('auth-service', () => {
     })
     expect(signOut).toHaveBeenCalledTimes(1)
   })
+
+  it('loginUser propaga el error si las credenciales son inválidas', async () => {
+    signInWithEmailAndPassword.mockRejectedValue({ code: 'auth/invalid-credential' })
+
+    await expect(loginUser('test@example.com', 'wrong-password')).rejects.toEqual({
+      code: 'auth/invalid-credential',
+    })
+    expect(getDoc).not.toHaveBeenCalled()
+  })
 })
