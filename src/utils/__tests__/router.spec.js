@@ -45,4 +45,15 @@ describe('Router Guards', () => {
         await router.push('/catalog')
         expect(router.currentRoute.value.path).toBe('/catalog')
     })
+
+    test('permite navegar a ruta protegida si hay sesión', async () => {
+        useAuthStore.mockReturnValue({
+            user: { uid: '123' },
+            isAdmin: false,
+            isCustomer: true,
+            loading: false
+        })
+        await router.push('/dashboard/favorites')
+        expect(router.currentRoute.value.path).toBe('/dashboard/favorites')
+    })
     })
