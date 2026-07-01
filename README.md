@@ -712,10 +712,10 @@ El prototipo completo de la aplicación está desarrollado para **todas las vist
     - **`__tests__/`**
       - **`catalog-utils.test.js`** — tests unitarios con Vitest (TDD)
       - **`form-validators.test.js`** — tests de las utilidades de validación
-      - **`rating-utils.test.js`** — tests del sistema de rating
       - **`router.spec.js`** — pruebas unitarias de las rutas y navegación
       - **`user-access.spec.js`** — tests del control de acceso de usuarios
       - **`user-filters.spec.js`** — tests del filtrado de usuarios admin
+      - **`user-service.test.js`** — tests del servicio de creación de perfiles de usuario
   - **`views/`** — vistas completas de la aplicación
     - **`HomeView.vue`**
     - **`CatalogView.vue`**
@@ -767,35 +767,45 @@ refactor: simplify validateEmail with regex
 
 ### Vitest — Tests unitarios
 
-| Categoría                     |     Archivos     |  Tests  |
-| :---------------------------- | :--------------: | :-----: |
-| Vistas (`views/`)             |        9         |   52    |
-| Componentes (`components/`)   |        9         |   41    |
-| Stores — Pinia (`stores/`)    |        4         |   29    |
-| Servicios — API (`services/`) |        2         |   10    |
-| Utilidades (`utils/`)         |        6         |   40    |
-| **Total**                     |      **31**      | **172** |
+| Categoría                     | Archivos |  Tests  |
+| :---------------------------- | :------: | :-----: |
+| Vistas (`views/`)             |    9     |   52    |
+| Componentes (`components/`)   |    9     |   41    |
+| Stores — Pinia (`stores/`)    |    4     |   29    |
+| Servicios — API (`services/`) |    2     |   10    |
+| Utilidades (`utils/`)         |    6     |   40    |
+| **Total**                     |  **30**  | **172** |
 
 ---
 
 ### Playwright — Tests E2E
 
-### Playwright — Tests E2E
+| Archivo             | Escenarios |   Pasan   |
+| :------------------ | :--------: | :-------: |
+| `login.spec.js`     |     2      |    6/6    |
+| `register.spec.js`  |     3      |    9/9    |
+| `favorites.spec.js` |     1      |    3/3    |
+| **Total**           |   **6**    | **18/18** |
 
-| Archivo               | Escenarios | Pasan |
-| :---------------------- | :----------: | :-----------------------------: |
-| `login.spec.js`       |      2     |              6/6              |
-| `register.spec.js`    |      3     |              9/9              |
-| `favorites.spec.js`   |      1     |              3/3              |
-| **Total**             |    **6**   |          **18/18**            |
+### Capturas Test Explorer
 
-### Capturas Test Explorer 
-
-|                               Vitest                               |                              Cobertura                               |                                 Playwright                                 |
-| :--------------------------------------------------------------------: | :--------------------------------------------------------------------------: | :-------------------------------------------------------------------------: |
+|                               Vitest                               |                               Cobertura                               |                                 Playwright                                 |
+| :----------------------------------------------------------------: | :-------------------------------------------------------------------: | :------------------------------------------------------------------------: |
 | ![Resultados vitest](src/assets/imgs/screenshots/tests/vitest.png) | ![Cobertura de tests](src/assets/imgs/screenshots/tests/coverage.png) | ![Resultados playwright](src/assets/imgs/screenshots/tests/playwright.png) |
 
-**Cobertura global (v8):** 83.11% Statements · 74.11% Branch · 74.08% Funcs · 85.53% Lines
+**Cobertura global (v8):**
+
+- **83.11%** - `Statements`
+- **74.11%** - `Branch`
+- **74.08%** - `Funcs`
+- **85.53%** - `Lines`
+
+Áreas con menor cobertura, identificadas para futuras mejoras:
+
+- `layouts`: (46.66%)
+- `router`: (48.14%)
+- `composables`: (50%)
+- `components/favorites`: (50%)
 
 ---
 
@@ -823,7 +833,7 @@ refactor: simplify validateEmail with regex
 
 Despliegue automatizado mediante **GitHub Actions**: cada push a `main` ejecuta el build de producción con Vite, inyecta las variables de entorno de Firebase como Secrets del repositorio y publica el resultado en GitHub Pages.
 
-> 🔗 PENDIENTE: 
+> **App desplegada:** [FPS](https://factoriaf5-asturias.github.io/project-p5-digital-academy-team1-the-univers-of-things/)
 
 ---
 
