@@ -57,4 +57,11 @@ describe('CatalogView', () => {
 
     expect(wrapper.text()).toContain('No se han encontrado resultados')
   })
+
+  it('muestra las tarjetas de los juegos cargados', () => {
+    const wrapper = mount(CatalogView)
+
+    expect(wrapper.findAll('.item-card-stub')).toHaveLength(3)
+    expect(wrapper.text()).toContain('Game 1')
+  })
 })
