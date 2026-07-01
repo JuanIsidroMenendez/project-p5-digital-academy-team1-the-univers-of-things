@@ -30,4 +30,13 @@ describe('gamesStore', () => {
     expect(store.isLoading).toBe(false)
     expect(store.error).toBe(null)
   })
+
+  it('fetchGames no vuelve a llamar a la API si hasLoaded ya es true', async () => {
+    const store = useGamesStore()
+
+    await store.fetchGames()
+    await store.fetchGames()
+
+    expect(getGames).toHaveBeenCalledTimes(1)
+  })
 })
