@@ -39,17 +39,18 @@
       max-width: none;
     }
   }
-}
-a {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  align-items: center;
-  width: 100%;
 
-  @media (min-width: $bp-tablet) {
-    flex-direction: row-reverse;
-    gap: 2rem;
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: center;
+    width: 100%;
+
+    @media (min-width: $bp-tablet) {
+      flex-direction: row-reverse;
+      gap: 2rem;
+    }
   }
 }
 .featured-monthly__tag {
