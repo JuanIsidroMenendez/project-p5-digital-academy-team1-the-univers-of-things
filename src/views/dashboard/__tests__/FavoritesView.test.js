@@ -104,4 +104,16 @@ describe('FavoritesView', () => {
     expect(wrapper.find('.edit-form-stub').exists()).toBe(false)
     expect(wrapper.find('.favorite-card-stub').exists()).toBe(true)
   })
+
+  it('cancela la edición sin guardar cambios', async () => {
+    favoritesStoreMock.favoritesList = [{ id: 'g1', title: 'Quantum Strike' }]
+    const wrapper = mount(FavoritesView)
+
+    await wrapper.find('.stub-edit').trigger('click')
+    await wrapper.find('.stub-cancel').trigger('click')
+
+    expect(favoritesStoreMock.updateFavorite).not.toHaveBeenCalled()
+    expect(wrapper.find('.edit-form-stub').exists()).toBe(false)
+    expect(wrapper.find('.favorite-card-stub').exists()).toBe(true)
+  })
 })
