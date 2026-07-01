@@ -18,7 +18,7 @@ test.describe('Login de usuario', () => {
     // 4. CLICK EN LOGIN
     await page.click('button[type="submit"]')
     // 5. VERIFICACIÓN ENVÍO A DASHBOARD DE CUSTOMER
-    await expect(page).toHaveURL('/dashboard')
+    await expect(page).toHaveURL('/dashboard/profile')
   })
 
 

@@ -42,6 +42,6 @@ test.describe('Registro de usuario', () => {
     await page.click('button[type="submit"]')
 
     // Aumentamos el timeout a 15s porque Firebase puede tardar más en Firefox/Webkit
-  await expect(page).toHaveURL('/dashboard', { timeout: 15000 })
+  await expect(page).toHaveURL('/dashboard/profile', { timeout: 15000 })
 })
 })
