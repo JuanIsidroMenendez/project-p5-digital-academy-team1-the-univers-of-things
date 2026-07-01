@@ -136,12 +136,15 @@ Diseñado en FigJam antes del desarrollo para mapear las rutas de usuario, admin
 | Admin | Administrador | ![Userflow Visitante](src/assets/imgs/screenshots/userflow/admin.png) |
 
 **Ruta visitante:**
+
 Home → Catálogo (filtro/búsqueda/paginación) → Detalle de juego → (botón de favorito bloqueado) → Login/Register
 
 **Ruta principal (customer):**
+
 Home → Login → Catálogo → Detalle → Añadir a favoritos → Dashboard de usuario → Gestionar favoritos (CRUD + rating) → Perfil (cambiar avatar/contraseña) → Logout
 
 **Ruta principal (admin):**
+
 Home → Login (admin) → Admin Dashboard → Gestionar usuarios (permitir/restringir) → Gestionar
 destacados → Logout
 
@@ -708,8 +711,8 @@ El prototipo completo de la aplicación está desarrollado para **todas las vist
 - **`e2e/`** — tests de extremo a extremo (End-to-End) con Playwright
   - **`login.spec.js`** — test del flujo de inicio de sesión de usuarios
   - **`register.spec.js`** — test del flujo de creación de cuentas de usuario
-  - **`favorites.spec.js`** _(Sprint 2)_ — test de flujos de guardado de favoritos
-  - **`admin.spec.js`** _(Sprint 2)_ — test de flujos del panel de administración
+  - **`favorites.spec.js`** — test de flujos de guardado de favoritos
+  - **`admin.spec.js`** — test de flujos del panel de administración
 
 ---
 
