@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { loginUser } from '../auth-service.js'
+import { loginUser, logoutUser } from '../auth-service.js'
 
 const mockUser = { uid: 'user-1', email: 'test@example.com' }
 
@@ -79,5 +79,11 @@ describe('auth-service', () => {
       code: 'auth/invalid-credential',
     })
     expect(getDoc).not.toHaveBeenCalled()
+  })
+
+  it('logoutUser llama a signOut', async () => {
+    await logoutUser()
+
+    expect(signOut).toHaveBeenCalledTimes(1)
   })
 })
