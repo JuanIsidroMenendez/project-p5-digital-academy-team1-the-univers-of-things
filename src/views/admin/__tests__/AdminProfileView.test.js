@@ -63,4 +63,16 @@ describe('AdminProfileView', () => {
     expect(wrapper.text()).toContain('Las contraseñas no coinciden')
     expect(authStoreMock.changePassword).not.toHaveBeenCalled()
   })
+
+  it('rechaza el cambio de contraseña si la nueva no cumple el formato mínimo', async () => {
+    const wrapper = mount(AdminProfileView)
+
+    await wrapper.find('.admin-profile__input').setValue('actual123')
+    await wrapper.find('#new-password').setValue('corta')
+    await wrapper.find('#confirm-password').setValue('corta')
+    await wrapper.find('.admin-profile__btn-update').trigger('click')
+
+    expect(wrapper.text()).toContain('al menos 8 caracteres y un número')
+    expect(authStoreMock.changePassword).not.toHaveBeenCalled()
+  })
 })
