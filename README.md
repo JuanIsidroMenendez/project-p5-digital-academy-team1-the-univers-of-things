@@ -14,6 +14,8 @@ La aplicación es **responsive**, tiene **paginación**, **filtros por género**
 
 Desarrollado con **Vue 3 (Composition API)**, **Vue Router**, **Pinia**, **SASS**, **Firebase** (Auth, Firestore, Storage), **TDD** con **Vitest**, **tests E2E** con **Playwright**, **GitFlow** y gestión del proyecto siguiendo metodología **Scrum** con **Jira**.
 
+Proyecto completado en **2 Sprints de 2 semanas** (4 semanas totales), con todas las funcionalidades de ambos sprints implementadas y testeadas.
+
 ---
 
 ## 🔍 Análisis
@@ -27,10 +29,23 @@ Antes de comenzar el desarrollo analizamos los requisitos funcionales e identifi
 - **Detalle de juego**: vista individual con información ampliada, plataformas y juegos similares
 - **Login**: acceso de usuarios registrados con email y contraseña, validación de credenciales y redirección según rol (`customer` / `admin`)
 - **Registro**: creación de cuenta nueva con email y contraseña, validación de formulario y asignación automática del rol `customer`
-- **Gestión de favoritos (CRUD + Rating)**: usuarios `customer` pueden añadir/eliminar/editar/valorar juegos favoritos, e incluso crear nuevos favoritos personalizados
+- **Gestión de favoritos (CRUD + Rating)**: usuarios `customer` pueden añadir/eliminar/editar/valorar juegos favoritos, e incluso crear nuevos favoritos personalizados, tanto desde el detalle como desde la homepage y el catálogo
 - **Dashboard de usuario**: perfil con cambio de contraseña y subida de avatar a Firebase Storage
 - **Dashboard de admin**: listado de usuarios con posibilidad de cambiar estado (acceso permitido/restringido) y gestión de destacados
 - Tests unitarios con Vitest (TDD) y tests E2E con Playwright
+
+---
+
+## 🔑 Credenciales de prueba
+
+Para acceder directamente como administrador sin necesidad de registro, puedes usar esta cuenta de demo:
+
+| Campo          | Valor         |
+| :------------- | :------------ |
+| **Email**      | admin@fps.com |
+| **Contraseña** | uvas1234      |
+
+Para probar la experiencia de **customer**, regístrate libremente desde `/register` — el registro está abierto y no requiere cuenta de demo.
 
 ---
 
@@ -81,19 +96,19 @@ Antes de empezar a programar definimos la identidad visual del proyecto.
 
 **Paleta de color:**
 
-| Nombre                               | HEX                   |
+| Nombre                               |          HEX          |
 | :----------------------------------- | :-------------------: |
-| Fondo principal                      | `#030308`             |
+| Fondo principal                      |       `#030308`       |
 | Surface — tarjetas y paneles         | `rgba(10,10,24,0.75)` |
-| Púrpura — color principal de marca   | `#a855f7`             |
-| Púrpura oscuro — hover y gradientes  | `#7c3aed`             |
-| Cian — color secundario / acciones   | `#22d3ee`             |
-| Naranja — acento / badges destacados | `#f97316`             |
-| Texto principal                      | `#f1f5f9`             |
-| Texto apagado                        | `#94a3b8`             |
-| Verde — estado permitido             | `#4ade80`             |
-| Rojo — estado restringido / errores  | `#ef4444`             |
-| Amarillo — valoración estrellas      | `#fbbf24`             |
+| Púrpura — color principal de marca   |       `#a855f7`       |
+| Púrpura oscuro — hover y gradientes  |       `#7c3aed`       |
+| Cian — color secundario / acciones   |       `#22d3ee`       |
+| Naranja — acento / badges destacados |       `#f97316`       |
+| Texto principal                      |       `#f1f5f9`       |
+| Texto apagado                        |       `#94a3b8`       |
+| Verde — estado permitido             |       `#4ade80`       |
+| Rojo — estado restringido / errores  |       `#ef4444`       |
+| Amarillo — valoración estrellas      |       `#fbbf24`       |
 
 **Tipografías:**
 
@@ -105,20 +120,20 @@ Antes de empezar a programar definimos la identidad visual del proyecto.
 
 ## 📋 Planificación
 
-Proyecto gestionado con **Jira** bajo metodología **Scrum** — **2 Sprints de 2 semanas** (4 semanas totales).
+Proyecto gestionado con **Jira** bajo metodología **Scrum** — **2 Sprints de 2 semanas** (4 semanas totales), ambos completados.
 
 📸 Capturas de Jira:
 
-| Backlog Sprint 1 | Backlog Sprint 2 |
-| :------------------: | :------------------: |
+|                          Backlog Sprint 1                          |                          Backlog Sprint 2                          |
+| :----------------------------------------------------------------: | :----------------------------------------------------------------: |
 | ![Backlog Sprint 1](src/assets/imgs/screenshots/jira/backlog1.png) | ![Backlog Sprint 2](src/assets/imgs/screenshots/jira/backlog2.png) |
 
-| Tablero (1/3) | Tablero (2/3) | Tablero (3/3) |
-| :---------------: | :---------------: | :---------------: |
+|                       Tablero (1/3)                       |                       Tablero (2/3)                       |                       Tablero (3/3)                       |
+| :-------------------------------------------------------: | :-------------------------------------------------------: | :-------------------------------------------------------: |
 | ![Tablero 1](src/assets/imgs/screenshots/jira/board1.png) | ![Tablero 2](src/assets/imgs/screenshots/jira/board2.png) | ![Tablero 3](src/assets/imgs/screenshots/jira/board3.png) |
 
-| Cronograma Sprint 1 | Cronograma Sprint 2 |
-| :---------------------: | :---------------------: |
+|                            Cronograma Sprint 1                            |                            Cronograma Sprint 2                            |
+| :-----------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
 | ![Cronograma Sprint 1](src/assets/imgs/screenshots/jira/jira-sprint1.png) | ![Cronograma Sprint 2](src/assets/imgs/screenshots/jira/jira-sprint2.png) |
 
 ---
@@ -129,19 +144,22 @@ Diseñado en FigJam antes del desarrollo para mapear las rutas de usuario, admin
 
 🔗 [Ver userflow en FigJam](https://www.figma.com/board/MHzYugh6tsOUmmw6wrvBHw/FPS---User-Flow)
 
-| Ruta | Tipo de usuario | Captura |
-| :--- | :------ | :------: |
+| Ruta      | Tipo de usuario        |                                 Captura                                 |
+| :-------- | :--------------------- | :---------------------------------------------------------------------: |
 | Visitante | Usuario no autenticado | ![Userflow Visitante](src/assets/imgs/screenshots/userflow/visitor.png) |
-| Customer | Usuario registrado | ![Userflow Visitante](src/assets/imgs/screenshots/userflow/customer.png) |
-| Admin | Administrador | ![Userflow Visitante](src/assets/imgs/screenshots/userflow/admin.png) |
+| Customer  | Usuario registrado     | ![Userflow Customer](src/assets/imgs/screenshots/userflow/customer.png) |
+| Admin     | Administrador          |    ![Userflow Admin](src/assets/imgs/screenshots/userflow/admin.png)    |
 
 **Ruta visitante:**
+
 Home → Catálogo (filtro/búsqueda/paginación) → Detalle de juego → (botón de favorito bloqueado) → Login/Register
 
 **Ruta principal (customer):**
+
 Home → Login → Catálogo → Detalle → Añadir a favoritos → Dashboard de usuario → Gestionar favoritos (CRUD + rating) → Perfil (cambiar avatar/contraseña) → Logout
 
 **Ruta principal (admin):**
+
 Home → Login (admin) → Admin Dashboard → Gestionar usuarios (permitir/restringir) → Gestionar
 destacados → Logout
 
@@ -157,16 +175,16 @@ destacados → Logout
 
 El prototipo completo de la aplicación está desarrollado para **todas las vistas**: Homepage, Catálogo, Destacados, Detalle de juego, Login, Register, Dashboard de usuario y Dashboard de admin.
 
-| Vista | Descripción | Captura |
-| :----- | :---------- | :------: |
-| **Homepage** | Hero con "Juego del mes", sección bento de destacados y catálogo (2 filas × 5 columnas) | ![Prototipo homepage](src/assets/imgs/screenshots/prototype/homepage.png) |
-| **Catálogo** | 20 juegos en grid de 5 columnas con búsqueda y filtros | ![Prototipo catálogo](src/assets/imgs/screenshots/prototype/catalog.png) |
-| **Destacados** | Card hero principal + grid de 9 destacados | ![Prototipo destacados](src/assets/imgs/screenshots/prototype/featured.png) |
-| **Detalle de juego** | Banner, descripción, stats (jugadores, valoración), capturas y juegos similares | ![Prototipo detalle de juego](src/assets/imgs/screenshots/prototype/detail.png) |
-| **Login** | Formulario de acceso + botón de demo admin | ![Prototipo login](src/assets/imgs/screenshots/prototype/login.png) |
-| **Register** | Formulario de registro | ![Prototipo registro](src/assets/imgs/screenshots/prototype/register.png) |
-| **Dashboard de usuario** | Perfil (avatar picker + Firebase + cambio de contraseña) + Mis Favoritos (CRUD + rating) | ![Prototipo dashboard usuario](src/assets/imgs/screenshots/prototype/user-dashboard.png) |
-| **Dashboard de admin** | Gestión de usuarios + Favoritos globales + Perfil + Destacados y Juego del mes | ![Prototipo dashboard admin](src/assets/imgs/screenshots/prototype/admin-dashboard.png) |
+| Vista                    | Descripción                                                                                                    |                                         Captura                                          |
+| :----------------------- | :------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------: |
+| **Homepage**             | Hero con "Juego del mes", sección bento de destacados y catálogo (2 filas × 5 columnas)                        |        ![Prototipo homepage](src/assets/imgs/screenshots/prototype/homepage.png)         |
+| **Catálogo**             | 20 juegos en grid de 5 columnas con búsqueda y filtros                                                         |         ![Prototipo catálogo](src/assets/imgs/screenshots/prototype/catalog.png)         |
+| **Destacados**           | Card hero principal + grid de 9 destacados                                                                     |       ![Prototipo destacados](src/assets/imgs/screenshots/prototype/featured.png)        |
+| **Detalle de juego**     | Banner, descripción, stats (jugadores, valoración), capturas y juegos similares                                |     ![Prototipo detalle de juego](src/assets/imgs/screenshots/prototype/detail.png)      |
+| **Login**                | Formulario de acceso + botón de demo admin                                                                     |           ![Prototipo login](src/assets/imgs/screenshots/prototype/login.png)            |
+| **Register**             | Formulario de registro                                                                                         |        ![Prototipo registro](src/assets/imgs/screenshots/prototype/register.png)         |
+| **Dashboard de usuario** | Perfil (avatar picker + fondo personalizado + Firebase + cambio de contraseña) + Mis Favoritos (CRUD + rating) | ![Prototipo dashboard usuario](src/assets/imgs/screenshots/prototype/user-dashboard.png) |
+| **Dashboard de admin**   | Gestión de usuarios + Favoritos globales + Perfil + Destacados y Juego del mes                                 | ![Prototipo dashboard admin](src/assets/imgs/screenshots/prototype/admin-dashboard.png)  |
 
 ---
 
@@ -436,25 +454,27 @@ El prototipo completo de la aplicación está desarrollado para **todas las vist
 
 ---
 
-### HU-12 — Añadir juego a favoritos desde el detalle
+### HU-12 — Añadir juego a favoritos
 
 - **Como** usuario customer logueado
-- **Quiero** añadir un juego a mis favoritos desde su página de detalle
-- **Para** guardarlo y gestionarlo después
+- **Quiero** añadir un juego a mis favoritos desde su página de detalle, desde la homepage o desde el catálogo
+- **Para** guardarlo y gestionarlo después sin importar desde dónde lo descubro
 
 <details>
 <summary>Criterios de aceptación</summary>
 
-- **Escenario 1: Añadir favorito**
+- **Escenario 1: Añadir favorito desde el detalle**
   - **Dado** que estoy en la vista de detalle de un juego y estoy logueado como customer
   - **Cuando** hago clic en el botón "Añadir a favoritos"
   - **Entonces** el juego se guarda en Firestore y aparece un mensaje de confirmación
-- **Escenario 2: No duplicar favoritos**
+- **Escenario 2: Añadir favorito desde homepage o catálogo**
+  - **Dado** que estoy logueado como customer y navego por la homepage o el catálogo
+  - **Cuando** hago clic en el icono de favorito de una tarjeta de juego
+  - **Entonces** el juego se guarda en Firestore sin necesidad de entrar al detalle
+- **Escenario 3: No duplicar favoritos**
   - **Dado** que ya tengo ese juego en favoritos
-  - **Cuando** vuelvo a su página de detalle
-  - **Entonces** el botón muestra "Ya en favoritos" y no permite añadirlo de nuevo
-
-  > 📝 **En proceso para sprint 2:** además de añadir a favoritos desde el detalle del juego, se extenderá esta función directamente a las tarjetas de la homepage y el catálogo, tal como se especifica en los requisitos funcionales del proyecto.
+  - **Cuando** vuelvo a su página de detalle o veo su tarjeta
+  - **Entonces** el botón/icono muestra el estado "Ya en favoritos" y no permite añadirlo de nuevo
 
 </details>
 
@@ -629,17 +649,18 @@ El prototipo completo de la aplicación está desarrollado para **todas las vist
 - **`index.html`** — punto de entrada de la SPA
 - **`main.js`** — inicializa Vue, router y store
 - **`package.json`** — dependencias y scripts del proyecto
-- **`vite.config.js`** — configuración de Vite con alias `@` y variables SASS globales
+- **`vite.config.js`** — configuración de Vite con alias `@`, `base` para GitHub Pages y variables SASS globales
 - **`vitest.config.js`** — configuración del entorno de pruebas unitarias con Vitest
 - **`playwright.config.js`** — configuración del entorno de pruebas E2E con Playwright
 - **`.env`** — variables de entorno (Firebase), no subido a GitHub
+- **`.github/workflows/deploy.yml`** — GitHub Action de build y despliegue automático a GitHub Pages
 - **`jsconfig.json`** — configuración de rutas y alias para JavaScript en VS Code
 - **`src/`** — carpeta principal del código fuente
   - **`App.vue`** — componente raíz
   - **`api/`** — servicios de Firebase
     - **`firebase.js`** — configuración de Firebase (Auth, Firestore, Storage)
     - **`user.service.js`** — creación de perfiles de usuario
-    - **`featured.service.js`** — gestión de destacados y juego del mes (Sprint 2)
+    - **`featured.service.js`** — gestión de destacados y juego del mes
   - **`assets/`** — recursos estáticos
     - **`imgs/`** — logo SVG y otros recursos gráficos
       - **`screenshots/`** — capturas de pantalla usadas en el README
@@ -661,7 +682,7 @@ El prototipo completo de la aplicación está desarrollado para **todas las vist
     - **`game-detail/`** — `AddToFavoritesButton.vue`, `GameScreenshots.vue`, `SimilarGames.vue`
     - **`home/`** — `HeroSection.vue`, `FeaturedGameWidget.vue`, `HomeFeaturedSection.vue`, `HomeCatalogSection.vue`
     - **`items/`** — `ItemCard.vue`, `ItemList.vue`, `ItemFilters.vue`
-    - **`layout/`** — `AppHeader.vue`, `AppFooter.vue`, `AppAurora.vue`, `AppPagination.vue`, `AppLoader.vue`, `DashboardHeader.vue`
+    - **`layout/`** — `AppHeader.vue`, `AppFooter.vue`, `AppAurora.vue`, `AppPagination.vue`, `AppLoader.vue`, `DashboardHeader.vue`, `DashboardSidebar.vue`
       - **`__tests__/`**
         - **`AppPagination.test.js`** — pruebas unitarias del componente de paginación
   - **`composables/`** — lógica reutilizable (Composition API)
@@ -670,7 +691,7 @@ El prototipo completo de la aplicación está desarrollado para **todas las vist
     - **`use-pagination.js`** — paginación con puntos suspensivos y flechas
   - **`layouts/`** — layouts de página
     - **`MainLayout.vue`** — layout público (aurora + header + footer)
-    - **`DashboardLayout.vue`** — layout privado con DashboardHeader
+    - **`DashboardLayout.vue`** — layout privado con DashboardHeader y DashboardSidebar
     - **`AdminLayout.vue`** — layout privado para vistas de administración
   - **`router/`** → **`index.js`** — definición de rutas y guards de autenticación
   - **`services/`** — servicios de API
@@ -678,24 +699,24 @@ El prototipo completo de la aplicación está desarrollado para **todas las vist
     - **`auth-service.js`** — login, logout y registro contra Firebase Auth
     - **`__mocks__/`**
       - **`game-mock.js`** — mock de juego para entornos de desarrollo/tests
-  - **`stores/`** — stores de Pinia (Refinados para consistencia homóloga)
+  - **`stores/`** — stores de Pinia
     - **`auth.js`** — autenticación, roles (`isAdmin`/`isCustomer`) y sesión
-    - **`favorites.js`** — gestión de favoritos en Firebase (Sprint 2)
-    - **`admin-store.js`** — gestión de usuarios para el dashboard admin (Sprint 2)
+    - **`favorites.js`** — gestión de favoritos en Firebase
+    - **`admin-store.js`** — gestión de usuarios para el dashboard admin
   - **`utils/`** — funciones utilitarias puras
     - **`catalog-utils.js`** — `filterByText`, `filterByGenre`, `paginateGames`
     - **`form-validators.js`** — validaciones de formulario
-    - **`rating-utils.js`** — sistema de valoración por estrellas (Sprint 2)
-    - **`user-access.js`** — control de acceso de usuarios (permitido/restringido, Sprint 2)
-    - **`user-filters.js`** — filtrado de usuarios en el panel admin (Sprint 2)
+    - **`rating-utils.js`** — sistema de valoración por estrellas
+    - **`user-access.js`** — control de acceso de usuarios (permitido/restringido)
+    - **`user-filters.js`** — filtrado de usuarios en el panel admin
     - **`__tests__/`**
       - **`catalog-utils.test.js`** — tests unitarios con Vitest (TDD)
       - **`form-validators.test.js`** — tests de las utilidades de validación
-      - **`rating-utils.test.js`** — tests del sistema de rating (Sprint 2, en espera)
       - **`router.spec.js`** — pruebas unitarias de las rutas y navegación
-      - **`user-access.spec.js`** — tests del control de acceso de usuarios (Sprint 2)
-      - **`user-filters.spec.js`** — tests del filtrado de usuarios admin (Sprint 2)
-  - **`views/`** — vistas completas de la aplicación (Estructuradas de manera modular)
+      - **`user-access.spec.js`** — tests del control de acceso de usuarios
+      - **`user-filters.spec.js`** — tests del filtrado de usuarios admin
+      - **`user-service.test.js`** — tests del servicio de creación de perfiles de usuario
+  - **`views/`** — vistas completas de la aplicación
     - **`HomeView.vue`**
     - **`CatalogView.vue`**
     - **`FeaturedView.vue`**
@@ -708,8 +729,8 @@ El prototipo completo de la aplicación está desarrollado para **todas las vist
 - **`e2e/`** — tests de extremo a extremo (End-to-End) con Playwright
   - **`login.spec.js`** — test del flujo de inicio de sesión de usuarios
   - **`register.spec.js`** — test del flujo de creación de cuentas de usuario
-  - **`favorites.spec.js`** _(Sprint 2)_ — test de flujos de guardado de favoritos
-  - **`admin.spec.js`** _(Sprint 2)_ — test de flujos del panel de administración
+  - **`favorites.spec.js`** — test de flujos de guardado de favoritos
+  - **`admin.spec.js`** — test de flujos del panel de administración
 
 ---
 
@@ -744,65 +765,54 @@ refactor: simplify validateEmail with regex
 
 ## 🧪 Tests
 
-### Vitest — Tests unitarios (TDD)
+### Vitest — Tests unitarios
 
-Seguimos el ciclo **🔴 Red → 🟢 Green → 🔵 Refactor** por cada función.
-
-- filterByText: devuelve solo los juegos que contienen el texto buscado
-- filterByText: devuelve todos los juegos si el texto está vacío
-- filterByText: la búsqueda no distingue mayúsculas de minúsculas
-- filterByGenre: devuelve solo los juegos del género seleccionado
-- filterByGenre: devuelve todos los juegos si el género está vacío
-- paginateGames: devuelve el subconjunto correcto según la página activa
-- paginateGames: devuelve los juegos restantes en la última página
-- AppHeader: muestra los botones de login y registro cuando no hay sesión
-- AppHeader: muestra el nombre de usuario y el botón de cerrar sesión cuando hay sesión
-- AppPagination: el botón anterior está deshabilitado en la página 1
-- AppPagination: el botón anterior no está deshabilitado si no estamos en la página 1
-- AppPagination: el botón siguiente está deshabilitado en la última página
-- AppPagination: emite page-change con la página correcta al hacer clic en un número
-- AppPagination: emite page-change con currentPage + 1 al hacer clic en siguiente
-- AppPagination: emite page-change con currentPage - 1 al hacer clic en anterior
-- AppPagination: marca la página activa con aria-current="page"
-- isValidEmail: devuelve false para un correo sin formato válido
-- isValidEmail: devuelve true para un correo con formato correcto
-- isValidEmail: devuelve false para un correo sin dominio
-- isValidEmail: devuelve false para una cadena vacía
-- isValidEmail: devuelve false si el correo tiene espacios
-- passwordsMatch: devuelve false cuando las contraseñas no coinciden
-- passwordsMatch: devuelve true cuando las contraseñas son idénticas
-- passwordsMatch: devuelve false si una está vacía y la otra no
-- isMinLength: devuelve false con menos de 8 caracteres
-- isMinLength: devuelve true con exactamente 8 caracteres
-- isMinLength: devuelve true con más de 8 caracteres
-- isMinLength: ignora los espacios al inicio y al final al calcular la longitud
-- isNotEmpty: devuelve false para una cadena vacía
-- isNotEmpty: devuelve false para una cadena que solo contiene espacios
-- isNotEmpty: devuelve true para una cadena con contenido
-- Router guards: redirige a /login si la ruta requiere auth y no hay sesión
-- Router guards: redirige a /dashboard si la ruta requiere admin y no hay rol admin
+| Categoría                     | Archivos |  Tests  |
+| :---------------------------- | :------: | :-----: |
+| Vistas (`views/`)             |    9     |   52    |
+| Componentes (`components/`)   |    9     |   41    |
+| Stores — Pinia (`stores/`)    |    4     |   29    |
+| Servicios — API (`services/`) |    2     |   10    |
+| Utilidades (`utils/`)         |    6     |   40    |
+| **Total**                     |  **30**  | **172** |
 
 ---
 
 ### Playwright — Tests E2E
 
-- Debe redirigir al dashboard de customer con credenciales válidas
-- Debe mostrar mensaje de error con credenciales incorrectas
-- Debe mostrar el formulario de registro con todos sus campos
-- Debe mostrar error cuando las contraseñas no coinciden
-- Debe crear la cuenta y redirigir al dashboard con datos válidos
+| Archivo             | Escenarios |   Pasan   |
+| :------------------ | :--------: | :-------: |
+| `login.spec.js`     |     2      |    6/6    |
+| `register.spec.js`  |     3      |    9/9    |
+| `favorites.spec.js` |     1      |    3/3    |
+| **Total**           |   **6**    | **18/18** |
 
-| Vitest | Playwright |
-| :-----: | :--------: |
-| ![Resultados vitest](src/assets/imgs/screenshots/tests/vitest.png) | ![Resultados playwright](src/assets/imgs/screenshots/tests/playwright.png) |
+### Capturas Test Explorer
 
-_En proceso para sprint 2 (vistas de administración avanzadas y lógica de favoritos en Firebase)._
+|                               Vitest                               |                               Cobertura                               |                                 Playwright                                 |
+| :----------------------------------------------------------------: | :-------------------------------------------------------------------: | :------------------------------------------------------------------------: |
+| ![Resultados vitest](src/assets/imgs/screenshots/tests/vitest.png) | ![Cobertura de tests](src/assets/imgs/screenshots/tests/coverage.png) | ![Resultados playwright](src/assets/imgs/screenshots/tests/playwright.png) |
+
+**Cobertura global (v8):**
+
+- **83.11%** - `Statements`
+- **74.11%** - `Branch`
+- **74.08%** - `Funcs`
+- **85.53%** - `Lines`
+
+Áreas con menor cobertura, identificadas para futuras mejoras:
+
+- `layouts`: (46.66%)
+- `router`: (48.14%)
+- `composables`: (50%)
+- `components/favorites`: (50%)
 
 ---
 
 ## 🛠️ Tecnologías
 
 - **Git & GitHub** — control de versiones con GitFlow
+- **GitHub Actions** — CI/CD para despliegue automático en GitHub Pages
 - **Jira** — gestión del proyecto y planificación de sprints
 - **Figma & Stitch** — diseño y prototipado
 - **VS Code** — editor de código
@@ -821,7 +831,9 @@ _En proceso para sprint 2 (vistas de administración avanzadas y lógica de favo
 
 ## 🌐 Despliegue
 
-> 🔗 _En proceso de despliegue en GitHub Pages_
+Despliegue automatizado mediante **GitHub Actions**: cada push a `main` ejecuta el build de producción con Vite, inyecta las variables de entorno de Firebase como Secrets del repositorio y publica el resultado en GitHub Pages.
+
+> **App desplegada:** [FPS](https://factoriaf5-asturias.github.io/project-p5-digital-academy-team1-the-univers-of-things/)
 
 ---
 
