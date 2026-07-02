@@ -1,0 +1,1 @@
+var e=`https://www.mmobomb.com/api1/games`;async function t(){try{let t=await fetch(e);if(!t.ok)throw Error(`Error ${t.status}`);return await t.json()}catch(e){throw console.error(`Error fetching games:`,e),e}}export{t};

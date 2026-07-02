@@ -1,0 +1,1 @@
+function e(e){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)}function t(e,t){return typeof e==`string`&&e.trim().length>=t}function n(e,t){return e===t}function r(e){return typeof e==`string`&&e.trim().length>0}function i(e){let t=typeof e==`string`&&e.length>=8,n=/\d/.test(e);return t&&n}export{n as a,i,r as n,e as r,t};
