@@ -4,8 +4,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/project-p5-digital-academy-team1-the-univers-of-things/' : '/',
+export default defineConfig({
+  base: '/project-p5-digital-academy-team1-the-univers-of-things/',
   plugins: [
     vue(),
   ],
@@ -21,4 +21,4 @@ export default defineConfig(({ command }) => ({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-}))
+})
